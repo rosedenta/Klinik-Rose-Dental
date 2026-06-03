@@ -1036,28 +1036,30 @@ async function loadGaleri() {
             return;
         }
 
-        grid.innerHTML = data.map(item => `
+        grid.innerHTML = data.map(item => {
+            // Konversi URL sebelum dimasukkan ke tag img
+            var imgUrl = toDriveDirectUrl(item.url);
+            
+            return `
             <div class="relative group rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-white">
-                <img src="${esc(item.url)}"
+                <img src="${esc(imgUrl)}"
                      alt="${esc(item.caption)}"
                      class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
                      loading="lazy"
                      onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
 
-                <!-- Overlay -->
                 <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all flex items-end">
                     <div class="w-full px-3 py-2 text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                         ${esc(item.caption)}
                     </div>
                 </div>
 
-                <!-- Tombol hapus -->
                 <button onclick="hapusData('Galeri', '${esc(item.id)}', 'Yakin hapus foto ini?')"
                         class="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center shadow-md hover:bg-red-600">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-        `).join('');
+        `}).join('');
 
     } catch (err) {
         grid.innerHTML = `<div class="col-span-4 py-8 text-center text-red-500 text-sm">Error: ${esc(err.message)}</div>`;
@@ -1254,6 +1256,22 @@ function renderVisual(value) {
     // Emoji atau teks biasa
     return `<span class="text-2xl">${esc(value)}</span>`;
 }
+// ============================================================
+//  HELPER: Render Visual (gambar dari Drive atau emoji)
+// ============================================================
+function renderVisual(value) {
+    if (!value) return '<span class="text-2xl">🦷</span>';
+
+    // Jika URL gambar (Drive/http)
+    if (String(value).startsWith('http')) {
+        // Gunakan konversi URL di sini
+        var directUrl = toDriveDirectUrl(value);
+        return `<img src="${esc(directUrl)}" alt="" class="w-12 h-12 rounded-lg object-cover border border-gray-100"
+                     onerror="this.src='https://via.placeholder.com/48?text=?'">`;
+    }
+    // Emoji atau teks biasa
+    return `<span class="text-2xl">${esc(value)}</span>`;
+}
 
 
 // ============================================================
@@ -1339,6 +1357,31 @@ function showToast(msg, type = 'ok') {
         toast.style.opacity       = '0';
         toast.style.pointerEvents = 'none';
     }, 3800);
+}
+// ============================================================
+//  HELPER: Konversi URL Gambar Drive (Anti-Block)
+// ============================================================
+function toDriveDirectUrl(url) {
+    if (!url) return '';
+    
+    // Jika sudah menggunakan format lh3, biarkan
+    if (url.includes('lh3.googleusercontent.com')) return url;
+
+    // Ambil ID dari format https://drive.google.com/file/d/FILE_ID/view
+    var matchFile = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (matchFile) return 'https://lh3.googleusercontent.com/d/' + matchFile[1];
+
+    // Ambil ID dari format https://drive.google.com/open?id=FILE_ID
+    var matchOpen = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (matchOpen) return 'https://lh3.googleusercontent.com/d/' + matchOpen[1];
+
+    // Ambil ID dari format uc?export=view (format lama yang diblokir)
+    var matchUc = url.match(/id=([a-zA-Z0-9_-]+)/);
+    if (url.includes('uc?export') && matchUc) {
+        return 'https://lh3.googleusercontent.com/d/' + matchUc[1];
+    }
+
+    return url;
 }
 
 
