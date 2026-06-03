@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Rose Dental Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { rose: { 500: '#C4415A', 600: '#9D2E45' } }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- ==========================================
+         HALAMAN LOGIN
+    =========================================== -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center bg-rose-50 px-4">
+        <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center mb-8">
+                <div class="text-4xl mb-2">🌹</div>
+                <h2 class="text-2xl font-bold text-gray-900">Admin Rose Dental</h2>
+                <p class="text-sm text-gray-500 mt-2">Silakan login untuk kelola website</p>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <input type="text" id="username" class="w-full px-4 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required>
+                </div>
+                <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+                    Masuk Dashboard
+                </button>
+            </form>
+            <div id="loginError" class="hidden mt-4 text-center text-sm text-red-500 font-medium">Username atau Password salah!</div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         DASHBOARD ADMIN (Disembunyikan sebelum login)
+    =========================================== -->
+    <div id="dashboardPage" class="hidden min-h-screen flex flex-col md:flex-row">
+        
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 bg-white border-r shadow-sm">
+            <div class="p-6 text-center border-b">
+                <div class="text-2xl mb-1">🌹</div>
+                <h1 class="font-bold text-lg">Rose Admin</h1>
+            </div>
+            <nav class="p-4 space-y-2">
+                <button onclick="switchTab('layanan')" class="w-full flex items-center gap-3 px-4 py-3 text-left bg-rose-50 text-rose-600 rounded-lg font-medium">
+                    <i class="fas fa-tooth w-5 text-center"></i> Kelola Layanan
+                </button>
+                <button onclick="alert('Fitur Promo sedang dikembangkan (Pola sama dengan Layanan)')" class="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition">
+                    <i class="fas fa-tags w-5 text-center"></i> Kelola Promo
+                </button>
+                <button onclick="alert('Fitur Galeri sedang dikembangkan (Pola sama dengan Layanan)')" class="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition">
+                    <i class="fas fa-images w-5 text-center"></i> Rose Family
+                </button>
+                <div class="pt-4 mt-4 border-t">
+                    <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-left text-red-500 hover:bg-red-50 rounded-lg font-medium transition">
+                        <i class="fas fa-sign-out-alt w-5 text-center"></i> Keluar
+                    </button>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-8">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Kelola Layanan Gigi</h2>
+                    <p class="text-sm text-gray-500">Tambah, ubah harga, atau ganti foto layanan</p>
+                </div>
+                <button onclick="openModal()" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition">
+                    <i class="fas fa-plus"></i> <span class="hidden sm:inline">Tambah Layanan</span>
+                </button>
+            </div>
+
+            <!-- Tabel Data Layanan -->
+            <div class="bg-white rounded-xl shadow-sm border overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b text-sm text-gray-500">
+                            <th class="p-4 font-medium">Foto</th>
+                            <th class="p-4 font-medium">Nama Layanan</th>
+                            <th class="p-4 font-medium">Harga</th>
+                            <th class="p-4 font-medium">Status</th>
+                            <th class="p-4 font-medium text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="5" class="p-8 text-center text-gray-500">
+                                <i class="fas fa-spinner fa-spin text-2xl text-rose-500 mb-2"></i>
+                                <p>Sedang memuat data dari Google Sheets...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- ==========================================
+         MODAL TAMBAH LAYANAN
+    =========================================== -->
+    <div id="modalForm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="font-bold text-xl">Tambah Layanan Baru</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <form id="formLayanan" onsubmit="submitData(event)" class="p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Layanan</label>
+                        <input type="text" id="inputNama" class="w-full px-3 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required placeholder="Contoh: Scaling Gigi">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Estimasi Harga</label>
+                        <input type="text" id="inputHarga" class="w-full px-3 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required placeholder="Contoh: Mulai Rp 150.000">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat</label>
+                        <textarea id="inputDeskripsi" rows="3" class="w-full px-3 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required placeholder="Penjelasan singkat layanan..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Upload Foto Dokumentasi</label>
+                        <input type="file" id="inputFile" accept="image/png, image/jpeg" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-rose-50 file:text-rose-600 hover:file:bg-rose-100" required>
+                        <p class="text-xs text-gray-400 mt-1">Format: JPG/PNG. Maksimal 2MB.</p>
+                    </div>
+                </div>
+                <div class="mt-8 flex gap-3">
+                    <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2 border text-gray-600 rounded-lg hover:bg-gray-50 font-medium">Batal</button>
+                    <button type="submit" id="btnSubmit" class="flex-1 px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600 font-medium flex justify-center items-center gap-2">
+                        <i class="fas fa-save"></i> Simpan ke Database
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT LOGIC
+    =========================================== -->
+    <script>
+        // MASUKKAN URL GOOGLE APPS SCRIPT (WEB APP URL) KAMU DI SINI
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyFNpRlkH8S-2YAiMIj_IDxuNvqwijuVV17dzN8wDsxsMFsyahfELwWnoSsGS1U1Sm0/exec"; 
+
+        /* --- LOGIKA LOGIN --- */
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            
+            // Hardcoded untuk MVP
+            if (user === 'admin' && pass === 'rose2026') {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('dashboardPage').classList.remove('hidden');
+                loadDataLayanan(); // Tarik data saat berhasil login
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+        }
+
+        /* --- MODAL CONTROL --- */
+        function openModal() {
+            document.getElementById('formLayanan').reset();
+            document.getElementById('modalForm').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('modalForm').classList.add('hidden');
+        }
+
+        /* --- FETCH DATA DARI GOOGLE SHEETS (GET) --- */
+        async function loadDataLayanan() {
+            const tbody = document.getElementById('tableBody');
+            try {
+                // Panggil API untuk ambil data sheet 'Layanan'
+                const res = await fetch(`${GAS_API_URL}?sheet=Layanan`);
+                const json = await res.json();
+                
+                if(json.success && json.data.length > 0) {
+                    tbody.innerHTML = ''; // Kosongkan loading
+                    json.data.forEach(item => {
+                        // Cek apakah pakai foto (URL) atau emoji lama
+                        let visual = item['ikon/gambar'];
+                        let imgTag = visual.startsWith('http') 
+                            ? `<img src="${visual}" class="w-12 h-12 rounded-lg object-cover border">`
+                            : `<div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-lg flex items-center justify-center text-xl">${visual}</div>`;
+
+                        tbody.innerHTML += `
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-4">${imgTag}</td>
+                                <td class="p-4 font-medium text-gray-800">${item.nama || '-'}</td>
+                                <td class="p-4 text-rose-600 font-semibold">${item.harga || '-'}</td>
+                                <td class="p-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">${item.status_aktif || 'Aktif'}</span></td>
+                                <td class="p-4 text-right">
+                                    <button class="text-blue-500 hover:text-blue-700 mr-3" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="text-red-500 hover:text-red-700" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">Belum ada data layanan.</td></tr>`;
+                }
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Gagal menarik data. Pastikan URL GAS sudah benar.</td></tr>`;
+            }
+        }
+
+        /* --- UPLOAD GAMBAR & SUBMIT DATA (POST) --- */
+        async function submitData(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('inputFile');
+            const file = fileInput.files[0];
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            if (!file) return alert("Pilih foto dulu ya!");
+            if (file.size > 2 * 1024 * 1024) return alert("Ukuran foto maksimal 2MB biar web nggak lemot!");
+
+            // Ubah tombol jadi loading
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Mengunggah...`;
+
+            // Proses konversi File ke Base64 menggunakan FileReader
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            
+            reader.onload = async function() {
+                const base64String = reader.result; // Ini hasilnya "data:image/jpeg;base64,/9j/4AAQSk..."
+
+                // Siapkan paket data (Payload JSON) untuk dikirim ke GAS
+                const payload = {
+                    action: "tambah_layanan",
+                    nama: document.getElementById('inputNama').value,
+                    harga: document.getElementById('inputHarga').value,
+                    deskripsi: document.getElementById('inputDeskripsi').value,
+                    imageName: file.name,
+                    mimeType: file.type,
+                    imageBase64: base64String
+                };
+
+                try {
+                    // Tembak data ke Google Apps Script
+                    const res = await fetch(GAS_API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    const json = await res.json();
+                    
+                    if(json.success) {
+                        alert("Berhasil! Foto sudah masuk Google Drive dan data tersimpan di Sheets.");
+                        closeModal();
+                        loadDataLayanan(); // Refresh tabel
+                    } else {
+                        alert("Gagal: " + json.message);
+                    }
+                } catch (error) {
+                    // Catatan: Seringkali POST ke GAS menyebabkan error CORS di console browser, 
+                    // namun data SEBENARNYA tetap masuk ke Google Sheets. 
+                    alert("Data dikirim. Jika terjadi error CORS, cek langsung Google Sheets kamu.");
+                    closeModal();
+                } finally {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = `<i class="fas fa-save"></i> Simpan ke Database`;
+                }
+            };
+
+            reader.onerror = function(error) {
+                alert("Gagal membaca file gambar!");
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<i class="fas fa-save"></i> Simpan ke Database`;
+            };
+        }
+    </script>
+</body>
+</html>
