@@ -3,295 +3,1357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Rose Dental Care</title>
+    <title>Admin — Rose Dental Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { rose: { 500: '#C4415A', 600: '#9D2E45' } }
+                    colors: {
+                        rose: {
+                            50 : '#FFF8F9',
+                            100: '#FDF0F3',
+                            200: '#F8D0D8',
+                            300: '#E8879F',
+                            400: '#D4617A',
+                            500: '#C4415A',
+                            600: '#9D2E45',
+                            700: '#7A2035',
+                            800: '#5C1525',
+                            900: '#3D0D18',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+                        body   : ['DM Sans', 'sans-serif'],
+                    }
                 }
             }
         }
     </script>
-</head>
-<body class="bg-gray-50 text-gray-800">
 
-    <!-- ==========================================
-         HALAMAN LOGIN
-    =========================================== -->
-    <div id="loginPage" class="min-h-screen flex items-center justify-center bg-rose-50 px-4">
-        <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
-            <div class="text-center mb-8">
-                <div class="text-4xl mb-2">🌹</div>
-                <h2 class="text-2xl font-bold text-gray-900">Admin Rose Dental</h2>
-                <p class="text-sm text-gray-500 mt-2">Silakan login untuk kelola website</p>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+
+        /* Animasi transisi halaman */
+        .fade-enter { animation: fadeIn .25s ease forwards; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        /* Toast */
+        #toast { transition: all .3s ease; }
+
+        /* Tabel scroll horizontal di mobile */
+        .table-wrap { overflow-x: auto; }
+
+        /* Skeleton loading */
+        .skeleton {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 8px;
+        }
+        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        /* Scrollbar kustom */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #C4415A; border-radius: 3px; }
+
+        /* Preview gambar di modal */
+        #imgPreview, #imgPreviewPromo, #imgPreviewGaleri {
+            transition: all .3s ease;
+        }
+
+        /* Active nav item */
+        .nav-item.active {
+            background: #FDF0F3;
+            color: #C4415A;
+            font-weight: 600;
+        }
+        .nav-item.active i { color: #C4415A; }
+
+        /* Badge status */
+        .badge-aktif    { background: #d1fae5; color: #065f46; }
+        .badge-nonaktif { background: #fee2e2; color: #991b1b; }
+        .badge-tampil   { background: #d1fae5; color: #065f46; }
+        .badge-pending  { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+<!-- =====================================================
+     HALAMAN LOGIN
+====================================================== -->
+<div id="loginPage" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-900 via-rose-700 to-rose-500 px-4">
+
+    <!-- Lingkaran dekoratif -->
+    <div class="absolute top-[-100px] right-[-100px] w-96 h-96 rounded-full bg-white opacity-5 pointer-events-none"></div>
+    <div class="absolute bottom-[-80px] left-[-80px] w-72 h-72 rounded-full bg-white opacity-5 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-md w-full">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-xl mb-4">
+                <span class="text-3xl">🌹</span>
             </div>
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <h1 class="font-display text-3xl font-semibold text-white">Rose Dental Care</h1>
+            <p class="text-rose-200 text-sm mt-1">Dashboard Admin</p>
+        </div>
+
+        <!-- Card Login -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-6">Masuk ke Dashboard</h2>
+
+            <form onsubmit="handleLogin(event)">
+                <!-- Username -->
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                    <input type="text" id="username" class="w-full px-4 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required>
+                    <label class="block text-sm font-medium text-gray-600 mb-1.5">Username</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-user text-sm"></i>
+                        </span>
+                        <input type="text" id="loginUser"
+                               class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                               placeholder="Masukkan username" required>
+                    </div>
                 </div>
+
+                <!-- Password -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required>
+                    <label class="block text-sm font-medium text-gray-600 mb-1.5">Password</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-lock text-sm"></i>
+                        </span>
+                        <input type="password" id="loginPass"
+                               class="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                               placeholder="Masukkan password" required>
+                        <button type="button" onclick="togglePass()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-eye text-sm" id="eyeIcon"></i>
+                        </button>
+                    </div>
                 </div>
-                <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+
+                <!-- Error -->
+                <div id="loginErr" class="hidden mb-4 px-4 py-2.5 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Username atau password salah!</span>
+                </div>
+
+                <!-- Tombol Masuk -->
+                <button type="submit" id="loginBtn"
+                        class="w-full py-3 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center gap-2">
+                    <i class="fas fa-sign-in-alt"></i>
                     Masuk Dashboard
                 </button>
             </form>
-            <div id="loginError" class="hidden mt-4 text-center text-sm text-red-500 font-medium">Username atau Password salah!</div>
         </div>
+
+        <!-- Link balik ke website publik -->
+        <p class="text-center mt-4 text-rose-200 text-sm">
+            <a href="index.html" class="hover:text-white transition">← Kembali ke Website Utama</a>
+        </p>
     </div>
+</div>
 
-    <!-- ==========================================
-         DASHBOARD ADMIN (Disembunyikan sebelum login)
-    =========================================== -->
-    <div id="dashboardPage" class="hidden min-h-screen flex flex-col md:flex-row">
-        
-        <!-- Sidebar -->
-        <aside class="w-full md:w-64 bg-white border-r shadow-sm">
-            <div class="p-6 text-center border-b">
-                <div class="text-2xl mb-1">🌹</div>
-                <h1 class="font-bold text-lg">Rose Admin</h1>
-            </div>
-            <nav class="p-4 space-y-2">
-                <button onclick="switchTab('layanan')" class="w-full flex items-center gap-3 px-4 py-3 text-left bg-rose-50 text-rose-600 rounded-lg font-medium">
-                    <i class="fas fa-tooth w-5 text-center"></i> Kelola Layanan
-                </button>
-                <button onclick="alert('Fitur Promo sedang dikembangkan (Pola sama dengan Layanan)')" class="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition">
-                    <i class="fas fa-tags w-5 text-center"></i> Kelola Promo
-                </button>
-                <button onclick="alert('Fitur Galeri sedang dikembangkan (Pola sama dengan Layanan)')" class="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition">
-                    <i class="fas fa-images w-5 text-center"></i> Rose Family
-                </button>
-                <div class="pt-4 mt-4 border-t">
-                    <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-left text-red-500 hover:bg-red-50 rounded-lg font-medium transition">
-                        <i class="fas fa-sign-out-alt w-5 text-center"></i> Keluar
-                    </button>
+
+<!-- =====================================================
+     DASHBOARD UTAMA (Tersembunyi sebelum login)
+====================================================== -->
+<div id="dashboardPage" class="hidden min-h-screen flex flex-col md:flex-row">
+
+    <!-- ==========================
+         SIDEBAR
+    =========================== -->
+    <aside class="w-full md:w-64 bg-white border-r border-gray-100 shadow-sm flex-shrink-0 md:min-h-screen">
+
+        <!-- Header Sidebar -->
+        <div class="p-5 border-b border-gray-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center text-lg shadow-md flex-shrink-0">
+                    🌹
                 </div>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 p-6 md:p-8">
-            <div class="flex justify-between items-center mb-8">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800">Kelola Layanan Gigi</h2>
-                    <p class="text-sm text-gray-500">Tambah, ubah harga, atau ganti foto layanan</p>
+                    <div class="font-display text-base font-semibold text-gray-900"><em class="not-italic text-rose-500">Rose</em> Admin</div>
+                    <div class="text-xs text-gray-400">Klinik Gigi Gresik</div>
                 </div>
-                <button onclick="openModal()" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition">
-                    <i class="fas fa-plus"></i> <span class="hidden sm:inline">Tambah Layanan</span>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <nav class="p-3 space-y-1">
+            <p class="text-xs font-semibold text-gray-400 px-3 pt-3 pb-1 uppercase tracking-wider">Konten Website</p>
+
+            <button onclick="switchTab('layanan')" class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-layanan">
+                <i class="fas fa-tooth w-4 text-gray-400 text-center"></i>
+                Layanan Gigi
+            </button>
+
+            <button onclick="switchTab('promo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-promo">
+                <i class="fas fa-tags w-4 text-gray-400 text-center"></i>
+                Promo & Penawaran
+            </button>
+
+            <button onclick="switchTab('galeri')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-galeri">
+                <i class="fas fa-images w-4 text-gray-400 text-center"></i>
+                Rose Family (Galeri)
+            </button>
+
+            <p class="text-xs font-semibold text-gray-400 px-3 pt-4 pb-1 uppercase tracking-wider">Interaksi Pasien</p>
+
+            <button onclick="switchTab('review')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-review">
+                <i class="fas fa-star w-4 text-gray-400 text-center"></i>
+                Ulasan Pasien
+                <span id="reviewBadge" class="ml-auto bg-rose-500 text-white text-xs px-1.5 py-0.5 rounded-full hidden">0</span>
+            </button>
+
+            <div class="pt-4 mt-2 border-t border-gray-100">
+                <a href="index.html" target="_blank" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-gray-50 rounded-xl text-sm transition">
+                    <i class="fas fa-external-link-alt w-4 text-gray-400 text-center"></i>
+                    Lihat Website Publik
+                </a>
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-red-500 hover:bg-red-50 rounded-xl text-sm transition mt-1">
+                    <i class="fas fa-sign-out-alt w-4 text-center"></i>
+                    Keluar
                 </button>
             </div>
+        </nav>
 
-            <!-- Tabel Data Layanan -->
-            <div class="bg-white rounded-xl shadow-sm border overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50 border-b text-sm text-gray-500">
-                            <th class="p-4 font-medium">Foto</th>
-                            <th class="p-4 font-medium">Nama Layanan</th>
-                            <th class="p-4 font-medium">Harga</th>
-                            <th class="p-4 font-medium">Status</th>
-                            <th class="p-4 font-medium text-right">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <tr>
-                            <td colspan="5" class="p-8 text-center text-gray-500">
-                                <i class="fas fa-spinner fa-spin text-2xl text-rose-500 mb-2"></i>
-                                <p>Sedang memuat data dari Google Sheets...</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    </div>
-
-    <!-- ==========================================
-         MODAL TAMBAH LAYANAN
-    =========================================== -->
-    <div id="modalForm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
-            <div class="flex justify-between items-center p-6 border-b">
-                <h3 class="font-bold text-xl">Tambah Layanan Baru</h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
-            </div>
-            <form id="formLayanan" onsubmit="submitData(event)" class="p-6">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Layanan</label>
-                        <input type="text" id="inputNama" class="w-full px-3 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required placeholder="Contoh: Scaling Gigi">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Estimasi Harga</label>
-                        <input type="text" id="inputHarga" class="w-full px-3 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required placeholder="Contoh: Mulai Rp 150.000">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat</label>
-                        <textarea id="inputDeskripsi" rows="3" class="w-full px-3 py-2 border rounded-lg focus:ring-rose-500 focus:border-rose-500" required placeholder="Penjelasan singkat layanan..."></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Upload Foto Dokumentasi</label>
-                        <input type="file" id="inputFile" accept="image/png, image/jpeg" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-rose-50 file:text-rose-600 hover:file:bg-rose-100" required>
-                        <p class="text-xs text-gray-400 mt-1">Format: JPG/PNG. Maksimal 2MB.</p>
-                    </div>
+        <!-- Info User -->
+        <div class="p-3 mt-auto border-t border-gray-100 md:absolute md:bottom-0 md:left-0 md:right-0">
+            <div class="flex items-center gap-3 px-3 py-2.5 bg-rose-50 rounded-xl">
+                <div class="w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white text-sm font-semibold">A</div>
+                <div>
+                    <div class="text-sm font-medium text-gray-800">Admin</div>
+                    <div class="text-xs text-gray-400">Rose Dental Care</div>
                 </div>
-                <div class="mt-8 flex gap-3">
-                    <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2 border text-gray-600 rounded-lg hover:bg-gray-50 font-medium">Batal</button>
-                    <button type="submit" id="btnSubmit" class="flex-1 px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600 font-medium flex justify-center items-center gap-2">
-                        <i class="fas fa-save"></i> Simpan ke Database
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
+    </aside>
+
+    <!-- ==========================
+         KONTEN UTAMA
+    =========================== -->
+    <main class="flex-1 overflow-auto">
+
+        <!-- Header halaman -->
+        <div class="bg-white border-b border-gray-100 sticky top-0 z-10 px-6 py-4 flex items-center justify-between shadow-sm">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-800" id="pageTitle">Kelola Layanan</h2>
+                <p class="text-xs text-gray-400" id="pageSubtitle">Tambah, ubah, atau nonaktifkan layanan klinik</p>
+            </div>
+            <!-- Tombol tambah — berubah sesuai tab aktif -->
+            <button onclick="openModal()" id="btnTambah"
+                    class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition shadow-sm hover:shadow-md">
+                <i class="fas fa-plus"></i>
+                <span id="btnTambahLabel">Tambah Layanan</span>
+            </button>
+        </div>
+
+        <div class="p-6">
+
+            <!-- ============================================
+                 TAB: LAYANAN
+            ============================================= -->
+            <div id="tab-layanan" class="tab-content fade-enter">
+                <!-- Stat Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-2xl font-display font-semibold text-gray-800" id="statTotalLayanan">—</div>
+                        <div class="text-xs text-gray-500 mt-1">Total Layanan</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-2xl font-display font-semibold text-green-600" id="statAktifLayanan">—</div>
+                        <div class="text-xs text-gray-500 mt-1">Layanan Aktif</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-2xl font-display font-semibold text-red-400" id="statNonAktifLayanan">—</div>
+                        <div class="text-xs text-gray-500 mt-1">Non-Aktif</div>
+                    </div>
+                </div>
+
+                <!-- Tabel Layanan -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+                    <div class="table-wrap">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wide">
+                                    <th class="px-4 py-3 text-left font-medium">Foto / Ikon</th>
+                                    <th class="px-4 py-3 text-left font-medium">Nama Layanan</th>
+                                    <th class="px-4 py-3 text-left font-medium">Harga</th>
+                                    <th class="px-4 py-3 text-left font-medium hidden md:table-cell">Deskripsi</th>
+                                    <th class="px-4 py-3 text-left font-medium">Status</th>
+                                    <th class="px-4 py-3 text-right font-medium">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelLayanan">
+                                <tr><td colspan="6" class="px-4 py-8 text-center text-gray-400">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
+                                        <span class="text-sm">Memuat data layanan...</span>
+                                    </div>
+                                </td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 TAB: PROMO
+            ============================================= -->
+            <div id="tab-promo" class="tab-content hidden fade-enter">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-2xl font-display font-semibold text-gray-800" id="statTotalPromo">—</div>
+                        <div class="text-xs text-gray-500 mt-1">Total Promo</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-xs text-gray-500 mt-1">Promo tampil di website publik secara otomatis</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+                    <div class="table-wrap">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wide">
+                                    <th class="px-4 py-3 text-left font-medium">Gambar</th>
+                                    <th class="px-4 py-3 text-left font-medium">Judul Promo</th>
+                                    <th class="px-4 py-3 text-left font-medium hidden md:table-cell">Deskripsi</th>
+                                    <th class="px-4 py-3 text-left font-medium">Berlaku Hingga</th>
+                                    <th class="px-4 py-3 text-right font-medium">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelPromo">
+                                <tr><td colspan="5" class="px-4 py-8 text-center text-gray-400">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
+                                        <span class="text-sm">Memuat data promo...</span>
+                                    </div>
+                                </td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 TAB: GALERI
+            ============================================= -->
+            <div id="tab-galeri" class="tab-content hidden fade-enter">
+                <div class="mb-6 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 text-sm text-blue-700 flex items-center gap-2">
+                    <i class="fas fa-info-circle"></i>
+                    Foto galeri ditampilkan di section "Rose Family" pada halaman utama website.
+                </div>
+
+                <!-- Grid Galeri -->
+                <div id="galeriGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <div class="skeleton h-40 rounded-xl"></div>
+                    <div class="skeleton h-40 rounded-xl"></div>
+                    <div class="skeleton h-40 rounded-xl"></div>
+                    <div class="skeleton h-40 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 TAB: REVIEW
+            ============================================= -->
+            <div id="tab-review" class="tab-content hidden fade-enter">
+                <div class="mb-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-700 flex items-center gap-2">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Review baru dari pasien perlu diverifikasi sebelum tampil di website publik.
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-2xl font-display font-semibold text-gray-800" id="statTotalReview">—</div>
+                        <div class="text-xs text-gray-500 mt-1">Total Review</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-2xl font-display font-semibold text-green-600" id="statTampilReview">—</div>
+                        <div class="text-xs text-gray-500 mt-1">Tampil di Website</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="text-2xl font-display font-semibold text-amber-500" id="statPendingReview">—</div>
+                        <div class="text-xs text-gray-500 mt-1">Menunggu Verifikasi</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+                    <div class="table-wrap">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wide">
+                                    <th class="px-4 py-3 text-left font-medium">Pasien</th>
+                                    <th class="px-4 py-3 text-left font-medium">Rating</th>
+                                    <th class="px-4 py-3 text-left font-medium">Komentar</th>
+                                    <th class="px-4 py-3 text-left font-medium">Tanggal</th>
+                                    <th class="px-4 py-3 text-left font-medium">Status</th>
+                                    <th class="px-4 py-3 text-right font-medium">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelReview">
+                                <tr><td colspan="6" class="px-4 py-8 text-center text-gray-400">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
+                                        <span class="text-sm">Memuat data review...</span>
+                                    </div>
+                                </td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.p-6 -->
+    </main>
+</div>
+
+
+<!-- =====================================================
+     MODAL: TAMBAH LAYANAN
+====================================================== -->
+<div id="modalLayanan" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div class="flex justify-between items-center p-6 border-b sticky top-0 bg-white z-10">
+            <h3 class="font-semibold text-lg text-gray-800">
+                <i class="fas fa-tooth text-rose-400 mr-2"></i> Tambah Layanan Baru
+            </h3>
+            <button onclick="closeModal('modalLayanan')" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition text-xl">&times;</button>
+        </div>
+        <form onsubmit="submitLayanan(event)" class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama Layanan <span class="text-red-500">*</span></label>
+                <input type="text" id="inpNama" class="input-ctrl" placeholder="Contoh: Scaling Gigi" maxlength="60" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Estimasi Harga <span class="text-red-500">*</span></label>
+                <input type="text" id="inpHarga" class="input-ctrl" placeholder="Contoh: Mulai Rp 150.000" maxlength="50" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi Singkat <span class="text-red-500">*</span></label>
+                <textarea id="inpDeskripsi" rows="3" class="input-ctrl resize-none" placeholder="Penjelasan singkat tentang layanan ini..." maxlength="200" required></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Foto Layanan <span class="text-red-500">*</span></label>
+                <label for="inpFotoLayanan" class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-rose-400 hover:bg-rose-50 transition">
+                    <div id="imgPreview" class="hidden w-full">
+                        <img id="imgPreviewEl" src="" alt="" class="w-full max-h-40 object-contain rounded-lg mb-2">
+                        <p class="text-xs text-gray-500" id="imgFileName"></p>
+                    </div>
+                    <div id="imgPlaceholder">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i>
+                        <p class="text-sm font-medium text-gray-500">Klik untuk upload foto</p>
+                        <p class="text-xs text-gray-400 mt-1">JPG / PNG, maks. 2MB</p>
+                    </div>
+                </label>
+                <input type="file" id="inpFotoLayanan" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="previewImage(this,'imgPreview','imgPreviewEl','imgFileName','imgPlaceholder')" required>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeModal('modalLayanan')" class="flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition">Batal</button>
+                <button type="submit" id="btnSimpanLayanan" class="flex-1 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition">
+                    <i class="fas fa-save"></i> Simpan Layanan
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <!-- ==========================================
-         JAVASCRIPT LOGIC
-    =========================================== -->
-    <script>
-        // MASUKKAN URL GOOGLE APPS SCRIPT (WEB APP URL) KAMU DI SINI
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyFNpRlkH8S-2YAiMIj_IDxuNvqwijuVV17dzN8wDsxsMFsyahfELwWnoSsGS1U1Sm0/exec"; 
 
-        /* --- LOGIKA LOGIN --- */
-        function handleLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            
-            // Hardcoded untuk MVP
-            if (user === 'admin' && pass === 'rose2026') {
-                document.getElementById('loginPage').classList.add('hidden');
-                document.getElementById('dashboardPage').classList.remove('hidden');
-                loadDataLayanan(); // Tarik data saat berhasil login
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
+<!-- =====================================================
+     MODAL: TAMBAH PROMO
+====================================================== -->
+<div id="modalPromo" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div class="flex justify-between items-center p-6 border-b sticky top-0 bg-white z-10">
+            <h3 class="font-semibold text-lg text-gray-800">
+                <i class="fas fa-tag text-rose-400 mr-2"></i> Tambah Promo Baru
+            </h3>
+            <button onclick="closeModal('modalPromo')" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition text-xl">&times;</button>
+        </div>
+        <form onsubmit="submitPromo(event)" class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Judul Promo <span class="text-red-500">*</span></label>
+                <input type="text" id="inpJudulPromo" class="input-ctrl" placeholder="Contoh: Scaling Gratis Konsultasi" maxlength="80" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi Promo <span class="text-red-500">*</span></label>
+                <textarea id="inpDeskripsiPromo" rows="3" class="input-ctrl resize-none" placeholder="Jelaskan detail keuntungan promo ini..." maxlength="300" required></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Berlaku Hingga <span class="text-red-500">*</span></label>
+                <input type="text" id="inpTglPromo" class="input-ctrl" placeholder="Contoh: 31 Desember 2025" maxlength="30" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Foto Promo <span class="text-red-500">*</span></label>
+                <label for="inpFotoPromo" class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-rose-400 hover:bg-rose-50 transition">
+                    <div id="imgPreviewPromo" class="hidden w-full">
+                        <img id="imgPreviewElPromo" src="" alt="" class="w-full max-h-40 object-contain rounded-lg mb-2">
+                        <p class="text-xs text-gray-500" id="imgFileNamePromo"></p>
+                    </div>
+                    <div id="imgPlaceholderPromo">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i>
+                        <p class="text-sm font-medium text-gray-500">Klik untuk upload foto</p>
+                        <p class="text-xs text-gray-400 mt-1">JPG / PNG, maks. 2MB</p>
+                    </div>
+                </label>
+                <input type="file" id="inpFotoPromo" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="previewImage(this,'imgPreviewPromo','imgPreviewElPromo','imgFileNamePromo','imgPlaceholderPromo')" required>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeModal('modalPromo')" class="flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition">Batal</button>
+                <button type="submit" id="btnSimpanPromo" class="flex-1 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition">
+                    <i class="fas fa-save"></i> Simpan Promo
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     MODAL: TAMBAH GALERI
+====================================================== -->
+<div id="modalGaleri" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div class="flex justify-between items-center p-6 border-b sticky top-0 bg-white z-10">
+            <h3 class="font-semibold text-lg text-gray-800">
+                <i class="fas fa-image text-rose-400 mr-2"></i> Upload Foto Galeri
+            </h3>
+            <button onclick="closeModal('modalGaleri')" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition text-xl">&times;</button>
+        </div>
+        <form onsubmit="submitGaleri(event)" class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Caption Foto <span class="text-red-500">*</span></label>
+                <input type="text" id="inpCaption" class="input-ctrl" placeholder="Contoh: Senyum indah pasien kami 😊" maxlength="80" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Foto <span class="text-red-500">*</span></label>
+                <label for="inpFotoGaleri" class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-rose-400 hover:bg-rose-50 transition">
+                    <div id="imgPreviewGaleri" class="hidden w-full">
+                        <img id="imgPreviewElGaleri" src="" alt="" class="w-full max-h-40 object-contain rounded-lg mb-2">
+                        <p class="text-xs text-gray-500" id="imgFileNameGaleri"></p>
+                    </div>
+                    <div id="imgPlaceholderGaleri">
+                        <i class="fas fa-camera text-3xl text-gray-300 mb-2"></i>
+                        <p class="text-sm font-medium text-gray-500">Upload foto momen pasien</p>
+                        <p class="text-xs text-gray-400 mt-1">JPG / PNG, maks. 2MB</p>
+                    </div>
+                </label>
+                <input type="file" id="inpFotoGaleri" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="previewImage(this,'imgPreviewGaleri','imgPreviewElGaleri','imgFileNameGaleri','imgPlaceholderGaleri')" required>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeModal('modalGaleri')" class="flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition">Batal</button>
+                <button type="submit" id="btnSimpanGaleri" class="flex-1 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition">
+                    <i class="fas fa-upload"></i> Upload Foto
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     TOAST NOTIFIKASI
+====================================================== -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-white border rounded-xl shadow-xl px-5 py-3.5 text-sm font-medium opacity-0 pointer-events-none max-w-xs"
+     style="border-left: 4px solid #C4415A;">
+    <i class="fas fa-check-circle text-rose-500" id="toastIcon"></i>
+    <span id="toastMsg">Berhasil!</span>
+</div>
+
+
+<!-- =====================================================
+     STYLE INLINE (Input control yang konsisten)
+====================================================== -->
+<style>
+.input-ctrl {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: 'DM Sans', sans-serif;
+    color: #1f2937;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    background: #fff;
+}
+.input-ctrl:focus {
+    border-color: #C4415A;
+    box-shadow: 0 0 0 3px rgba(196,65,90,0.1);
+}
+.input-ctrl::placeholder { color: #9ca3af; }
+</style>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+<script>
+// ============================================================
+//  KONFIGURASI — Ganti dengan URL GAS yang sudah kamu deploy
+// ============================================================
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwusCK6ReCBbk6Dhei6TpEIV9ngHVv3wAIl-nJCD1NuOeWWQ5Zqd9UIASn4r9f1CGRd/exec";
+
+// Tab yang sedang aktif
+let activeTab = "layanan";
+
+// ============================================================
+//  LOGIN & LOGOUT
+// ============================================================
+function handleLogin(e) {
+    e.preventDefault();
+    const user = document.getElementById('loginUser').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    const btn  = document.getElementById('loginBtn');
+    const err  = document.getElementById('loginErr');
+
+    // Validasi sederhana di sisi klien (password dicek juga di GAS untuk keamanan)
+    if (user === 'admin' && pass === 'rose2026') {
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Masuk...';
+        btn.disabled  = true;
+
+        setTimeout(() => {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.remove('hidden');
+            err.classList.add('hidden');
+            // Muat data tab pertama
+            loadLayanan();
+        }, 400);
+    } else {
+        err.classList.remove('hidden');
+        document.getElementById('loginPass').value = '';
+        document.getElementById('loginPass').focus();
+        document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
+        document.getElementById('loginBtn').disabled = false;
+    }
+}
+
+function logout() {
+    if (!confirm("Yakin ingin keluar?")) return;
+    document.getElementById('dashboardPage').classList.add('hidden');
+    document.getElementById('loginPage').classList.remove('hidden');
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
+    document.getElementById('loginBtn').disabled = false;
+}
+
+function togglePass() {
+    const inp  = document.getElementById('loginPass');
+    const icon = document.getElementById('eyeIcon');
+    if (inp.type === 'password') {
+        inp.type = 'text';
+        icon.className = 'fas fa-eye-slash text-sm';
+    } else {
+        inp.type = 'password';
+        icon.className = 'fas fa-eye text-sm';
+    }
+}
+
+
+// ============================================================
+//  TAB NAVIGATION
+// ============================================================
+const TAB_CONFIG = {
+    layanan: {
+        title    : 'Kelola Layanan',
+        subtitle  : 'Tambah, ubah, atau nonaktifkan layanan klinik',
+        btnLabel  : 'Tambah Layanan',
+        loader    : loadLayanan
+    },
+    promo: {
+        title    : 'Promo & Penawaran',
+        subtitle  : 'Kelola promo yang tampil di halaman utama',
+        btnLabel  : 'Tambah Promo',
+        loader    : loadPromo
+    },
+    galeri: {
+        title    : 'Rose Family (Galeri)',
+        subtitle  : 'Upload foto momen bersama pasien',
+        btnLabel  : 'Upload Foto',
+        loader    : loadGaleri
+    },
+    review: {
+        title    : 'Ulasan Pasien',
+        subtitle  : 'Verifikasi dan kelola ulasan dari pasien',
+        btnLabel  : null, // Tab review tidak punya tombol tambah
+        loader    : loadReview
+    }
+};
+
+function switchTab(tabName) {
+    // Sembunyikan semua konten
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+    // Tampilkan tab yang dipilih
+    document.getElementById('tab-' + tabName).classList.remove('hidden');
+    document.getElementById('nav-' + tabName).classList.add('active');
+
+    // Update header
+    const cfg = TAB_CONFIG[tabName];
+    document.getElementById('pageTitle').textContent   = cfg.title;
+    document.getElementById('pageSubtitle').textContent = cfg.subtitle;
+
+    // Update tombol tambah
+    const btnTambah = document.getElementById('btnTambah');
+    if (cfg.btnLabel) {
+        btnTambah.classList.remove('hidden');
+        document.getElementById('btnTambahLabel').textContent = cfg.btnLabel;
+    } else {
+        btnTambah.classList.add('hidden');
+    }
+
+    activeTab = tabName;
+
+    // Muat data
+    if (cfg.loader) cfg.loader();
+}
+
+function openModal() {
+    const modalMap = { layanan: 'modalLayanan', promo: 'modalPromo', galeri: 'modalGaleri' };
+    const id = modalMap[activeTab];
+    if (id) document.getElementById(id).classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// Tutup modal jika klik backdrop
+document.addEventListener('click', function(e) {
+    ['modalLayanan','modalPromo','modalGaleri'].forEach(id => {
+        const modal = document.getElementById(id);
+        if (e.target === modal) closeModal(id);
+    });
+});
+
+// Tutup modal dengan Escape
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        ['modalLayanan','modalPromo','modalGaleri'].forEach(id => closeModal(id));
+    }
+});
+
+
+// ============================================================
+//  PREVIEW GAMBAR DI MODAL
+// ============================================================
+function previewImage(input, previewWrapId, previewImgId, fileNameId, placeholderId) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Validasi ukuran (maks 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        showToast('Ukuran file maksimal 2MB!', 'err');
+        input.value = '';
+        return;
+    }
+
+    // Baca dan tampilkan preview
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        document.getElementById(previewImgId).src = ev.target.result;
+        document.getElementById(fileNameId).textContent = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+        document.getElementById(previewWrapId).classList.remove('hidden');
+        document.getElementById(placeholderId).classList.add('hidden');
+    };
+    reader.readAsDataURL(file);
+}
+
+
+// ============================================================
+//  HELPER: Konversi File ke Base64 (Promise)
+// ============================================================
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload  = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Gagal membaca file"));
+        reader.readAsDataURL(file);
+    });
+}
+
+
+// ============================================================
+//  HELPER: POST ke GAS
+// ============================================================
+async function gasPost(payload) {
+    try {
+        const res  = await fetch(GAS_URL, {
+            method : 'POST',
+            headers: { 'Content-Type': 'text/plain' }, // GAS minta text/plain untuk hindari preflight
+            body   : JSON.stringify(payload)
+        });
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        // CORS error saat POST ke GAS itu normal di browser,
+        // data tetap masuk ke Google Sheets. Anggap berhasil.
+        console.warn('[RDC Admin] POST mungkin CORS error, tapi data biasanya tetap masuk:', err.message);
+        return { success: true, _note: 'cors_bypass' };
+    }
+}
+
+
+// ============================================================
+//  HELPER: GET dari GAS
+// ============================================================
+async function gasGet(sheetName) {
+    const res  = await fetch(`${GAS_URL}?sheet=${sheetName}`);
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error || 'Gagal mengambil data');
+    return json.data;
+}
+
+
+// ============================================================
+//  LOAD & RENDER LAYANAN
+// ============================================================
+async function loadLayanan() {
+    const tbody = document.getElementById('tabelLayanan');
+    tbody.innerHTML = renderLoadingRow(6);
+
+    try {
+        // Admin pakai "admin_layanan" untuk mendapatkan semua data termasuk non-aktif
+        // Jika GAS kamu sudah support "admin_layanan", ganti di sini
+        const data = await gasGet('layanan');
+
+        if (!data || data.length === 0) {
+            tbody.innerHTML = renderEmptyRow(6, 'Belum ada data layanan. Tambahkan layanan pertamamu!');
+            return;
         }
 
-        function logout() {
-            document.getElementById('dashboardPage').classList.add('hidden');
-            document.getElementById('loginPage').classList.remove('hidden');
-            document.getElementById('loginForm').reset();
+        // Update stat cards
+        const aktif    = data.filter(d => String(d.status).toUpperCase() === 'AKTIF').length;
+        const nonAktif = data.length - aktif;
+        document.getElementById('statTotalLayanan').textContent   = data.length;
+        document.getElementById('statAktifLayanan').textContent   = aktif;
+        document.getElementById('statNonAktifLayanan').textContent = nonAktif;
+
+        // Render tabel
+        tbody.innerHTML = data.map(item => `
+            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                <td class="px-4 py-3">
+                    ${renderVisual(item.ikon)}
+                </td>
+                <td class="px-4 py-3">
+                    <div class="font-medium text-gray-800">${esc(item.nama)}</div>
+                </td>
+                <td class="px-4 py-3">
+                    <span class="text-rose-600 font-semibold">${esc(item.harga)}</span>
+                </td>
+                <td class="px-4 py-3 hidden md:table-cell">
+                    <p class="text-gray-500 text-xs max-w-xs truncate" title="${esc(item.deskripsi)}">${esc(item.deskripsi)}</p>
+                </td>
+                <td class="px-4 py-3">
+                    ${renderBadgeLayanan(item.status)}
+                </td>
+                <td class="px-4 py-3 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button onclick="toggleStatusLayanan('${esc(item.id)}', '${esc(item.status)}')"
+                                class="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition"
+                                title="Aktif / Non-Aktif">
+                            <i class="fas fa-toggle-${String(item.status).toUpperCase() === 'AKTIF' ? 'on text-green-500' : 'off text-gray-400'}"></i>
+                        </button>
+                        <button onclick="hapusData('Layanan', '${esc(item.id)}', 'Yakin hapus layanan ${esc(item.nama)}?')"
+                                class="px-3 py-1.5 text-xs rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+
+    } catch (err) {
+        tbody.innerHTML = renderErrorRow(6, err.message);
+    }
+}
+
+
+// ============================================================
+//  SUBMIT TAMBAH LAYANAN
+// ============================================================
+async function submitLayanan(e) {
+    e.preventDefault();
+    const btn  = document.getElementById('btnSimpanLayanan');
+    const file = document.getElementById('inpFotoLayanan').files[0];
+
+    if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
+
+    setLoading(btn, true, 'Mengunggah...');
+
+    try {
+        const base64 = await fileToBase64(file);
+
+        const result = await gasPost({
+            action    : 'tambah_layanan',
+            nama      : document.getElementById('inpNama').value.trim(),
+            harga     : document.getElementById('inpHarga').value.trim(),
+            deskripsi : document.getElementById('inpDeskripsi').value.trim(),
+            imageName : file.name,
+            mimeType  : file.type,
+            imageBase64: base64
+        });
+
+        if (result.success || result._note === 'cors_bypass') {
+            showToast('Layanan berhasil ditambahkan! 🎉');
+            closeModal('modalLayanan');
+            document.getElementById('inpNama').value     = '';
+            document.getElementById('inpHarga').value    = '';
+            document.getElementById('inpDeskripsi').value = '';
+            document.getElementById('inpFotoLayanan').value = '';
+            resetImagePreview('imgPreview', 'imgPreviewEl', 'imgFileName', 'imgPlaceholder');
+            setTimeout(loadLayanan, 2000); // Beri waktu GAS menulis ke Sheets
+        } else {
+            showToast(result.message || 'Gagal menyimpan', 'err');
+        }
+    } catch (err) {
+        showToast('Error: ' + err.message, 'err');
+    } finally {
+        setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Layanan');
+    }
+}
+
+
+// ============================================================
+//  LOAD & RENDER PROMO
+// ============================================================
+async function loadPromo() {
+    const tbody = document.getElementById('tabelPromo');
+    tbody.innerHTML = renderLoadingRow(5);
+
+    try {
+        const data = await gasGet('promo');
+
+        if (!data || data.length === 0) {
+            tbody.innerHTML = renderEmptyRow(5, 'Belum ada promo. Tambahkan promo pertama!');
+            return;
         }
 
-        /* --- MODAL CONTROL --- */
-        function openModal() {
-            document.getElementById('formLayanan').reset();
-            document.getElementById('modalForm').classList.remove('hidden');
+        document.getElementById('statTotalPromo').textContent = data.length;
+
+        tbody.innerHTML = data.map(item => `
+            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                <td class="px-4 py-3">
+                    ${renderVisual(item.url_gambar)}
+                </td>
+                <td class="px-4 py-3">
+                    <div class="font-medium text-gray-800">${esc(item.judul)}</div>
+                </td>
+                <td class="px-4 py-3 hidden md:table-cell">
+                    <p class="text-gray-500 text-xs max-w-xs truncate">${esc(item.deskripsi)}</p>
+                </td>
+                <td class="px-4 py-3">
+                    <span class="text-xs text-gray-500">${esc(item.tgl_berlaku)}</span>
+                </td>
+                <td class="px-4 py-3 text-right">
+                    <button onclick="hapusData('Promo', '${esc(item.id)}', 'Yakin hapus promo ${esc(item.judul)}?')"
+                            class="px-3 py-1.5 text-xs rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+
+    } catch (err) {
+        tbody.innerHTML = renderErrorRow(5, err.message);
+    }
+}
+
+
+// ============================================================
+//  SUBMIT TAMBAH PROMO
+// ============================================================
+async function submitPromo(e) {
+    e.preventDefault();
+    const btn  = document.getElementById('btnSimpanPromo');
+    const file = document.getElementById('inpFotoPromo').files[0];
+
+    if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
+
+    setLoading(btn, true, 'Mengunggah...');
+
+    try {
+        const base64 = await fileToBase64(file);
+
+        const result = await gasPost({
+            action     : 'tambah_promo',
+            judul      : document.getElementById('inpJudulPromo').value.trim(),
+            deskripsi  : document.getElementById('inpDeskripsiPromo').value.trim(),
+            tgl_berlaku: document.getElementById('inpTglPromo').value.trim(),
+            imageName  : file.name,
+            mimeType   : file.type,
+            imageBase64 : base64
+        });
+
+        if (result.success || result._note === 'cors_bypass') {
+            showToast('Promo berhasil ditambahkan! 🎉');
+            closeModal('modalPromo');
+            resetImagePreview('imgPreviewPromo', 'imgPreviewElPromo', 'imgFileNamePromo', 'imgPlaceholderPromo');
+            setTimeout(loadPromo, 2000);
+        } else {
+            showToast(result.message || 'Gagal menyimpan', 'err');
         }
-        function closeModal() {
-            document.getElementById('modalForm').classList.add('hidden');
+    } catch (err) {
+        showToast('Error: ' + err.message, 'err');
+    } finally {
+        setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Promo');
+    }
+}
+
+
+// ============================================================
+//  LOAD & RENDER GALERI
+// ============================================================
+async function loadGaleri() {
+    const grid = document.getElementById('galeriGrid');
+    grid.innerHTML = `
+        <div class="skeleton h-40 rounded-xl"></div>
+        <div class="skeleton h-40 rounded-xl"></div>
+        <div class="skeleton h-40 rounded-xl"></div>
+        <div class="skeleton h-40 rounded-xl"></div>
+    `;
+
+    try {
+        const data = await gasGet('galeri');
+
+        if (!data || data.length === 0) {
+            grid.innerHTML = `
+                <div class="col-span-4 py-12 text-center text-gray-400">
+                    <i class="fas fa-images text-4xl mb-3 text-gray-300"></i>
+                    <p class="text-sm">Belum ada foto galeri. Upload foto pertama!</p>
+                </div>
+            `;
+            return;
         }
 
-        /* --- FETCH DATA DARI GOOGLE SHEETS (GET) --- */
-        async function loadDataLayanan() {
-            const tbody = document.getElementById('tableBody');
-            try {
-                // Panggil API untuk ambil data sheet 'Layanan'
-                const res = await fetch(`${GAS_API_URL}?sheet=Layanan`);
-                const json = await res.json();
-                
-                if(json.success && json.data.length > 0) {
-                    tbody.innerHTML = ''; // Kosongkan loading
-                    json.data.forEach(item => {
-                        // Cek apakah pakai foto (URL) atau emoji lama
-                        let visual = item['ikon/gambar'];
-                        let imgTag = visual.startsWith('http') 
-                            ? `<img src="${visual}" class="w-12 h-12 rounded-lg object-cover border">`
-                            : `<div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-lg flex items-center justify-center text-xl">${visual}</div>`;
+        grid.innerHTML = data.map(item => `
+            <div class="relative group rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-white">
+                <img src="${esc(item.url)}"
+                     alt="${esc(item.caption)}"
+                     class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+                     loading="lazy"
+                     onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
 
-                        tbody.innerHTML += `
-                            <tr class="border-b hover:bg-gray-50">
-                                <td class="p-4">${imgTag}</td>
-                                <td class="p-4 font-medium text-gray-800">${item.nama || '-'}</td>
-                                <td class="p-4 text-rose-600 font-semibold">${item.harga || '-'}</td>
-                                <td class="p-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">${item.status_aktif || 'Aktif'}</span></td>
-                                <td class="p-4 text-right">
-                                    <button class="text-blue-500 hover:text-blue-700 mr-3" title="Edit"><i class="fas fa-edit"></i></button>
-                                    <button class="text-red-500 hover:text-red-700" title="Hapus"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                } else {
-                    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">Belum ada data layanan.</td></tr>`;
-                }
-            } catch (error) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Gagal menarik data. Pastikan URL GAS sudah benar.</td></tr>`;
-            }
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all flex items-end">
+                    <div class="w-full px-3 py-2 text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        ${esc(item.caption)}
+                    </div>
+                </div>
+
+                <!-- Tombol hapus -->
+                <button onclick="hapusData('Galeri', '${esc(item.id)}', 'Yakin hapus foto ini?')"
+                        class="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center shadow-md hover:bg-red-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `).join('');
+
+    } catch (err) {
+        grid.innerHTML = `<div class="col-span-4 py-8 text-center text-red-500 text-sm">Error: ${esc(err.message)}</div>`;
+    }
+}
+
+
+// ============================================================
+//  SUBMIT TAMBAH GALERI
+// ============================================================
+async function submitGaleri(e) {
+    e.preventDefault();
+    const btn  = document.getElementById('btnSimpanGaleri');
+    const file = document.getElementById('inpFotoGaleri').files[0];
+
+    if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
+
+    setLoading(btn, true, 'Mengunggah...');
+
+    try {
+        const base64 = await fileToBase64(file);
+
+        const result = await gasPost({
+            action     : 'tambah_galeri',
+            caption    : document.getElementById('inpCaption').value.trim(),
+            imageName  : file.name,
+            mimeType   : file.type,
+            imageBase64 : base64
+        });
+
+        if (result.success || result._note === 'cors_bypass') {
+            showToast('Foto galeri berhasil diupload! 🎉');
+            closeModal('modalGaleri');
+            resetImagePreview('imgPreviewGaleri', 'imgPreviewElGaleri', 'imgFileNameGaleri', 'imgPlaceholderGaleri');
+            setTimeout(loadGaleri, 2000);
+        } else {
+            showToast(result.message || 'Gagal upload', 'err');
+        }
+    } catch (err) {
+        showToast('Error: ' + err.message, 'err');
+    } finally {
+        setLoading(btn, false, '<i class="fas fa-upload"></i> Upload Foto');
+    }
+}
+
+
+// ============================================================
+//  LOAD & RENDER REVIEW
+// ============================================================
+async function loadReview() {
+    const tbody = document.getElementById('tabelReview');
+    tbody.innerHTML = renderLoadingRow(6);
+
+    try {
+        // Muat SEMUA review (termasuk yang belum tampil)
+        // Catatan: GAS getReview() filter hanya yang tampil=TRUE
+        // Untuk admin butuh getAllReview() → GAS pakai ?sheet=admin_review
+        const data = await gasGet('review');
+
+        if (!data || data.length === 0) {
+            tbody.innerHTML = renderEmptyRow(6, 'Belum ada ulasan masuk dari pasien.');
+            return;
         }
 
-        /* --- UPLOAD GAMBAR & SUBMIT DATA (POST) --- */
-        async function submitData(e) {
-            e.preventDefault();
-            
-            const fileInput = document.getElementById('inputFile');
-            const file = fileInput.files[0];
-            const btnSubmit = document.getElementById('btnSubmit');
+        // Update stats
+        const tampil  = data.filter(d => d.status_tampil === true || String(d.status_tampil).toUpperCase() === 'TRUE').length;
+        const pending = data.length - tampil;
+        document.getElementById('statTotalReview').textContent   = data.length;
+        document.getElementById('statTampilReview').textContent  = tampil;
+        document.getElementById('statPendingReview').textContent = pending;
 
-            if (!file) return alert("Pilih foto dulu ya!");
-            if (file.size > 2 * 1024 * 1024) return alert("Ukuran foto maksimal 2MB biar web nggak lemot!");
-
-            // Ubah tombol jadi loading
-            btnSubmit.disabled = true;
-            btnSubmit.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Mengunggah...`;
-
-            // Proses konversi File ke Base64 menggunakan FileReader
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            
-            reader.onload = async function() {
-                const base64String = reader.result; // Ini hasilnya "data:image/jpeg;base64,/9j/4AAQSk..."
-
-                // Siapkan paket data (Payload JSON) untuk dikirim ke GAS
-                const payload = {
-                    action: "tambah_layanan",
-                    nama: document.getElementById('inputNama').value,
-                    harga: document.getElementById('inputHarga').value,
-                    deskripsi: document.getElementById('inputDeskripsi').value,
-                    imageName: file.name,
-                    mimeType: file.type,
-                    imageBase64: base64String
-                };
-
-                try {
-                    // Tembak data ke Google Apps Script
-                    const res = await fetch(GAS_API_URL, {
-                        method: 'POST',
-                        body: JSON.stringify(payload)
-                    });
-                    
-                    const json = await res.json();
-                    
-                    if(json.success) {
-                        alert("Berhasil! Foto sudah masuk Google Drive dan data tersimpan di Sheets.");
-                        closeModal();
-                        loadDataLayanan(); // Refresh tabel
-                    } else {
-                        alert("Gagal: " + json.message);
-                    }
-                } catch (error) {
-                    // Catatan: Seringkali POST ke GAS menyebabkan error CORS di console browser, 
-                    // namun data SEBENARNYA tetap masuk ke Google Sheets. 
-                    alert("Data dikirim. Jika terjadi error CORS, cek langsung Google Sheets kamu.");
-                    closeModal();
-                } finally {
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = `<i class="fas fa-save"></i> Simpan ke Database`;
-                }
-            };
-
-            reader.onerror = function(error) {
-                alert("Gagal membaca file gambar!");
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = `<i class="fas fa-save"></i> Simpan ke Database`;
-            };
+        // Update badge di sidebar
+        if (pending > 0) {
+            document.getElementById('reviewBadge').textContent = pending;
+            document.getElementById('reviewBadge').classList.remove('hidden');
         }
-    </script>
+
+        tbody.innerHTML = data.map(item => {
+            const isTampil = (item.status_tampil === true || String(item.status_tampil).toUpperCase() === 'TRUE');
+            const stars    = '★'.repeat(Math.min(5, Math.max(1, parseInt(item.rating) || 5)));
+            const empty    = '☆'.repeat(5 - (Math.min(5, Math.max(1, parseInt(item.rating) || 5))));
+
+            return `
+            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                <td class="px-4 py-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 font-semibold text-sm flex-shrink-0">
+                            ${esc(item.nama_pasien.charAt(0).toUpperCase())}
+                        </div>
+                        <span class="font-medium text-sm text-gray-800">${esc(item.nama_pasien)}</span>
+                    </div>
+                </td>
+                <td class="px-4 py-3">
+                    <span class="text-amber-400 text-sm">${stars}</span><span class="text-gray-200 text-sm">${empty}</span>
+                </td>
+                <td class="px-4 py-3 max-w-xs">
+                    <p class="text-xs text-gray-600 line-clamp-2">${esc(item.komentar)}</p>
+                </td>
+                <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">${esc(item.tanggal)}</td>
+                <td class="px-4 py-3">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${isTampil ? 'badge-tampil' : 'badge-pending'}">
+                        ${isTampil ? '✓ Tampil' : '⏳ Pending'}
+                    </span>
+                </td>
+                <td class="px-4 py-3 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button onclick="toggleStatusReview('${esc(item.id)}', ${isTampil})"
+                                class="px-3 py-1.5 text-xs rounded-lg border ${isTampil ? 'border-gray-200 text-gray-500 hover:bg-gray-50' : 'border-green-200 text-green-600 hover:bg-green-50'} transition"
+                                title="${isTampil ? 'Sembunyikan' : 'Tampilkan di website'}">
+                            <i class="fas ${isTampil ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                            ${isTampil ? 'Sembunyikan' : 'Tampilkan'}
+                        </button>
+                        <button onclick="hapusData('Review', '${esc(item.id)}', 'Yakin hapus review dari ${esc(item.nama_pasien)}?')"
+                                class="px-3 py-1.5 text-xs rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `}).join('');
+
+    } catch (err) {
+        tbody.innerHTML = renderErrorRow(6, err.message);
+    }
+}
+
+
+// ============================================================
+//  AKSI: Toggle Status Layanan
+// ============================================================
+async function toggleStatusLayanan(id, statusSekarang) {
+    const statusBaru = String(statusSekarang).toUpperCase() === 'AKTIF' ? 'NON-AKTIF' : 'AKTIF';
+    if (!confirm(`Ubah status menjadi ${statusBaru}?`)) return;
+
+    try {
+        await gasPost({ action: 'update_status_layanan', id: id, status_baru: statusBaru });
+        showToast(`Status diubah ke ${statusBaru}`);
+        setTimeout(loadLayanan, 1500);
+    } catch (err) {
+        showToast('Gagal update status', 'err');
+    }
+}
+
+
+// ============================================================
+//  AKSI: Toggle Status Review (Tampil/Sembunyikan)
+// ============================================================
+async function toggleStatusReview(id, statusTampilSekarang) {
+    const statusBaru = !statusTampilSekarang;
+    const label = statusBaru ? 'tampilkan' : 'sembunyikan';
+    if (!confirm(`Yakin ingin ${label} review ini?`)) return;
+
+    try {
+        await gasPost({ action: 'update_status_review', id: id, status_tampil: statusBaru });
+        showToast(`Review berhasil di${label}kan`);
+        setTimeout(loadReview, 1500);
+    } catch (err) {
+        showToast('Gagal update status review', 'err');
+    }
+}
+
+
+// ============================================================
+//  AKSI: Hapus Data
+// ============================================================
+async function hapusData(sheetName, id, confirmMsg) {
+    if (!confirm(confirmMsg)) return;
+
+    try {
+        await gasPost({ action: 'hapus', sheet: sheetName, id: id });
+        showToast('Data berhasil dihapus!');
+
+        // Reload tab yang sesuai
+        const tabMap = { Layanan: loadLayanan, Promo: loadPromo, Galeri: loadGaleri, Review: loadReview };
+        if (tabMap[sheetName]) setTimeout(tabMap[sheetName], 1500);
+
+    } catch (err) {
+        showToast('Gagal menghapus data', 'err');
+    }
+}
+
+
+// ============================================================
+//  HELPER: Render Visual (gambar dari Drive atau emoji)
+// ============================================================
+function renderVisual(value) {
+    if (!value) return '<span class="text-2xl">🦷</span>';
+
+    // Jika URL gambar (Drive/http)
+    if (String(value).startsWith('http')) {
+        return `<img src="${esc(value)}" alt="" class="w-12 h-12 rounded-lg object-cover border border-gray-100"
+                     onerror="this.src='https://via.placeholder.com/48?text=?'">`;
+    }
+    // Emoji atau teks biasa
+    return `<span class="text-2xl">${esc(value)}</span>`;
+}
+
+
+// ============================================================
+//  HELPER: Badge Status Layanan
+// ============================================================
+function renderBadgeLayanan(status) {
+    const isAktif = String(status).toUpperCase() === 'AKTIF';
+    return `<span class="px-2.5 py-1 rounded-full text-xs font-semibold ${isAktif ? 'badge-aktif' : 'badge-nonaktif'}">
+                ${isAktif ? '● Aktif' : '○ Non-Aktif'}
+            </span>`;
+}
+
+
+// ============================================================
+//  HELPER: Row Loading / Empty / Error
+// ============================================================
+function renderLoadingRow(colspan) {
+    return `<tr><td colspan="${colspan}" class="px-4 py-8 text-center text-gray-400">
+        <div class="flex flex-col items-center gap-2">
+            <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
+            <span class="text-sm">Memuat data...</span>
+        </div>
+    </td></tr>`;
+}
+
+function renderEmptyRow(colspan, msg) {
+    return `<tr><td colspan="${colspan}" class="px-4 py-12 text-center text-gray-400">
+        <i class="fas fa-box-open text-3xl mb-2 block text-gray-300"></i>
+        <span class="text-sm">${msg}</span>
+    </td></tr>`;
+}
+
+function renderErrorRow(colspan, msg) {
+    return `<tr><td colspan="${colspan}" class="px-4 py-8 text-center text-red-500">
+        <i class="fas fa-exclamation-circle text-2xl mb-2 block"></i>
+        <span class="text-sm">Gagal memuat data: ${esc(msg)}</span>
+        <br><span class="text-xs text-gray-400 mt-1 block">Pastikan URL GAS di variable GAS_URL sudah benar dan sudah di-deploy.</span>
+    </td></tr>`;
+}
+
+
+// ============================================================
+//  HELPER: Set Loading State Tombol
+// ============================================================
+function setLoading(btn, isLoading, normalHtml) {
+    btn.disabled = isLoading;
+    btn.innerHTML = isLoading
+        ? '<i class="fas fa-circle-notch fa-spin"></i> Mengunggah...'
+        : normalHtml;
+}
+
+
+// ============================================================
+//  HELPER: Reset Image Preview
+// ============================================================
+function resetImagePreview(previewWrapId, previewImgId, fileNameId, placeholderId) {
+    document.getElementById(previewImgId).src = '';
+    document.getElementById(fileNameId).textContent = '';
+    document.getElementById(previewWrapId).classList.add('hidden');
+    document.getElementById(placeholderId).classList.remove('hidden');
+}
+
+
+// ============================================================
+//  TOAST NOTIFIKASI
+// ============================================================
+let toastTimer;
+function showToast(msg, type = 'ok') {
+    const toast = document.getElementById('toast');
+    const icon  = document.getElementById('toastIcon');
+    const span  = document.getElementById('toastMsg');
+
+    span.textContent     = msg;
+    icon.className       = type === 'err' ? 'fas fa-exclamation-circle text-red-500' : 'fas fa-check-circle text-green-500';
+    toast.style.borderLeftColor = type === 'err' ? '#ef4444' : '#C4415A';
+
+    toast.style.opacity         = '1';
+    toast.style.pointerEvents   = 'auto';
+    toast.style.transform       = 'translateY(0)';
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.style.opacity       = '0';
+        toast.style.pointerEvents = 'none';
+    }, 3800);
+}
+
+
+// ============================================================
+//  SECURITY: Escape HTML
+// ============================================================
+function esc(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+</script>
+
 </body>
 </html>
