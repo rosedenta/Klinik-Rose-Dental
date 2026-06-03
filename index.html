@@ -804,9 +804,6 @@
 </head>
 <body>
 
-<!-- ================================================
-     NAVBAR
-================================================ -->
 <nav id="navbar">
     <div class="container">
         <div class="nav-inner">
@@ -849,9 +846,6 @@
     </a>
 </div>
 
-<!-- ================================================
-     HERO
-================================================ -->
 <section id="hero">
     <div class="hero-rings">
         <div class="hero-ring"></div><div class="hero-ring"></div>
@@ -916,9 +910,6 @@
     <div class="scroll-cue"><div class="scroll-mouse"></div><span>Scroll</span></div>
 </section>
 
-<!-- ================================================
-     INFO BAR
-================================================ -->
 <div id="infoBar">
     <div style="max-width:100%;">
         <div class="info-bar-row">
@@ -947,9 +938,6 @@
     </div>
 </div>
 
-<!-- ================================================
-     LAYANAN
-================================================ -->
 <section id="layanan" class="section">
     <div class="container">
         <div class="services-top">
@@ -973,9 +961,6 @@
     </div>
 </section>
 
-<!-- ================================================
-     PROMO
-================================================ -->
 <section id="promo" class="section">
     <div class="container">
         <div style="text-align:center;margin-bottom:52px;">
@@ -994,9 +979,6 @@
     </div>
 </section>
 
-<!-- ================================================
-     GALERI
-================================================ -->
 <section id="galeri" class="section">
     <div class="container">
         <div class="gallery-top">
@@ -1024,28 +1006,13 @@
     <img id="lbImg" src="" alt="Galeri Rose Dental Care">
 </div>
 
-<!-- ================================================
-     VIDEO KONTEN — Native background video
-================================================ -->
 <section id="video-konten">
-    <!-- Background video (autoplay, muted, loop) -->
     <div class="video-bg-wrap">
-        <!--
-            VIDEO LOKAL: letakkan file video Anda (mp4) di folder yang sama dengan index.html
-            lalu ganti src dengan nama file, contoh: src="video-rdc.mp4"
-            
-            Saat ini menggunakan gradient animated sebagai fallback visual yang menyatu.
-            Untuk memasang video asli Instagram Reel Anda, download/export videonya ke MP4
-            lalu pasang di tag <source> di bawah ini.
-        -->
         <video autoplay muted loop playsinline poster="" id="bgVideo">
-            <!-- <source src="video-rdc.mp4" type="video/mp4"> -->
-        </video>
+            </video>
     </div>
-    <!-- Overlay gradient -->
     <div class="video-bg-overlay"></div>
 
-    <!-- Konten -->
     <div class="video-content-wrap">
         <div class="container">
             <div style="text-align:center;margin-bottom:64px;" data-aos="fade-up">
@@ -1058,7 +1025,6 @@
             </div>
 
             <div class="video-inner-grid">
-                <!-- Kiri: teks & poin -->
                 <div class="video-text-side" data-aos="fade-right">
                     <div class="section-label">Kenapa Pilih Kami?</div>
                     <h3 class="section-title" style="font-size:clamp(1.8rem,3.2vw,2.8rem);color:#fff;">
@@ -1098,7 +1064,6 @@
                     </div>
                 </div>
 
-                <!-- Kanan: phone mockup dengan link ke Instagram Reel -->
                 <div class="video-phone-side" data-aos="fade-left" data-aos-delay="100">
                     <div class="phone-mockup">
                         <div class="phone-glow"></div>
@@ -1131,9 +1096,6 @@
     </div>
 </section>
 
-<!-- ================================================
-     REVIEW
-================================================ -->
 <section id="review" class="section">
     <div class="container">
         <div style="text-align:center;margin-bottom:52px;">
@@ -1187,9 +1149,6 @@
     </div>
 </section>
 
-<!-- ================================================
-     FOOTER
-================================================ -->
 <footer id="kontak">
     <div class="container">
         <div class="footer-grid">
@@ -1270,20 +1229,14 @@
     </div>
 </footer>
 
-<!-- Scroll to top -->
 <button id="scrollTop" aria-label="Kembali ke atas"><i class="fas fa-chevron-up"></i></button>
 
-<!-- WA Floating Button -->
 <a id="waFloat" href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" title="Chat WhatsApp">
     <i class="fab fa-whatsapp"></i>
 </a>
 
-<!-- Toast -->
 <div id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
 
-<!-- ================================================
-     WA BOOKING MODAL
-================================================ -->
 <div id="waModal">
     <div class="wa-modal-box">
         <button class="wa-modal-close" onclick="closeWaModal()">×</button>
@@ -1312,9 +1265,6 @@
 </div>
 
 
-<!-- ================================================
-     SCRIPTS
-================================================ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
 
@@ -1571,86 +1521,179 @@ async function gasGet(sheet) {
     }
 }
 
+// ================================================================
+//  HELPER GAMBAR DRIVE
+// ================================================================
+function toDriveDirectUrl(url) {
+    if (!url) return '';
+    if (url.includes('export=view')) return url;
+    var matchFile = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (matchFile) {
+        return 'https://drive.google.com/uc?export=view&id=' + matchFile[1];
+    }
+    var matchOpen = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (matchOpen) {
+        return 'https://drive.google.com/uc?export=view&id=' + matchOpen[1];
+    }
+    return url;
+}
+
+function renderIkonAtauGambar(nilai) {
+    if (!nilai) return '🦷'; 
+    if (String(nilai).startsWith('http')) {
+        var directUrl = toDriveDirectUrl(nilai);
+        return `<img src="${escAttr(directUrl)}"
+                     alt="Layanan"
+                     loading="lazy"
+                     style="width:100%;height:100%;object-fit:cover;border-radius:12px;"
+                     onerror="this.parentElement.innerHTML='🦷'">`;
+    }
+    return nilai;
+}
+
 /* ----------------------------------------------------------------
-   LOAD SERVICES — dengan tombol WA booking
+   LOAD SERVICES — VERSI BARU
 ---------------------------------------------------------------- */
 async function loadServices() {
-    const grid = document.getElementById('servicesGrid');
-    let list   = FB_SERVICES;
-    try { const d = await gasGet('layanan'); if (d && d.length) list = d; }
-    catch (err) { console.warn('[RDC] Layanan fallback:', err.message); }
+    var grid = document.getElementById('servicesGrid');
+    var list = FB_SERVICES; 
 
-    grid.innerHTML = list.map((s, i) => `
+    try {
+        var d = await gasGet('layanan');
+        if (d && d.length) list = d;
+    } catch (err) {
+        console.warn('[RDC] Layanan fallback:', err.message);
+    }
+
+    grid.innerHTML = list.map(function(s, i) {
+        var adalahGambar = s.ikon && String(s.ikon).startsWith('http');
+
+        return `
         <div class="svc-card" data-aos="fade-up" data-aos-delay="${(i % 4) * 80}">
-            <div class="svc-icon-wrap">${s.ikon || '🦷'}</div>
+            ${adalahGambar ? `
+            <div style="
+                width:100%; height:160px;
+                border-radius:12px; overflow:hidden;
+                margin-bottom:18px; position:relative;
+                background:#f0e8ea;
+            ">
+                <img src="${escAttr(toDriveDirectUrl(s.ikon))}"
+                     alt="${escAttr(s.nama || '')}"
+                     loading="lazy"
+                     style="width:100%;height:100%;object-fit:cover;transition:transform .4s ease;"
+                     onerror="this.parentElement.style.display='none'">
+            </div>
+            ` : `
+            <div class="svc-icon-wrap">${escHtml(s.ikon || '🦷')}</div>
+            `}
+
             <div class="svc-name">${escHtml(s.nama || '')}</div>
             <div class="svc-desc">${escHtml(s.deskripsi || '')}</div>
             <div class="svc-price-lbl">Estimasi Biaya</div>
             <div class="svc-price">${escHtml(s.harga || 'Hubungi Kami')}</div>
-            <a class="svc-book-btn" onclick="openWaModal('${escAttr(s.nama || '')}')">
+
+            <a class="svc-book-btn"
+               onclick="openWaModal('${escAttr(s.nama || '')}')"
+               style="cursor:pointer;">
                 <i class="fab fa-whatsapp"></i> Reservasi Sekarang
             </a>
         </div>
-    `).join('');
+        `;
+    }).join('');
+
     AOS.refresh();
 }
 
 /* ----------------------------------------------------------------
-   LOAD PROMOS
+   LOAD PROMOS — VERSI BARU
 ---------------------------------------------------------------- */
 async function loadPromos() {
-    const wrap = document.getElementById('promoWrapper');
-    let list   = FB_PROMOS;
-    try { const d = await gasGet('promo'); if (d && d.length) list = d; }
-    catch (err) { console.warn('[RDC] Promo fallback:', err.message); }
+    var wrap = document.getElementById('promoWrapper');
+    var list = FB_PROMOS; 
 
-    wrap.innerHTML = list.map(p => `
+    try {
+        var d = await gasGet('promo');
+        if (d && d.length) list = d;
+    } catch (err) {
+        console.warn('[RDC] Promo fallback:', err.message);
+    }
+
+    wrap.innerHTML = list.map(function(p) {
+        var imgUrl = toDriveDirectUrl(p.url_gambar || '');
+
+        return `
         <div class="swiper-slide">
             <div class="promo-card">
                 <div class="promo-img-wrap">
-                    <img src="${escAttr(p.url_gambar||'')}" alt="${escAttr(p.judul||'')}" loading="lazy"
+                    <img src="${escAttr(imgUrl)}"
+                         alt="${escAttr(p.judul || '')}"
+                         loading="lazy"
                          onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="promo-body">
                     <span class="promo-badge-pill">🎉 Promo Aktif</span>
-                    <div class="promo-title">${escHtml(p.judul||'')}</div>
-                    <div class="promo-desc">${escHtml(p.deskripsi||'')}</div>
-                    <div class="promo-valid"><i class="fas fa-calendar-alt"></i> Berlaku hingga ${escHtml(p.tgl_berlaku||'-')}</div>
-                    <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo Rose Dental Care! 🌹 Saya mau klaim promo: ' + (p.judul||''))}" target="_blank" rel="noopener" class="btn btn-wa">
+                    <div class="promo-title">${escHtml(p.judul || '')}</div>
+                    <div class="promo-desc">${escHtml(p.deskripsi || '')}</div>
+                    <div class="promo-valid">
+                        <i class="fas fa-calendar-alt"></i>
+                        Berlaku hingga ${escHtml(p.tgl_berlaku || '-')}
+                    </div>
+                    <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo Rose Dental Care! 🌹 Saya mau klaim promo: ' + (p.judul || ''))}"
+                       target="_blank" rel="noopener" class="btn btn-wa">
                         <i class="fab fa-whatsapp"></i> Klaim via WhatsApp
                     </a>
                 </div>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
 
     if (promoSwiper) promoSwiper.destroy(true, true);
     promoSwiper = new Swiper('#promoSwiper', {
-        slidesPerView: 1, spaceBetween: 24,
-        loop: list.length > 1,
-        autoplay: { delay:5500, disableOnInteraction:false, pauseOnMouseEnter:true },
-        pagination: { el:'.swiper-pagination', clickable:true },
-        grabCursor: true,
+        slidesPerView : 1,
+        spaceBetween  : 24,
+        loop          : list.length > 1,
+        autoplay      : { delay: 5500, disableOnInteraction: false, pauseOnMouseEnter: true },
+        pagination    : { el: '.swiper-pagination', clickable: true },
+        grabCursor    : true,
     });
 }
 
 /* ----------------------------------------------------------------
-   LOAD GALLERY
+   LOAD GALLERY — VERSI BARU
 ---------------------------------------------------------------- */
 async function loadGallery() {
-    const grid = document.getElementById('galleryGrid');
-    let list   = FB_GALLERY;
-    try { const d = await gasGet('galeri'); if (d && d.length) list = d; }
-    catch (err) { console.warn('[RDC] Galeri fallback:', err.message); }
+    var grid = document.getElementById('galleryGrid');
+    var list = FB_GALLERY; 
 
-    grid.innerHTML = list.map((item, i) => `
-        <div class="g-item" data-aos="zoom-in" data-aos-delay="${(i%4)*70}"
-             onclick="openLb(${JSON.stringify(item.url)})">
-            <img src="${escAttr(item.url||'')}" alt="${escAttr(item.caption||'')}" loading="lazy"
+    try {
+        var d = await gasGet('galeri');
+        if (d && d.length) list = d;
+    } catch (err) {
+        console.warn('[RDC] Galeri fallback:', err.message);
+    }
+
+    grid.innerHTML = list.map(function(item, i) {
+        var imgUrl = toDriveDirectUrl(item.url || '');
+
+        return `
+        <div class="g-item"
+             data-aos="zoom-in"
+             data-aos-delay="${(i % 4) * 70}"
+             onclick="openLb(${JSON.stringify(imgUrl)})">
+
+            <img src="${escAttr(imgUrl)}"
+                 alt="${escAttr(item.caption || '')}"
+                 loading="lazy"
                  onerror="this.closest('.g-item').remove()">
-            <div class="g-overlay"><span class="g-cap">${escHtml(item.caption||'')}</span></div>
+
+            <div class="g-overlay">
+                <span class="g-cap">${escHtml(item.caption || '')}</span>
+            </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
+
     AOS.refresh();
 }
 
