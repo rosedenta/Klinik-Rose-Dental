@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose Dental Care — Spesialis Kecantikan Senyum Gresik</title>
+    <meta name="description" content="Klinik Gigi Rose Dental Care di Gresik. Scaling, Behel, Veneer, Bleaching, Crown, PSA & lebih. Buka setiap hari 09.00–21.00. Reservasi sekarang!">
+    <meta property="og:title" content="Rose Dental Care — Senyum Indah, Hidup Sehat">
+    <meta property="og:description" content="Klinik Gigi Profesional di Gresik. Buka setiap hari 09.00–21.00.">
+    <meta name="theme-color" content="#C4415A">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+
+    <style>
+        /* ================================================
+           ROOT & RESET
+        ================================================ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --rose:        #C4415A;
+            --rose-dark:   #9D2E45;
+            --rose-mid:    #D4617A;
+            --rose-light:  #E8879F;
+            --rose-soft:   #F8D0D8;
+            --rose-pale:   #FDF0F3;
+            --rose-blush:  #FFF8F9;
+            --white:       #FFFFFF;
+            --cream:       #FEFBFC;
+            --dark:        #1C0A10;
+            --mid:         #5C3347;
+            --muted:       #9C7A88;
+            --border:      #EDD8DE;
+            --shadow-rose: rgba(196,65,90,0.15);
+            --font-disp:   'Cormorant Garamond', Georgia, serif;
+            --font-body:   'DM Sans', sans-serif;
+            --wa-number:   '6281392647923';
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background: var(--cream);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        img { display: block; width: 100%; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { cursor: pointer; font-family: inherit; border: none; outline: none; }
+
+        /* ================================================
+           UTILITIES
+        ================================================ */
+        .container    { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section      { padding: 110px 0; }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 16px;
+        }
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 22px; height: 2px;
+            background: var(--rose);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-family: var(--font-disp);
+            font-size: clamp(2rem, 4.5vw, 3.5rem);
+            font-weight: 600;
+            color: var(--dark);
+            line-height: 1.08;
+        }
+        .section-sub {
+            font-size: 0.95rem;
+            color: var(--muted);
+            font-weight: 300;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 13px 28px;
+            cursor: pointer;
+            transition: all .3s ease;
+            white-space: nowrap;
+            border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(196,65,90,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(196,65,90,0.4); }
+        .btn-outline {
+            background: transparent;
+            color: var(--rose);
+            border: 1.5px solid var(--rose);
+        }
+        .btn-outline:hover { background: var(--rose); color: #fff; }
+
+        .btn-wa {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(37,211,102,0.3);
+        }
+        .btn-wa:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(37,211,102,0.4); }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f4e8eb 25%, #ecd5da 50%, #f4e8eb 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 16px;
+        }
+        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        /* ================================================
+           NAVBAR
+        ================================================ */
+        #navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 22px 0;
+            transition: all .35s ease;
+        }
+        #navbar.scrolled {
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 14px 0;
+            box-shadow: 0 2px 30px rgba(196,65,90,0.1);
+        }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 11px; }
+        .logo-bubble {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(196,65,90,0.35);
+        }
+        .logo-text-wrap .logo-name {
+            font-family: var(--font-disp);
+            font-size: 1.35rem; font-weight: 700; line-height: 1;
+            color: #fff; transition: color .3s;
+        }
+        .logo-text-wrap .logo-name em { font-style: italic; color: #F8A0B5; }
+        .logo-text-wrap .logo-sub {
+            font-size: 0.62rem; color: rgba(255,255,255,0.55);
+            letter-spacing: 0.08em; margin-top: 2px; transition: color .3s;
+        }
+        #navbar.scrolled .logo-name { color: var(--dark); }
+        #navbar.scrolled .logo-name em { color: var(--rose); }
+        #navbar.scrolled .logo-sub { color: var(--muted); }
+
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-links a {
+            font-size: 0.875rem; font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            position: relative; transition: color .2s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 1.5px;
+            background: currentColor; transition: width .2s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+        #navbar.scrolled .nav-links a { color: var(--mid); }
+        #navbar.scrolled .nav-links a:hover { color: var(--rose); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; padding: 4px; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: white; border-radius: 2px; transition: all .3s; }
+        #navbar.scrolled .hamburger span { background: var(--dark); }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+        #mobileMenu {
+            display: none;
+            position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: white; z-index: 999;
+            flex-direction: column; padding: 20px 24px 28px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            border-top: 2px solid var(--rose-soft); gap: 4px;
+        }
+        #mobileMenu.open { display: flex; }
+        #mobileMenu a {
+            font-size: 0.95rem; font-weight: 500;
+            color: var(--mid); padding: 12px 0;
+            border-bottom: 1px solid var(--rose-soft); transition: color .2s;
+        }
+        #mobileMenu a:last-child { border-bottom: none; }
+        #mobileMenu a:hover { color: var(--rose); }
+        #mobileMenu .btn-primary { margin-top: 10px; text-align: center; border-radius: 12px; }
+
+        /* ================================================
+           HERO
+        ================================================ */
+        #hero {
+            min-height: 100vh;
+            background: linear-gradient(140deg, #220E17 0%, #4A1A2D 35%, #8A2848 65%, #C4415A 100%);
+            position: relative;
+            display: flex; align-items: center;
+            overflow: hidden;
+        }
+        .hero-rings { position: absolute; inset: 0; pointer-events: none; }
+        .hero-ring {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.07);
+            animation: ringPulse 7s ease-in-out infinite;
+        }
+        .hero-ring:nth-child(1) { width:480px;height:480px;right:-150px;top:-150px;animation-delay:0s; }
+        .hero-ring:nth-child(2) { width:700px;height:700px;right:-250px;top:-250px;animation-delay:1.2s; }
+        .hero-ring:nth-child(3) { width:950px;height:950px;right:-370px;top:-370px;animation-delay:2.4s; }
+        .hero-ring:nth-child(4) { width:350px;height:350px;left:-120px;bottom:-80px;animation-delay:3.6s; }
+        @keyframes ringPulse { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.04);opacity:1} }
+
+        #particles { position:absolute;inset:0;pointer-events:none; }
+        .ptcl { position:absolute;border-radius:50%;background:rgba(255,255,255,.35);animation:ptclFloat linear infinite; }
+        @keyframes ptclFloat { 0%{opacity:0;transform:translateY(0) scale(1)} 10%{opacity:1} 90%{opacity:1} 100%{opacity:0;transform:translateY(-120px) scale(0)} }
+
+        .hero-grid { display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2; }
+
+        .hero-eyebrow {
+            display:inline-flex;align-items:center;gap:10px;
+            font-size:0.78rem;font-weight:600;letter-spacing:0.2em;
+            text-transform:uppercase;color:rgba(255,255,255,0.65);
+            margin-bottom:20px;opacity:0;
+            animation:fadeSlideUp .8s ease forwards .3s;
+        }
+        .hero-eyebrow i { color:#F8A0B5;font-size:0.7rem; }
+        .hero-title {
+            font-family:var(--font-disp);
+            font-size:clamp(2.8rem,6vw,5.5rem);font-weight:600;
+            color:#fff;line-height:1.02;margin-bottom:22px;
+            opacity:0;animation:fadeSlideUp .8s ease forwards .5s;
+        }
+        .hero-title em { font-style:italic;color:#F8A0B5; }
+        .hero-desc {
+            font-size:1.05rem;color:rgba(255,255,255,.7);
+            font-weight:300;line-height:1.8;max-width:450px;margin-bottom:38px;
+            opacity:0;animation:fadeSlideUp .8s ease forwards .7s;
+        }
+        .hero-cta { display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeSlideUp .8s ease forwards .9s; }
+        .btn-hero-main {
+            background:#fff;color:var(--rose-dark);
+            font-size:0.95rem;font-weight:700;
+            padding:16px 36px;border-radius:50px;
+            box-shadow:0 10px 30px rgba(0,0,0,.25);
+            display:inline-flex;align-items:center;gap:10px;transition:all .3s;
+        }
+        .btn-hero-main:hover { transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.3); }
+        .btn-hero-ghost {
+            background:rgba(255,255,255,.1);color:#fff;
+            font-size:0.95rem;font-weight:500;
+            padding:16px 36px;border-radius:50px;
+            border:1.5px solid rgba(255,255,255,.35);
+            display:inline-flex;align-items:center;gap:10px;transition:all .3s;
+        }
+        .btn-hero-ghost:hover { background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.7); }
+        .hero-stats { display:flex;gap:40px;margin-top:56px;opacity:0;animation:fadeSlideUp .8s ease forwards 1.1s; }
+        .h-stat-num { font-family:var(--font-disp);font-size:2.4rem;font-weight:700;color:#fff;line-height:1; }
+        .h-stat-lbl { font-size:0.72rem;color:rgba(255,255,255,.55);margin-top:4px;font-weight:400; }
+
+        .hero-visual { position:relative;display:flex;align-items:center;justify-content:center;opacity:0;animation:fadeIn 1s ease forwards 1s; }
+        .hero-tooth { width:320px;max-width:100%;filter:drop-shadow(0 24px 60px rgba(0,0,0,.35));animation:toothFloat 4.5s ease-in-out infinite; }
+        @keyframes toothFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-22px)} }
+
+        .h-badge { position:absolute;background:#fff;border-radius:16px;padding:12px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.18); }
+        .h-badge-1 { bottom:50px;left:-20px;opacity:0;animation:slideFromLeft .8s ease forwards 1.6s,badgeFloat1 3.5s ease-in-out 2.5s infinite; }
+        .h-badge-2 { top:60px;right:-20px;opacity:0;animation:slideFromRight .8s ease forwards 1.8s,badgeFloat2 3.5s ease-in-out 2.7s infinite; }
+        @keyframes slideFromLeft { from{transform:translateX(-20px);opacity:0} to{transform:translateX(0);opacity:1} }
+        @keyframes slideFromRight { from{transform:translateX(20px);opacity:0} to{transform:translateX(0);opacity:1} }
+        @keyframes badgeFloat1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        @keyframes badgeFloat2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+        .h-badge-icon { width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0; }
+        .h-badge-icon.pink { background:var(--rose-pale); }
+        .h-badge-icon.gold { background:#FEF3C7; }
+        .h-badge-name { font-size:0.8rem;font-weight:700;color:var(--dark); }
+        .h-badge-sub { font-size:0.7rem;color:var(--muted);margin-top:1px; }
+
+        .scroll-cue {
+            position:absolute;bottom:38px;left:50%;transform:translateX(-50%);
+            display:flex;flex-direction:column;align-items:center;gap:7px;
+            color:rgba(255,255,255,.45);font-size:0.65rem;letter-spacing:.15em;
+            text-transform:uppercase;opacity:0;animation:fadeIn .8s ease forwards 2.2s;
+        }
+        .scroll-mouse { width:20px;height:34px;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;position:relative; }
+        .scroll-mouse::after { content:'';position:absolute;width:3px;height:7px;background:rgba(255,255,255,.5);border-radius:2px;top:6px;left:50%;transform:translateX(-50%);animation:scrollDot 2.2s ease-in-out infinite; }
+        @keyframes scrollDot { 0%{top:6px;opacity:1} 100%{top:20px;opacity:0} }
+        @keyframes fadeSlideUp { from{transform:translateY(28px);opacity:0} to{transform:translateY(0);opacity:1} }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+        /* ================================================
+           INFO BAR
+        ================================================ */
+        #infoBar { background:var(--rose-pale);border-top:1px solid var(--rose-soft);border-bottom:1px solid var(--rose-soft); }
+        .info-bar-row { display:flex;align-items:stretch; }
+        .info-cell { flex:1;display:flex;align-items:center;gap:16px;padding:22px 32px;border-right:1px solid var(--rose-soft);justify-content:center; }
+        .info-cell:last-child { border-right:none; }
+        .info-icon-box { width:46px;height:46px;background:var(--rose);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.05rem;flex-shrink:0;box-shadow:0 4px 14px rgba(196,65,90,.3); }
+        .info-lbl { font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted); }
+        .info-val { font-size:0.9rem;font-weight:600;color:var(--dark);margin-top:2px; }
+        .info-val a { color:var(--rose);transition:opacity .2s; }
+        .info-val a:hover { opacity:.75; }
+
+        /* ================================================
+           SERVICES — dengan tombol WA booking
+        ================================================ */
+        #layanan { background:#fff; }
+        .services-top { display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px; }
+        #servicesGrid { display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px; }
+
+        .svc-card {
+            background:var(--rose-blush);
+            border:1px solid var(--border);
+            border-radius:22px;padding:30px;
+            position:relative;overflow:hidden;
+            transition:all .3s ease;
+            cursor:default;
+            display:flex;flex-direction:column;
+        }
+        .svc-card::after {
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(135deg,var(--rose),var(--rose-dark));
+            opacity:0;transition:opacity .3s;
+        }
+        .svc-card:hover { transform:translateY(-7px);box-shadow:0 22px 55px rgba(196,65,90,.16); }
+        .svc-card:hover::after { opacity:1; }
+        .svc-card > * { position:relative;z-index:1; }
+
+        .svc-icon-wrap { width:62px;height:62px;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:22px;box-shadow:0 4px 14px rgba(196,65,90,.1);transition:background .3s; }
+        .svc-card:hover .svc-icon-wrap { background:rgba(255,255,255,.2); }
+        .svc-name { font-family:var(--font-disp);font-size:1.4rem;font-weight:600;color:var(--dark);margin-bottom:8px;transition:color .3s; }
+        .svc-desc { font-size:0.84rem;color:var(--mid);line-height:1.65;margin-bottom:16px;flex:1;transition:color .3s; }
+        .svc-price-lbl { font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .3s; }
+        .svc-price { font-family:var(--font-disp);font-size:1.15rem;font-weight:700;color:var(--rose);margin-top:4px;margin-bottom:18px;transition:color .3s; }
+
+        /* Tombol WA booking di kartu layanan */
+        .svc-book-btn {
+            display:inline-flex;align-items:center;justify-content:center;gap:8px;
+            background:rgba(37,211,102,0.12);
+            color:#128C7E;
+            border:1.5px solid rgba(37,211,102,0.35);
+            border-radius:50px;
+            font-size:0.78rem;font-weight:600;
+            padding:10px 18px;
+            transition:all .3s;
+            cursor:pointer;
+            text-decoration:none;
+            margin-top:auto;
+        }
+        .svc-book-btn:hover { background:#25D366;color:#fff;border-color:#25D366;transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.3); }
+        .svc-card:hover .svc-book-btn { background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.4); }
+        .svc-card:hover .svc-book-btn:hover { background:rgba(255,255,255,0.3);border-color:#fff; }
+
+        .svc-card:hover .svc-name,
+        .svc-card:hover .svc-desc,
+        .svc-card:hover .svc-price,
+        .svc-card:hover .svc-price-lbl { color:#fff; }
+
+        /* ================================================
+           PROMO
+        ================================================ */
+        #promo { background:linear-gradient(150deg,#FDF0F3 0%,#FDE8EE 100%); }
+        .swiper-promo { padding-bottom:44px !important; }
+        .promo-card { border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 10px 40px rgba(196,65,90,.1);display:grid;grid-template-columns:1fr 1fr;min-height:300px; }
+        .promo-img-wrap { overflow:hidden; }
+        .promo-img-wrap img { width:100%;height:100%;object-fit:cover;min-height:300px;transition:transform .6s ease; }
+        .promo-card:hover .promo-img-wrap img { transform:scale(1.04); }
+        .promo-body { padding:44px;display:flex;flex-direction:column;justify-content:center; }
+        .promo-badge-pill { display:inline-block;background:var(--rose-pale);color:var(--rose);font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 13px;border-radius:50px;margin-bottom:16px; }
+        .promo-title { font-family:var(--font-disp);font-size:clamp(1.4rem,2.5vw,2rem);font-weight:600;color:var(--dark);line-height:1.2;margin-bottom:12px; }
+        .promo-desc { font-size:0.88rem;color:var(--mid);line-height:1.65;margin-bottom:22px; }
+        .promo-valid { font-size:0.78rem;color:var(--muted);margin-bottom:24px; }
+        .promo-valid i { margin-right:6px;color:var(--rose-light); }
+        .swiper-pagination-bullet { background:var(--rose-soft) !important;opacity:1 !important; }
+        .swiper-pagination-bullet-active { background:var(--rose) !important; }
+
+        /* ================================================
+           GALLERY
+        ================================================ */
+        #galeri { background:#fff; }
+        .gallery-top { display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:50px; }
+        #galleryGrid { display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:230px;gap:14px; }
+        #galleryGrid .g-item:nth-child(3n+1) { grid-row:span 2; }
+        .g-item { border-radius:16px;overflow:hidden;position:relative;cursor:pointer; }
+        .g-item img { width:100%;height:100%;object-fit:cover;transition:transform .55s ease; }
+        .g-item:hover img { transform:scale(1.07); }
+        .g-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(28,10,16,.75) 0%,transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:18px; }
+        .g-item:hover .g-overlay { opacity:1; }
+        .g-cap { color:#fff;font-size:0.82rem;font-weight:500; }
+
+        #lightbox { display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center; }
+        #lightbox.on { display:flex; }
+        #lightbox img { max-width:90vw;max-height:90vh;object-fit:contain;border-radius:10px; }
+        #lbClose { position:absolute;top:18px;right:24px;background:none;color:#fff;font-size:2.2rem;line-height:1;cursor:pointer;transition:opacity .2s; }
+        #lbClose:hover { opacity:.7; }
+
+        /* ================================================
+           VIDEO SECTION — Native video, menyatu background
+        ================================================ */
+        #video-konten {
+            position: relative;
+            overflow: hidden;
+            background: #12050A;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Full-bleed background video */
+        .video-bg-wrap {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .video-bg-wrap video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        /* Gradient overlay agar teks terbaca */
+        .video-bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(18,5,10,0.88) 0%,
+                rgba(30,8,18,0.80) 35%,
+                rgba(50,15,30,0.60) 65%,
+                rgba(18,5,10,0.85) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Konten di atas video */
+        .video-content-wrap {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 110px 0;
+        }
+
+        .video-inner-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        /* Kiri: teks */
+        .video-text-side .section-label { color: #F8A0B5; }
+        .video-text-side .section-label::before { background: #F8A0B5; }
+        .video-text-side .section-title { color: #fff; }
+        .video-text-side .section-title em { font-style:italic;color:#F8A0B5; }
+        .video-text-side .section-sub { color: rgba(255,255,255,0.65); }
+
+        .video-points { display:flex;flex-direction:column;gap:16px;margin-top:32px; }
+        .vp-item {
+            display:flex;gap:16px;align-items:flex-start;
+            padding:16px 18px;
+            background:rgba(255,255,255,0.06);
+            backdrop-filter:blur(8px);
+            border-radius:14px;
+            border:1px solid rgba(255,255,255,0.1);
+            transition:all .25s;
+        }
+        .vp-item:hover { background:rgba(255,255,255,0.12);transform:translateX(4px);border-color:rgba(248,160,181,0.4); }
+        .vp-icon-box { width:46px;height:46px;background:rgba(196,65,90,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0; }
+        .vp-title { font-weight:600;font-size:0.92rem;color:#fff;margin-bottom:3px; }
+        .vp-sub { font-size:0.80rem;color:rgba(255,255,255,0.55);line-height:1.55; }
+
+        .video-ctas { display:flex;gap:12px;margin-top:32px;flex-wrap:wrap; }
+
+        /* Kanan: phone mockup menampilkan video thumbnail / reel link */
+        .video-phone-side { display:flex;justify-content:center;align-items:center; }
+
+        .phone-mockup {
+            position: relative;
+            width: 280px;
+            max-width: 100%;
+        }
+
+        .phone-frame {
+            background: linear-gradient(160deg, #2a1520 0%, #4a1a2d 100%);
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow:
+                0 40px 100px rgba(0,0,0,0.7),
+                0 0 0 1px rgba(255,255,255,0.08),
+                inset 0 0 0 1px rgba(255,255,255,0.04);
+            animation: phoneFloat 4s ease-in-out infinite;
+        }
+        @keyframes phoneFloat { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-16px) rotate(1deg)} }
+
+        .phone-screen {
+            background: #000;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9/16;
+        }
+        .phone-screen-inner {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #1a0a10 0%, #3d1525 50%, #c4415a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Animated shimmer on phone screen */
+        .phone-screen-inner::before {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg, transparent 0deg, rgba(196,65,90,0.15) 60deg, transparent 120deg);
+            animation: screenSpin 8s linear infinite;
+        }
+        @keyframes screenSpin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+
+        .phone-ig-logo {
+            width: 56px;height: 56px;
+            background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+            border-radius: 14px;
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;font-size:1.6rem;
+            box-shadow:0 8px 24px rgba(0,0,0,0.4);
+            position:relative;z-index:1;
+        }
+        .phone-play-btn {
+            width:64px;height:64px;
+            background:rgba(255,255,255,0.15);
+            backdrop-filter:blur(8px);
+            border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;font-size:1.4rem;
+            border:2px solid rgba(255,255,255,0.3);
+            position:relative;z-index:1;
+            transition:all .3s;
+            animation:playPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes playPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.3)} 50%{box-shadow:0 0 0 16px rgba(255,255,255,0)} }
+        .phone-reel-label {
+            font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.7);
+            letter-spacing:0.05em;text-align:center;position:relative;z-index:1;
+        }
+        .phone-handle {
+            font-family:var(--font-disp);font-size:1rem;font-weight:600;
+            color:#F8A0B5;position:relative;z-index:1;
+        }
+
+        /* Notch */
+        .phone-notch {
+            position:absolute;top:0;left:50%;transform:translateX(-50%);
+            width:80px;height:24px;background:#000;border-radius:0 0 14px 14px;z-index:10;
+        }
+
+        /* Glow ring around phone */
+        .phone-glow {
+            position:absolute;inset:-24px;
+            background:radial-gradient(ellipse at center,rgba(196,65,90,0.2) 0%,transparent 70%);
+            border-radius:50%;
+            pointer-events:none;
+            animation:glowPulse 3s ease-in-out infinite;
+        }
+        @keyframes glowPulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
+
+        /* Watch button overlay */
+        .phone-watch-overlay {
+            position:absolute;bottom:20px;left:12px;right:12px;z-index:10;
+        }
+        .phone-watch-btn {
+            display:flex;align-items:center;justify-content:center;gap:8px;
+            background:rgba(255,255,255,0.95);
+            color:var(--rose-dark);
+            font-size:0.72rem;font-weight:700;
+            padding:10px 16px;border-radius:50px;
+            border:none;cursor:pointer;
+            text-decoration:none;
+            transition:all .3s;
+            box-shadow:0 4px 16px rgba(0,0,0,0.3);
+        }
+        .phone-watch-btn:hover { background:#fff;transform:scale(1.04); }
+
+        /* ================================================
+           REVIEWS
+        ================================================ */
+        #review { background:linear-gradient(150deg,#FDF0F3 0%,#FDE8EE 100%); }
+        .reviews-wrap { display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start; }
+        .reviews-list { display:flex;flex-direction:column;gap:18px; }
+        .rv-card { background:#fff;border-radius:20px;padding:26px;border:1px solid var(--border);box-shadow:0 4px 20px rgba(196,65,90,.07);transition:transform .3s; }
+        .rv-card:hover { transform:translateY(-4px); }
+        .rv-head { display:flex;align-items:center;gap:14px;margin-bottom:14px; }
+        .rv-avatar { width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-light));display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-disp);font-size:1.3rem;font-weight:600;flex-shrink:0; }
+        .rv-name { font-weight:600;font-size:0.95rem;color:var(--dark); }
+        .rv-date { font-size:0.72rem;color:var(--muted);margin-top:2px; }
+        .rv-stars { margin-left:auto;color:#F59E0B;font-size:0.85rem;letter-spacing:2px; }
+        .rv-text { font-size:0.875rem;color:var(--mid);line-height:1.75;font-style:italic; }
+        .rv-text::before { content:'"';font-family:var(--font-disp);font-size:2rem;color:var(--rose-soft);line-height:0.4;vertical-align:-0.5em;margin-right:3px; }
+
+        .form-card { background:#fff;border-radius:24px;padding:38px;border:1px solid var(--border);box-shadow:0 10px 40px rgba(196,65,90,.1);position:sticky;top:100px; }
+        .form-title { font-family:var(--font-disp);font-size:1.75rem;font-weight:600;color:var(--dark);margin-bottom:4px; }
+        .form-sub { font-size:0.84rem;color:var(--muted);margin-bottom:26px; }
+        .form-group { margin-bottom:20px; }
+        .form-lbl { display:block;font-size:0.78rem;font-weight:600;color:var(--mid);margin-bottom:8px;letter-spacing:.04em; }
+        .form-ctrl { width:100%;padding:13px 17px;border:1.5px solid var(--border);border-radius:12px;font-family:var(--font-body);font-size:0.88rem;color:var(--dark);background:#fff;transition:border-color .2s,box-shadow .2s;outline:none; }
+        .form-ctrl:focus { border-color:var(--rose);box-shadow:0 0 0 3px rgba(196,65,90,.1); }
+        .form-ctrl::placeholder { color:var(--muted); }
+        textarea.form-ctrl { resize:vertical;min-height:120px; }
+        .star-wrap { display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:6px; }
+        .star-wrap input { display:none; }
+        .star-wrap label { font-size:1.9rem;color:var(--border);cursor:pointer;transition:color .15s,transform .15s; }
+        .star-wrap label:hover { transform:scale(1.15); }
+        .star-wrap:hover label,.star-wrap input:checked ~ label { color:#F59E0B; }
+        .star-wrap label:hover ~ label { color:var(--border) !important; }
+        .btn-submit { width:100%;background:linear-gradient(135deg,var(--rose),var(--rose-dark));color:#fff;padding:15px;border-radius:12px;font-size:0.9rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .3s;margin-top:6px; }
+        .btn-submit:hover { transform:translateY(-2px);box-shadow:0 10px 26px rgba(196,65,90,.32); }
+        .btn-submit:disabled { opacity:.7;transform:none;cursor:not-allowed; }
+        #formSuccess { display:none;text-align:center;padding:30px 10px; }
+        #formSuccess .fs-icon { font-size:3rem;color:var(--rose);margin-bottom:14px; }
+        #formSuccess h3 { font-family:var(--font-disp);font-size:1.6rem;color:var(--dark);margin-bottom:8px; }
+        #formSuccess p { font-size:0.875rem;color:var(--muted);line-height:1.7; }
+
+        /* ================================================
+           WA MODAL (popup booking layanan)
+        ================================================ */
+        #waModal {
+            display:none;position:fixed;inset:0;
+            background:rgba(0,0,0,0.55);z-index:10000;
+            align-items:center;justify-content:center;
+            padding:20px;
+        }
+        #waModal.on { display:flex; }
+        .wa-modal-box {
+            background:#fff;border-radius:24px;
+            padding:36px;max-width:460px;width:100%;
+            position:relative;
+            box-shadow:0 30px 80px rgba(0,0,0,0.25);
+            animation:modalPop .3s cubic-bezier(.34,1.56,.64,1) both;
+        }
+        @keyframes modalPop { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+        .wa-modal-close {
+            position:absolute;top:16px;right:18px;
+            background:var(--rose-pale);border:none;
+            width:32px;height:32px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            color:var(--rose);font-size:1rem;cursor:pointer;
+            transition:all .2s;
+        }
+        .wa-modal-close:hover { background:var(--rose);color:#fff; }
+        .wa-modal-icon { font-size:2.5rem;margin-bottom:12px;text-align:center; }
+        .wa-modal-title { font-family:var(--font-disp);font-size:1.7rem;font-weight:600;color:var(--dark);text-align:center;margin-bottom:4px; }
+        .wa-modal-sub { font-size:0.85rem;color:var(--muted);text-align:center;margin-bottom:24px; }
+        .wa-modal-service {
+            background:var(--rose-pale);border:1.5px solid var(--rose-soft);
+            border-radius:12px;padding:12px 16px;margin-bottom:20px;
+            font-size:0.88rem;font-weight:600;color:var(--rose);text-align:center;
+        }
+        .wa-form-group { margin-bottom:16px; }
+        .wa-form-lbl { display:block;font-size:0.75rem;font-weight:600;color:var(--mid);margin-bottom:6px;letter-spacing:.04em; }
+        .wa-form-ctrl { width:100%;padding:12px 15px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:0.88rem;color:var(--dark);background:#fff;transition:border-color .2s;outline:none; }
+        .wa-form-ctrl:focus { border-color:var(--rose);box-shadow:0 0 0 3px rgba(196,65,90,.1); }
+        .wa-form-ctrl::placeholder { color:var(--muted); }
+        textarea.wa-form-ctrl { resize:vertical;min-height:90px; }
+        .wa-send-btn {
+            width:100%;padding:14px;border-radius:12px;
+            background:linear-gradient(135deg,#25D366,#128C7E);
+            color:#fff;font-weight:700;font-size:0.9rem;
+            display:flex;align-items:center;justify-content:center;gap:10px;
+            border:none;cursor:pointer;transition:all .3s;margin-top:4px;
+        }
+        .wa-send-btn:hover { transform:translateY(-2px);box-shadow:0 10px 26px rgba(37,211,102,.35); }
+
+        /* ================================================
+           FOOTER
+        ================================================ */
+        footer { background:#130508;color:rgba(255,255,255,.6);padding:80px 0 36px; }
+        .footer-grid { display:grid;grid-template-columns:1.8fr 1fr 1fr 1.6fr;gap:50px;padding-bottom:50px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:36px; }
+        .footer-logo-name { font-family:var(--font-disp);font-size:1.5rem;font-weight:700;color:#fff;line-height:1; }
+        .footer-logo-name em { font-style:italic;color:#F8A0B5; }
+        .footer-logo-sub { font-size:0.62rem;color:rgba(255,255,255,.35);letter-spacing:.08em;margin-top:3px; }
+        .f-about { font-size:0.85rem;line-height:1.9;margin-top:18px;margin-bottom:24px; }
+        .socials { display:flex;gap:10px; }
+        .social-btn { width:38px;height:38px;border:1px solid rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);font-size:0.95rem;transition:all .25s; }
+        .social-btn:hover { background:var(--rose);border-color:var(--rose);color:#fff; }
+        .footer-heading { font-size:0.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px; }
+        .footer-links a { display:block;font-size:0.85rem;color:rgba(255,255,255,.55);padding:6px 0;transition:color .2s; }
+        .footer-links a:hover { color:#F8A0B5; }
+        .f-contact-row { display:flex;gap:12px;margin-bottom:16px; }
+        .f-contact-row i { color:var(--rose-light);margin-top:3px;font-size:0.85rem;flex-shrink:0; }
+        .f-contact-row span { font-size:0.84rem;line-height:1.7; }
+        .footer-bottom { display:flex;align-items:center;justify-content:space-between;font-size:0.78rem; }
+
+        #scrollTop { position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:linear-gradient(135deg,var(--rose),var(--rose-dark));color:#fff;border:none;border-radius:50%;font-size:1rem;box-shadow:0 6px 20px rgba(196,65,90,.4);z-index:888;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s; }
+        #scrollTop.vis { opacity:1;transform:translateY(0);pointer-events:auto; }
+        #scrollTop:hover { transform:translateY(-4px); }
+
+        /* WA floating button */
+        #waFloat {
+            position:fixed;bottom:30px;left:30px;
+            width:56px;height:56px;
+            background:linear-gradient(135deg,#25D366,#128C7E);
+            color:#fff;border:none;border-radius:50%;
+            font-size:1.5rem;
+            box-shadow:0 6px 22px rgba(37,211,102,.5);
+            z-index:888;
+            display:flex;align-items:center;justify-content:center;
+            text-decoration:none;
+            animation:waFloat 3s ease-in-out infinite;
+            transition:transform .2s;
+        }
+        #waFloat:hover { transform:scale(1.12); }
+        @keyframes waFloat { 0%,100%{box-shadow:0 6px 22px rgba(37,211,102,.5),0 0 0 0 rgba(37,211,102,.4)} 50%{box-shadow:0 6px 22px rgba(37,211,102,.5),0 0 0 14px rgba(37,211,102,0)} }
+
+        #toast { position:fixed;bottom:90px;right:30px;background:#fff;border-radius:14px;padding:15px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 40px rgba(0,0,0,.15);font-size:0.85rem;font-weight:500;color:var(--dark);z-index:9999;border-left:3px solid var(--rose);max-width:320px;transform:translateY(20px);opacity:0;pointer-events:none;transition:all .3s; }
+        #toast.on { transform:translateY(0);opacity:1;pointer-events:auto; }
+        #toast i { font-size:1.1rem; }
+
+        /* ================================================
+           RESPONSIVE
+        ================================================ */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns:1fr; }
+            .hero-visual { display:none; }
+            #hero { min-height:auto;padding:150px 0 90px; }
+            .hero-desc { max-width:100%; }
+            .footer-grid { grid-template-columns:1fr 1fr;gap:36px; }
+            #galleryGrid { grid-template-columns:repeat(3,1fr); }
+            .video-inner-grid { grid-template-columns:1fr;gap:50px; }
+            .video-phone-side { order:-1; }
+            .phone-mockup { width:220px; }
+        }
+
+        @media (max-width: 768px) {
+            .section { padding:72px 0; }
+            .nav-links { display:none; }
+            .hamburger { display:flex; }
+            .info-bar-row { flex-direction:column; }
+            .info-cell { border-right:none;border-bottom:1px solid var(--rose-soft);width:100%;justify-content:flex-start; }
+            .info-cell:last-child { border-bottom:none; }
+            .services-top { flex-direction:column;gap:20px;align-items:flex-start; }
+            #servicesGrid { grid-template-columns:1fr; }
+            .promo-card { grid-template-columns:1fr; }
+            .promo-img-wrap img { height:220px;min-height:220px; }
+            #galleryGrid { grid-template-columns:repeat(2,1fr);grid-auto-rows:180px; }
+            #galleryGrid .g-item:nth-child(3n+1) { grid-row:span 1; }
+            .reviews-wrap { grid-template-columns:1fr; }
+            .form-card { position:static; }
+            .footer-grid { grid-template-columns:1fr;gap:28px; }
+            .footer-bottom { flex-direction:column;gap:8px;text-align:center; }
+            .gallery-top { flex-direction:column;gap:18px;align-items:flex-start; }
+            .hero-stats { gap:24px; }
+            .video-ctas { flex-direction:column; }
+            .video-ctas .btn { justify-content:center; }
+            #video-konten { min-height:auto; }
+            .video-content-wrap { padding:72px 0; }
+        }
+
+        @media (max-width: 480px) {
+            #galleryGrid { grid-template-columns:1fr; }
+            .hero-cta { flex-direction:column;align-items:flex-start; }
+            .btn-hero-main,.btn-hero-ghost { width:100%;justify-content:center; }
+            .wa-modal-box { padding:24px; }
+            #waFloat { width:48px;height:48px;font-size:1.2rem;bottom:24px;left:24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ================================================
+     NAVBAR
+================================================ -->
+<nav id="navbar">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo">
+                <div class="logo-bubble">🌹</div>
+                <div class="logo-text-wrap">
+                    <div class="logo-name"><em>Rose</em> Dental Care</div>
+                    <div class="logo-sub">Klinik Gigi Profesional · Gresik</div>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#layanan">Layanan</a></li>
+                <li><a href="#promo">Promo</a></li>
+                <li><a href="#galeri">Rose Family</a></li>
+                <li><a href="#video-konten">Video</a></li>
+                <li><a href="#review">Ulasan</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+                <li>
+                    <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" class="btn btn-primary">
+                        <i class="fas fa-calendar-check"></i> Reservasi
+                    </a>
+                </li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div id="mobileMenu">
+    <a href="#layanan">Layanan</a>
+    <a href="#promo">Promo</a>
+    <a href="#galeri">Rose Family</a>
+    <a href="#video-konten">Video</a>
+    <a href="#review">Ulasan</a>
+    <a href="#kontak">Kontak</a>
+    <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" class="btn btn-primary" style="border-radius:12px;">
+        <i class="fab fa-whatsapp"></i> Reservasi via WhatsApp
+    </a>
+</div>
+
+<!-- ================================================
+     HERO
+================================================ -->
+<section id="hero">
+    <div class="hero-rings">
+        <div class="hero-ring"></div><div class="hero-ring"></div>
+        <div class="hero-ring"></div><div class="hero-ring"></div>
+    </div>
+    <div id="particles"></div>
+    <div class="container" style="width:100%;">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-eyebrow">
+                    <i class="fas fa-star-of-life"></i>
+                    Klinik Gigi Terpercaya di Gresik
+                </div>
+                <h1 class="hero-title">Senyum <em>Indah</em>,<br>Hidup Sehat</h1>
+                <p class="hero-desc">Rose Dental Care hadir dengan layanan perawatan gigi profesional yang nyaman, ramah, dan terjangkau. Kami merawat senyummu dengan hati.</p>
+                <div class="hero-cta">
+                    <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" class="btn-hero-main">
+                        <i class="fab fa-whatsapp"></i> Reservasi via WA
+                    </a>
+                    <a href="#layanan" class="btn-hero-ghost">
+                        <i class="fas fa-stethoscope"></i> Lihat Layanan
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div><div class="h-stat-num">1000+</div><div class="h-stat-lbl">Pasien Puas</div></div>
+                    <div><div class="h-stat-num">10+</div><div class="h-stat-lbl">Jenis Layanan</div></div>
+                    <div><div class="h-stat-num">5 ★</div><div class="h-stat-lbl">Rating Rata-rata</div></div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <svg class="hero-tooth" viewBox="0 0 380 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="ts"><feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="rgba(0,0,0,0.25)"/></filter>
+                        <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.97"/>
+                            <stop offset="100%" stop-color="#fde8ee" stop-opacity="0.92"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M90 70 C55 70, 28 110, 28 162 C28 224, 48 265, 78 305 C96 330, 106 370, 126 402 C136 422, 155 432, 174 432 C186 432, 196 422, 196 412 C196 422, 206 432, 218 432 C237 432, 256 422, 266 402 C286 370, 296 330, 314 305 C344 265, 364 224, 364 162 C364 110, 337 70, 302 70 C272 70, 253 84, 237 106 C226 120, 216 131, 196 131 C176 131, 166 120, 155 106 C139 84, 120 70, 90 70 Z" fill="url(#tg)" filter="url(#ts)"/>
+                    <path d="M104 92 C78 104, 62 136, 62 164 C62 180, 67 196, 74 211" stroke="rgba(255,255,255,0.55)" stroke-width="7" stroke-linecap="round"/>
+                    <path d="M122 292 C122 304, 128 342, 144 374 C154 394, 168 414, 180 424" stroke="#F8A0B5" stroke-width="5.5" stroke-linecap="round" opacity="0.75"/>
+                    <path d="M196 295 C196 308, 196 348, 196 376 C196 396, 196 412, 196 424" stroke="#F8A0B5" stroke-width="5.5" stroke-linecap="round" opacity="0.55"/>
+                    <path d="M270 292 C270 304, 264 342, 248 374 C238 394, 224 414, 212 424" stroke="#F8A0B5" stroke-width="5.5" stroke-linecap="round" opacity="0.75"/>
+                    <line x1="196" y1="133" x2="196" y2="294" stroke="#FECDD3" stroke-width="2.5" stroke-dasharray="7 5"/>
+                    <circle cx="336" cy="72" r="7" fill="#F8A0B5" opacity="0.7"/>
+                    <circle cx="352" cy="50" r="4" fill="white" opacity="0.55"/>
+                    <circle cx="318" cy="44" r="3" fill="#F8A0B5" opacity="0.5"/>
+                    <circle cx="58" cy="94" r="6" fill="#F8A0B5" opacity="0.65"/>
+                    <circle cx="42" cy="70" r="3.5" fill="white" opacity="0.5"/>
+                </svg>
+                <div class="h-badge h-badge-1">
+                    <div class="h-badge-icon gold">⭐</div>
+                    <div><div class="h-badge-name">Rating Sempurna</div><div class="h-badge-sub">5.0 dari pasien kami</div></div>
+                </div>
+                <div class="h-badge h-badge-2">
+                    <div class="h-badge-icon pink"><i class="fas fa-clock" style="color:var(--rose);"></i></div>
+                    <div><div class="h-badge-name">Buka Setiap Hari</div><div class="h-badge-sub">09.00 – 21.00 WIB</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-cue"><div class="scroll-mouse"></div><span>Scroll</span></div>
+</section>
+
+<!-- ================================================
+     INFO BAR
+================================================ -->
+<div id="infoBar">
+    <div style="max-width:100%;">
+        <div class="info-bar-row">
+            <div class="info-cell">
+                <div class="info-icon-box"><i class="fas fa-sun"></i></div>
+                <div><div class="info-lbl">Sesi Pagi</div><div class="info-val">09.00 – 15.00 WIB</div></div>
+            </div>
+            <div class="info-cell">
+                <div class="info-icon-box"><i class="fas fa-moon"></i></div>
+                <div><div class="info-lbl">Sesi Sore</div><div class="info-val">15.00 – 21.00 WIB</div></div>
+            </div>
+            <div class="info-cell">
+                <div class="info-icon-box"><i class="fas fa-location-dot"></i></div>
+                <div><div class="info-lbl">Alamat</div><div class="info-val">Jl. Raya Kedamean 05/02, Gresik 61175</div></div>
+            </div>
+            <div class="info-cell">
+                <div class="info-icon-box" style="background:#25D366;"><i class="fab fa-whatsapp"></i></div>
+                <div>
+                    <div class="info-lbl">Reservasi via WhatsApp</div>
+                    <div class="info-val">
+                        <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener">081 392 647 923 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================
+     LAYANAN
+================================================ -->
+<section id="layanan" class="section">
+    <div class="container">
+        <div class="services-top">
+            <div>
+                <div class="section-label">Layanan Kami</div>
+                <h2 class="section-title">Solusi Lengkap<br>Kesehatan Gigimu</h2>
+                <p class="section-sub">Ditangani dokter gigi berpengalaman &amp; bersertifikat resmi</p>
+            </div>
+            <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" class="btn btn-primary">
+                <i class="fab fa-whatsapp"></i> Reservasi Sekarang
+            </a>
+        </div>
+        <div id="servicesGrid">
+            <div class="svc-card skeleton" style="min-height:240px;border:none;"></div>
+            <div class="svc-card skeleton" style="min-height:240px;border:none;"></div>
+            <div class="svc-card skeleton" style="min-height:240px;border:none;"></div>
+            <div class="svc-card skeleton" style="min-height:240px;border:none;"></div>
+            <div class="svc-card skeleton" style="min-height:240px;border:none;"></div>
+            <div class="svc-card skeleton" style="min-height:240px;border:none;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================
+     PROMO
+================================================ -->
+<section id="promo" class="section">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:52px;">
+            <div class="section-label" style="justify-content:center;">Promo &amp; Penawaran</div>
+            <h2 class="section-title">Harga Spesial<br>Untuk Senyummu</h2>
+            <p class="section-sub">Dapatkan perawatan terbaik dengan harga yang sangat terjangkau</p>
+        </div>
+        <div class="swiper swiper-promo" id="promoSwiper">
+            <div class="swiper-wrapper" id="promoWrapper">
+                <div class="swiper-slide">
+                    <div class="promo-card skeleton" style="min-height:300px;border-radius:24px;"></div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================
+     GALERI
+================================================ -->
+<section id="galeri" class="section">
+    <div class="container">
+        <div class="gallery-top">
+            <div>
+                <div class="section-label">Rose Family</div>
+                <h2 class="section-title">Keluarga Besar<br>Rose Dental Care</h2>
+                <p class="section-sub">Momen spesial dan senyum indah pasien-pasien kami</p>
+            </div>
+            <a href="https://www.instagram.com/rosedentalcare_/" target="_blank" rel="noopener" class="btn btn-outline">
+                <i class="fab fa-instagram"></i> Lihat Instagram
+            </a>
+        </div>
+        <div id="galleryGrid">
+            <div class="g-item skeleton"></div>
+            <div class="g-item skeleton"></div>
+            <div class="g-item skeleton" style="grid-row:span 2;"></div>
+            <div class="g-item skeleton"></div>
+            <div class="g-item skeleton"></div>
+        </div>
+    </div>
+</section>
+
+<div id="lightbox">
+    <button id="lbClose">×</button>
+    <img id="lbImg" src="" alt="Galeri Rose Dental Care">
+</div>
+
+<!-- ================================================
+     VIDEO KONTEN — Native background video
+================================================ -->
+<section id="video-konten">
+    <!-- Background video (autoplay, muted, loop) -->
+    <div class="video-bg-wrap">
+        <!--
+            VIDEO LOKAL: letakkan file video Anda (mp4) di folder yang sama dengan index.html
+            lalu ganti src dengan nama file, contoh: src="video-rdc.mp4"
+            
+            Saat ini menggunakan gradient animated sebagai fallback visual yang menyatu.
+            Untuk memasang video asli Instagram Reel Anda, download/export videonya ke MP4
+            lalu pasang di tag <source> di bawah ini.
+        -->
+        <video autoplay muted loop playsinline poster="" id="bgVideo">
+            <!-- <source src="video-rdc.mp4" type="video/mp4"> -->
+        </video>
+    </div>
+    <!-- Overlay gradient -->
+    <div class="video-bg-overlay"></div>
+
+    <!-- Konten -->
+    <div class="video-content-wrap">
+        <div class="container">
+            <div style="text-align:center;margin-bottom:64px;" data-aos="fade-up">
+                <div class="section-label" style="color:#F8A0B5;justify-content:center;">
+                    <span style="background:#F8A0B5;width:22px;height:2px;display:block;border-radius:2px;"></span>
+                    Video &amp; Konten
+                </div>
+                <h2 class="section-title" style="color:#fff;">Saksikan Transformasi<br><em style="font-style:italic;color:#F8A0B5;">Nyata</em> Pasien Kami</h2>
+                <p class="section-sub" style="color:rgba(255,255,255,0.6);">Lihat sendiri proses dan hasil perawatan profesional di Rose Dental Care</p>
+            </div>
+
+            <div class="video-inner-grid">
+                <!-- Kiri: teks & poin -->
+                <div class="video-text-side" data-aos="fade-right">
+                    <div class="section-label">Kenapa Pilih Kami?</div>
+                    <h3 class="section-title" style="font-size:clamp(1.8rem,3.2vw,2.8rem);color:#fff;">
+                        Dipercaya Ribuan<br>Pasien di <em>Gresik</em>
+                    </h3>
+                    <p class="section-sub" style="max-width:460px;">
+                        Dengan pengalaman merawat lebih dari 1.000 pasien, Rose Dental Care hadir
+                        memberikan perawatan gigi premium yang nyaman, bersih, dan hasilnya memuaskan.
+                    </p>
+
+                    <div class="video-points">
+                        <div class="vp-item" data-aos="fade-right" data-aos-delay="100">
+                            <div class="vp-icon-box">✅</div>
+                            <div><div class="vp-title">Dokter Bersertifikat Resmi</div><div class="vp-sub">Ditangani dokter gigi berpengalaman dengan sertifikasi resmi</div></div>
+                        </div>
+                        <div class="vp-item" data-aos="fade-right" data-aos-delay="160">
+                            <div class="vp-icon-box">🔬</div>
+                            <div><div class="vp-title">Peralatan Medis Modern</div><div class="vp-sub">Menggunakan alat medis terkini sesuai standar kesehatan nasional</div></div>
+                        </div>
+                        <div class="vp-item" data-aos="fade-right" data-aos-delay="220">
+                            <div class="vp-icon-box">💰</div>
+                            <div><div class="vp-title">Harga Sangat Terjangkau</div><div class="vp-sub">Kualitas premium dengan tarif ramah di kantong semua kalangan</div></div>
+                        </div>
+                        <div class="vp-item" data-aos="fade-right" data-aos-delay="280">
+                            <div class="vp-icon-box">📅</div>
+                            <div><div class="vp-title">Buka Setiap Hari Tanpa Libur</div><div class="vp-sub">Melayani pasien setiap hari pukul 09.00–21.00 WIB</div></div>
+                        </div>
+                    </div>
+
+                    <div class="video-ctas" style="margin-top:32px;">
+                        <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" class="btn btn-wa">
+                            <i class="fab fa-whatsapp"></i> Reservasi via WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/rosedentalcare_/" target="_blank" rel="noopener" class="btn" style="background:rgba(255,255,255,0.1);color:#fff;border:1.5px solid rgba(255,255,255,0.3);">
+                            <i class="fab fa-instagram"></i> Ikuti Kami
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Kanan: phone mockup dengan link ke Instagram Reel -->
+                <div class="video-phone-side" data-aos="fade-left" data-aos-delay="100">
+                    <div class="phone-mockup">
+                        <div class="phone-glow"></div>
+                        <div class="phone-frame">
+                            <div class="phone-screen">
+                                <div class="phone-notch"></div>
+                                <div class="phone-screen-inner">
+                                    <div class="phone-ig-logo">
+                                        <i class="fab fa-instagram"></i>
+                                    </div>
+                                    <div class="phone-play-btn">
+                                        <i class="fas fa-play" style="margin-left:3px;"></i>
+                                    </div>
+                                    <div class="phone-reel-label">Tonton Reel Transformasi<br>Pasien Rose Dental Care</div>
+                                    <div class="phone-handle">@rosedentalcare_</div>
+                                </div>
+                                <div class="phone-watch-overlay">
+                                    <a href="https://www.instagram.com/reels/DHi_NM2Tkzr/" target="_blank" rel="noopener" class="phone-watch-btn">
+                                        <i class="fab fa-instagram"></i>
+                                        Tonton di Instagram
+                                        <i class="fas fa-external-link-alt" style="font-size:0.65rem;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================
+     REVIEW
+================================================ -->
+<section id="review" class="section">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:52px;">
+            <div class="section-label" style="justify-content:center;">Ulasan Pasien</div>
+            <h2 class="section-title">Apa Kata Mereka?</h2>
+            <p class="section-sub">Ribuan pasien telah mempercayakan senyum indah mereka kepada kami</p>
+        </div>
+        <div class="reviews-wrap">
+            <div>
+                <div id="reviewsList">
+                    <div class="rv-card skeleton" style="min-height:140px;border:none;"></div>
+                    <div class="rv-card skeleton" style="min-height:140px;border:none;margin-top:18px;"></div>
+                    <div class="rv-card skeleton" style="min-height:140px;border:none;margin-top:18px;"></div>
+                </div>
+            </div>
+            <div>
+                <div class="form-card">
+                    <div id="formFields">
+                        <div class="form-title">Tulis Ulasan</div>
+                        <p class="form-sub">Pengalaman kamu sangat berarti bagi kami 💝</p>
+                        <div class="form-group">
+                            <label class="form-lbl" for="rvName">Nama Kamu</label>
+                            <input type="text" class="form-ctrl" id="rvName" placeholder="Contoh: Dewi Sartika..." maxlength="50" autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-lbl">Rating</label>
+                            <div class="star-wrap">
+                                <input type="radio" name="rating" id="s5" value="5"><label for="s5">★</label>
+                                <input type="radio" name="rating" id="s4" value="4"><label for="s4">★</label>
+                                <input type="radio" name="rating" id="s3" value="3"><label for="s3">★</label>
+                                <input type="radio" name="rating" id="s2" value="2"><label for="s2">★</label>
+                                <input type="radio" name="rating" id="s1" value="1"><label for="s1">★</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-lbl" for="rvComment">Pengalamanmu</label>
+                            <textarea class="form-ctrl" id="rvComment" rows="4" maxlength="500" placeholder="Ceritakan pengalamanmu di Rose Dental Care..."></textarea>
+                        </div>
+                        <button class="btn-submit" id="submitBtn" onclick="submitReview()">
+                            <i class="fas fa-paper-plane"></i> Kirim Ulasan
+                        </button>
+                    </div>
+                    <div id="formSuccess">
+                        <div class="fs-icon">🌹</div>
+                        <h3>Terima Kasih!</h3>
+                        <p>Ulasanmu sudah kami terima dan akan ditampilkan setelah diverifikasi oleh tim kami. Senyum terus ya! 💝</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================
+     FOOTER
+================================================ -->
+<footer id="kontak">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="nav-logo" style="margin-bottom:18px;">
+                    <div class="logo-bubble">🌹</div>
+                    <div class="logo-text-wrap">
+                        <div class="footer-logo-name"><em>Rose</em> Dental Care</div>
+                        <div class="footer-logo-sub">Klinik Gigi Profesional</div>
+                    </div>
+                </div>
+                <p class="f-about">Kami hadir untuk memberikan perawatan gigi terbaik dengan suasana yang nyaman, bersih, dan menyenangkan. Karena setiap senyum berhak mendapatkan yang terbaik.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/rosedentalcare_/" target="_blank" rel="noopener" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%20%F0%9F%8C%B9" target="_blank" rel="noopener" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.tiktok.com/@rosedentalcare_" target="_blank" rel="noopener" class="social-btn" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-heading">Layanan</div>
+                <div class="footer-links">
+                    <a href="#layanan">Scaling</a>
+                    <a href="#layanan">Tambal Gigi</a>
+                    <a href="#layanan">Behel</a>
+                    <a href="#layanan">Veneer</a>
+                    <a href="#layanan">Bleaching</a>
+                    <a href="#layanan">Crown</a>
+                    <a href="#layanan">PSA</a>
+                    <a href="#layanan">Bedah Gigi</a>
+                    <a href="#layanan">Pedo</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-heading">Navigasi</div>
+                <div class="footer-links">
+                    <a href="#hero">Beranda</a>
+                    <a href="#promo">Promo</a>
+                    <a href="#galeri">Rose Family</a>
+                    <a href="#video-konten">Video</a>
+                    <a href="#review">Ulasan</a>
+                    <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener">Reservasi WA</a>
+                    <a href="https://www.instagram.com/rosedentalcare_/" target="_blank" rel="noopener">Instagram</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-heading">Kontak &amp; Jam Buka</div>
+                <div class="f-contact-row">
+                    <i class="fas fa-location-dot"></i>
+                    <span>Jl. Raya Kedamean 05/02<br>Gresik 61175, Jawa Timur</span>
+                </div>
+                <div class="f-contact-row">
+                    <i class="fas fa-clock"></i>
+                    <span>Buka Setiap Hari<br>Pagi: 09.00 – 15.00 WIB<br>Sore: 15.00 – 21.00 WIB</span>
+                </div>
+                <div class="f-contact-row">
+                    <i class="fab fa-whatsapp" style="color:#25D366;"></i>
+                    <span>
+                        <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%20%F0%9F%8C%B9" target="_blank" rel="noopener" style="color:#25D366;">081 392 647 923</a>
+                    </span>
+                </div>
+                <div class="f-contact-row">
+                    <i class="fab fa-instagram"></i>
+                    <span>
+                        <a href="https://www.instagram.com/rosedentalcare_/" target="_blank" rel="noopener" style="color:#F8A0B5;">@rosedentalcare_</a>
+                    </span>
+                </div>
+                <div style="margin-top:22px;">
+                    <a href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" class="btn btn-wa">
+                        <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 Rose Dental Care. All rights reserved.</span>
+            <span>Made with <i class="fas fa-heart" style="color:var(--rose-mid);"></i> for beautiful smiles</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Scroll to top -->
+<button id="scrollTop" aria-label="Kembali ke atas"><i class="fas fa-chevron-up"></i></button>
+
+<!-- WA Floating Button -->
+<a id="waFloat" href="https://wa.me/6281392647923?text=Halo%20Rose%20Dental%20Care%2C%20saya%20ingin%20reservasi%20%F0%9F%8C%B9" target="_blank" rel="noopener" title="Chat WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Toast -->
+<div id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+
+<!-- ================================================
+     WA BOOKING MODAL
+================================================ -->
+<div id="waModal">
+    <div class="wa-modal-box">
+        <button class="wa-modal-close" onclick="closeWaModal()">×</button>
+        <div class="wa-modal-icon">🌹</div>
+        <div class="wa-modal-title">Reservasi Layanan</div>
+        <p class="wa-modal-sub">Isi data di bawah, pesan otomatis dikirim ke WhatsApp kami</p>
+        <div class="wa-modal-service" id="modalServiceName">Scaling</div>
+
+        <div class="wa-form-group">
+            <label class="wa-form-lbl" for="waName">Nama Lengkap *</label>
+            <input type="text" class="wa-form-ctrl" id="waName" placeholder="Contoh: Dewi Rahayu..." maxlength="60" autocomplete="name">
+        </div>
+        <div class="wa-form-group">
+            <label class="wa-form-lbl" for="waKeluhan">Keluhan / Kondisi Gigi</label>
+            <textarea class="wa-form-ctrl" id="waKeluhan" rows="3" placeholder="Contoh: Gigi terasa ngilu, ingin scaling, dll..."></textarea>
+        </div>
+        <div class="wa-form-group">
+            <label class="wa-form-lbl" for="waJadwal">Waktu yang Diinginkan</label>
+            <input type="text" class="wa-form-ctrl" id="waJadwal" placeholder="Contoh: Senin pagi, 2 Juni 2025..." maxlength="60">
+        </div>
+
+        <button class="wa-send-btn" onclick="sendWaBooking()">
+            <i class="fab fa-whatsapp"></i> Kirim ke WhatsApp
+        </button>
+    </div>
+</div>
+
+
+<!-- ================================================
+     SCRIPTS
+================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+
+<script>
+/* ================================================================
+   KONFIGURASI
+================================================================ */
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzdHERaJMyoNKfCFMwTGWzdDOW5oj8AMKrU-cnT4QBPcN11chSjPD9W0eNwv0XIiG0nLg/exec";
+const WA_NUMBER  = "6281392647923";
+
+/* ================================================================
+   FALLBACK DATA
+================================================================ */
+const FB_SERVICES = [
+    { nama:"Scaling",      deskripsi:"Pembersihan karang gigi profesional untuk menjaga kesehatan gusi yang optimal dan mencegah penyakit periodontal.", harga:"Mulai Rp 150.000", ikon:"🦷" },
+    { nama:"Tambal Gigi",  deskripsi:"Penambalan gigi berlubang dengan material komposit berkualitas tinggi yang kuat dan estetik.",                      harga:"Mulai Rp 200.000", ikon:"🔧" },
+    { nama:"Cabut Gigi",   deskripsi:"Pencabutan gigi sulung maupun permanen dengan teknik modern yang cepat dan meminimalkan rasa tidak nyaman.",        harga:"Mulai Rp 100.000", ikon:"⚕️" },
+    { nama:"Behel",        deskripsi:"Pemasangan kawat gigi untuk merapikan susunan gigi dan mendapatkan senyum yang lebih percaya diri.",                harga:"Mulai Rp 5.000.000",ikon:"😁" },
+    { nama:"Bleaching",    deskripsi:"Pemutihan gigi profesional untuk mendapatkan senyum lebih cerah dan penampilan yang lebih segar.",                  harga:"Mulai Rp 500.000", ikon:"✨" },
+    { nama:"Veneer",       deskripsi:"Lapisan tipis porselen yang dipasang di permukaan gigi untuk tampilan yang sempurna dan natural.",                   harga:"Mulai Rp 1.500.000",ikon:"💎" },
+    { nama:"Crown",        deskripsi:"Mahkota gigi untuk merestorasi gigi yang rusak parah sekaligus memulihkan fungsi dan estetikanya.",                  harga:"Mulai Rp 2.000.000",ikon:"👑" },
+    { nama:"PSA",          deskripsi:"Perawatan saluran akar untuk menyelamatkan gigi yang terinfeksi parah dari pencabutan dan menghilangkan nyeri.",     harga:"Mulai Rp 500.000", ikon:"🏥" },
+    { nama:"Bedah Gigi",   deskripsi:"Operasi gigi bungsu impaksi dan berbagai prosedur bedah mulut minor lainnya secara profesional.",                    harga:"Mulai Rp 800.000", ikon:"🔬" },
+    { nama:"Pedo",         deskripsi:"Perawatan gigi khusus anak-anak dalam suasana yang nyaman, menyenangkan, dan ramah anak.",                          harga:"Mulai Rp 100.000", ikon:"🧒" },
+];
+
+const FB_PROMOS = [
+    { judul:"Scaling Gratis Konsultasi", deskripsi:"Dapatkan konsultasi dokter gratis senilai Rp 50.000 setiap kali melakukan scaling di Rose Dental Care. Gigi bersih, konsultasi gratis!", url_gambar:"https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=700&h=440&fit=crop&q=80", tgl_berlaku:"31 Desember 2025" },
+    { judul:"Promo Behel Spesial", deskripsi:"Pasang behel ceramic sekarang dan nikmati kontrol gratis selama 3 bulan pertama. Investasi terbaik untuk senyum sempurnamu!", url_gambar:"https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=700&h=440&fit=crop&q=80", tgl_berlaku:"31 Oktober 2025" },
+    { judul:"Bleaching Duo Lebih Hemat", deskripsi:"Ajak pasangan atau sahabatmu bleaching bareng dan dapatkan diskon 20% untuk keduanya. Senyum cerah bersama lebih menyenangkan!", url_gambar:"https://images.unsplash.com/photo-1559734840-f9509ee5677f?w=700&h=440&fit=crop&q=80", tgl_berlaku:"30 September 2025" },
+];
+
+const FB_GALLERY = [
+    { url:"https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500&h=650&fit=crop&q=80", caption:"Senyum indah pasien kami 😊" },
+    { url:"https://images.unsplash.com/photo-1609840113636-d4acded7c5bd?w=500&h=340&fit=crop&q=80", caption:"Rose Family bahagia 💕" },
+    { url:"https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=500&h=700&fit=crop&q=80", caption:"Perawatan profesional ✨" },
+    { url:"https://images.unsplash.com/photo-1588776814546-1ffdc68e66c6?w=500&h=340&fit=crop&q=80", caption:"Konsultasi bersama dokter 👩‍⚕️" },
+    { url:"https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=500&h=340&fit=crop&q=80", caption:"After behel sempurna! 🎉" },
+    { url:"https://images.unsplash.com/photo-1559734840-f9509ee5677f?w=500&h=340&fit=crop&q=80", caption:"Gigi sehat, hidup happy 🌹" },
+];
+
+const FB_REVIEWS = [
+    { nama_pasien:"Sarah R.",  rating:5, komentar:"Dokternya ramah banget dan klininya bersih! Scaling disini nyaman sekali, tidak sakit sama sekali. Pasti balik lagi!", tanggal:"15/05/2025" },
+    { nama_pasien:"Budi S.",   rating:5, komentar:"Behel di Rose Dental Care recommended! Hasilnya bagus, dokternya telaten dan sabar menjelaskan. Worth it banget!", tanggal:"02/06/2025" },
+    { nama_pasien:"Dewi A.",   rating:5, komentar:"Pertama kali cabut gigi agak takut, tapi ternyata cepat dan tidak terlalu sakit. Staff juga baik-baik. Makasih Rose Dental!", tanggal:"20/04/2025" },
+    { nama_pasien:"Rizki P.",  rating:5, komentar:"Bleaching hasilnya keren banget! Gigi jadi putih dan bersih. Harganya juga terjangkau. Sangat puas sama hasilnya!", tanggal:"10/05/2025" },
+];
+
+/* ================================================================
+   INIT
+================================================================ */
+const apiOk = true; // GAS URL sudah dikonfigurasi
+let promoSwiper;
+let currentService = '';
+
+AOS.init({ duration: 680, easing: 'ease-out-cubic', once: true, offset: 55 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    genParticles();
+    initNavbar();
+    initScrollTop();
+    loadServices();
+    loadPromos();
+    loadGallery();
+    loadReviews();
+    initVideoBackground();
+});
+
+/* ----------------------------------------------------------------
+   VIDEO BACKGROUND — animated gradient fallback saat tidak ada file video
+---------------------------------------------------------------- */
+function initVideoBackground() {
+    const videoEl = document.getElementById('bgVideo');
+    if (!videoEl) return;
+
+    // Jika tidak ada source video, buat canvas animation sebagai background
+    if (videoEl.querySelectorAll('source').length === 0) {
+        videoEl.style.display = 'none';
+
+        // Buat canvas animated gradient sebagai pengganti video
+        const canvas = document.createElement('canvas');
+        canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+        videoEl.parentNode.insertBefore(canvas, videoEl);
+
+        const ctx = canvas.getContext('2d');
+        let t = 0;
+
+        function resizeCanvas() {
+            canvas.width  = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawFrame() {
+            const w = canvas.width, h = canvas.height;
+            if (!w || !h) { requestAnimationFrame(drawFrame); return; }
+
+            t += 0.003;
+
+            // Moving gradient background
+            const grd = ctx.createRadialGradient(
+                w * (0.3 + 0.2 * Math.sin(t)),
+                h * (0.3 + 0.15 * Math.cos(t * 0.7)),
+                0,
+                w * 0.5, h * 0.5,
+                Math.max(w, h) * 0.9
+            );
+            grd.addColorStop(0,   `hsla(${340 + 20 * Math.sin(t)}, 60%, 22%, 1)`);
+            grd.addColorStop(0.4, `hsla(${330 + 15 * Math.cos(t)}, 55%, 15%, 1)`);
+            grd.addColorStop(1,   `hsla(${320}, 70%, 8%, 1)`);
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, w, h);
+
+            // Soft bokeh circles
+            const circles = [
+                { x: 0.15 + 0.1*Math.sin(t*0.6), y: 0.25 + 0.08*Math.cos(t*0.8), r: 0.28, c:'rgba(196,65,90,0.18)' },
+                { x: 0.75 + 0.08*Math.cos(t*0.5), y: 0.6  + 0.1*Math.sin(t*0.7),  r: 0.22, c:'rgba(180,40,70,0.14)' },
+                { x: 0.5  + 0.12*Math.sin(t*0.9), y: 0.1  + 0.06*Math.cos(t*1.1), r: 0.18, c:'rgba(220,90,120,0.12)'},
+                { x: 0.85 + 0.05*Math.cos(t*0.4), y: 0.15 + 0.12*Math.sin(t*0.6), r: 0.15, c:'rgba(248,160,181,0.10)'},
+            ];
+            circles.forEach(c => {
+                const grd2 = ctx.createRadialGradient(c.x*w, c.y*h, 0, c.x*w, c.y*h, c.r*Math.max(w,h));
+                grd2.addColorStop(0, c.c);
+                grd2.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = grd2;
+                ctx.fillRect(0, 0, w, h);
+            });
+
+            // Subtle particle dots
+            ctx.fillStyle = 'rgba(248,160,181,0.25)';
+            for (let i = 0; i < 6; i++) {
+                const px = (0.1 + i*0.15 + 0.04*Math.sin(t + i)) * w;
+                const py = (0.2 + 0.6*((i*0.37 + t*0.03) % 1) + 0.02*Math.cos(t*2+i)) * h;
+                ctx.beginPath();
+                ctx.arc(px, py, 2 + Math.sin(t*2+i)*1, 0, Math.PI*2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(drawFrame);
+        }
+        drawFrame();
+    }
+}
+
+/* ----------------------------------------------------------------
+   NAVBAR
+---------------------------------------------------------------- */
+function initNavbar() {
+    const nav = document.getElementById('navbar');
+    const ham = document.getElementById('hamburger');
+    const mob = document.getElementById('mobileMenu');
+    function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 60); }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+    ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
+    mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); mob.classList.remove('open'); }));
+}
+
+/* ----------------------------------------------------------------
+   SCROLL TO TOP
+---------------------------------------------------------------- */
+function initScrollTop() {
+    const btn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => { btn.classList.toggle('vis', window.scrollY > 450); }, { passive:true });
+    btn.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+}
+
+/* ----------------------------------------------------------------
+   PARTICLES
+---------------------------------------------------------------- */
+function genParticles() {
+    const box = document.getElementById('particles');
+    for (let i = 0; i < 22; i++) {
+        const p = document.createElement('div');
+        p.className = 'ptcl';
+        const size = 3 + Math.random() * 5;
+        p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${20+Math.random()*75}%;animation-delay:${Math.random()*9}s;animation-duration:${7+Math.random()*7}s;`;
+        box.appendChild(p);
+    }
+}
+
+/* ----------------------------------------------------------------
+   WA BOOKING MODAL
+---------------------------------------------------------------- */
+function openWaModal(serviceName) {
+    currentService = serviceName;
+    document.getElementById('modalServiceName').textContent = '🦷 ' + serviceName;
+    document.getElementById('waName').value    = '';
+    document.getElementById('waKeluhan').value = '';
+    document.getElementById('waJadwal').value  = '';
+    document.getElementById('waModal').classList.add('on');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('waName').focus(), 300);
+}
+
+function closeWaModal() {
+    document.getElementById('waModal').classList.remove('on');
+    document.body.style.overflow = '';
+}
+
+document.getElementById('waModal').addEventListener('click', function(e) {
+    if (e.target === this) closeWaModal();
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeWaModal();
+        closeLb();
+    }
+});
+
+function sendWaBooking() {
+    const nama    = document.getElementById('waName').value.trim();
+    const keluhan = document.getElementById('waKeluhan').value.trim();
+    const jadwal  = document.getElementById('waJadwal').value.trim();
+
+    if (!nama) {
+        showToast('Tolong isi nama dulu ya! 🙏', 'err');
+        document.getElementById('waName').focus();
+        return;
+    }
+
+    // Susun pesan WA yang informatif
+    let pesan = `Halo Rose Dental Care! 🌹\n\n`;
+    pesan += `*Saya ingin reservasi layanan:* ${currentService}\n\n`;
+    pesan += `*Nama:* ${nama}\n`;
+    if (keluhan) pesan += `*Keluhan / Kondisi:* ${keluhan}\n`;
+    if (jadwal)  pesan += `*Waktu yang diinginkan:* ${jadwal}\n`;
+    pesan += `\nMohon konfirmasinya ya, terima kasih! 😊`;
+
+    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    closeWaModal();
+    showToast('Membuka WhatsApp... Selamat datang di Rose Dental! 🌹');
+}
+
+/* ----------------------------------------------------------------
+   API HELPER
+---------------------------------------------------------------- */
+async function gasGet(sheet) {
+    const controller = new AbortController();
+    const timeout    = setTimeout(() => controller.abort(), 8000);
+    try {
+        const res  = await fetch(`${GAS_API_URL}?sheet=${sheet}`, { signal:controller.signal });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error || 'API error');
+        return json.data;
+    } catch (err) {
+        clearTimeout(timeout);
+        throw err;
+    }
+}
+
+/* ----------------------------------------------------------------
+   LOAD SERVICES — dengan tombol WA booking
+---------------------------------------------------------------- */
+async function loadServices() {
+    const grid = document.getElementById('servicesGrid');
+    let list   = FB_SERVICES;
+    try { const d = await gasGet('layanan'); if (d && d.length) list = d; }
+    catch (err) { console.warn('[RDC] Layanan fallback:', err.message); }
+
+    grid.innerHTML = list.map((s, i) => `
+        <div class="svc-card" data-aos="fade-up" data-aos-delay="${(i % 4) * 80}">
+            <div class="svc-icon-wrap">${s.ikon || '🦷'}</div>
+            <div class="svc-name">${escHtml(s.nama || '')}</div>
+            <div class="svc-desc">${escHtml(s.deskripsi || '')}</div>
+            <div class="svc-price-lbl">Estimasi Biaya</div>
+            <div class="svc-price">${escHtml(s.harga || 'Hubungi Kami')}</div>
+            <a class="svc-book-btn" onclick="openWaModal('${escAttr(s.nama || '')}')">
+                <i class="fab fa-whatsapp"></i> Reservasi Sekarang
+            </a>
+        </div>
+    `).join('');
+    AOS.refresh();
+}
+
+/* ----------------------------------------------------------------
+   LOAD PROMOS
+---------------------------------------------------------------- */
+async function loadPromos() {
+    const wrap = document.getElementById('promoWrapper');
+    let list   = FB_PROMOS;
+    try { const d = await gasGet('promo'); if (d && d.length) list = d; }
+    catch (err) { console.warn('[RDC] Promo fallback:', err.message); }
+
+    wrap.innerHTML = list.map(p => `
+        <div class="swiper-slide">
+            <div class="promo-card">
+                <div class="promo-img-wrap">
+                    <img src="${escAttr(p.url_gambar||'')}" alt="${escAttr(p.judul||'')}" loading="lazy"
+                         onerror="this.parentElement.style.display='none'">
+                </div>
+                <div class="promo-body">
+                    <span class="promo-badge-pill">🎉 Promo Aktif</span>
+                    <div class="promo-title">${escHtml(p.judul||'')}</div>
+                    <div class="promo-desc">${escHtml(p.deskripsi||'')}</div>
+                    <div class="promo-valid"><i class="fas fa-calendar-alt"></i> Berlaku hingga ${escHtml(p.tgl_berlaku||'-')}</div>
+                    <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo Rose Dental Care! 🌹 Saya mau klaim promo: ' + (p.judul||''))}" target="_blank" rel="noopener" class="btn btn-wa">
+                        <i class="fab fa-whatsapp"></i> Klaim via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    if (promoSwiper) promoSwiper.destroy(true, true);
+    promoSwiper = new Swiper('#promoSwiper', {
+        slidesPerView: 1, spaceBetween: 24,
+        loop: list.length > 1,
+        autoplay: { delay:5500, disableOnInteraction:false, pauseOnMouseEnter:true },
+        pagination: { el:'.swiper-pagination', clickable:true },
+        grabCursor: true,
+    });
+}
+
+/* ----------------------------------------------------------------
+   LOAD GALLERY
+---------------------------------------------------------------- */
+async function loadGallery() {
+    const grid = document.getElementById('galleryGrid');
+    let list   = FB_GALLERY;
+    try { const d = await gasGet('galeri'); if (d && d.length) list = d; }
+    catch (err) { console.warn('[RDC] Galeri fallback:', err.message); }
+
+    grid.innerHTML = list.map((item, i) => `
+        <div class="g-item" data-aos="zoom-in" data-aos-delay="${(i%4)*70}"
+             onclick="openLb(${JSON.stringify(item.url)})">
+            <img src="${escAttr(item.url||'')}" alt="${escAttr(item.caption||'')}" loading="lazy"
+                 onerror="this.closest('.g-item').remove()">
+            <div class="g-overlay"><span class="g-cap">${escHtml(item.caption||'')}</span></div>
+        </div>
+    `).join('');
+    AOS.refresh();
+}
+
+/* Lightbox */
+function openLb(url) {
+    document.getElementById('lbImg').src = url;
+    document.getElementById('lightbox').classList.add('on');
+    document.body.style.overflow = 'hidden';
+}
+function closeLb() {
+    document.getElementById('lightbox').classList.remove('on');
+    document.body.style.overflow = '';
+}
+document.getElementById('lbClose').onclick = closeLb;
+document.getElementById('lightbox').onclick = e => { if (e.target === e.currentTarget) closeLb(); };
+
+/* ----------------------------------------------------------------
+   LOAD REVIEWS
+---------------------------------------------------------------- */
+async function loadReviews() {
+    const list = document.getElementById('reviewsList');
+    let data   = FB_REVIEWS;
+    try { const d = await gasGet('review'); if (d && d.length) data = d; }
+    catch (err) { console.warn('[RDC] Review fallback:', err.message); }
+
+    list.innerHTML = data.slice(0, 6).map((r, i) => {
+        const n    = Math.min(Math.max(parseInt(r.rating)||5, 1), 5);
+        const stars = '★'.repeat(n) + '☆'.repeat(5-n);
+        const init  = (r.nama_pasien||'A').charAt(0).toUpperCase();
+        return `
+            <div class="rv-card" data-aos="fade-up" data-aos-delay="${i*70}">
+                <div class="rv-head">
+                    <div class="rv-avatar">${init}</div>
+                    <div>
+                        <div class="rv-name">${escHtml(r.nama_pasien||'Anonymous')}</div>
+                        <div class="rv-date">${escHtml(r.tanggal||'')}</div>
+                    </div>
+                    <div class="rv-stars">${stars}</div>
+                </div>
+                <div class="rv-text">${escHtml(r.komentar||'')}</div>
+            </div>
+        `;
+    }).join('');
+    AOS.refresh();
+}
+
+/* ----------------------------------------------------------------
+   SUBMIT REVIEW
+---------------------------------------------------------------- */
+async function submitReview() {
+    const name    = document.getElementById('rvName').value.trim();
+    const rating  = document.querySelector('input[name="rating"]:checked')?.value;
+    const comment = document.getElementById('rvComment').value.trim();
+    const btn     = document.getElementById('submitBtn');
+
+    if (!name)              { showToast('Tolong isi namamu dulu ya! 🙏','err'); return; }
+    if (!rating)            { showToast('Kasih rating dulu dong! ⭐','err');    return; }
+    if (comment.length < 10){ showToast('Ceritanya minimal 10 karakter ya! 💬','err'); return; }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+    try {
+        const res  = await fetch(GAS_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type':'text/plain' },
+            body: JSON.stringify({ nama_pasien:name, rating:parseInt(rating), komentar:comment }),
+        });
+        const json = await res.json();
+        if (json.success) { showSuccess(); }
+        else { throw new Error(json.error||'Gagal'); }
+    } catch (err) {
+        console.error('[RDC] Submit review error:', err);
+        // Fallback: anggap berhasil jika CORS error (normal di GAS)
+        showSuccess();
+    }
+}
+
+function showSuccess() {
+    document.getElementById('formFields').style.display  = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+}
+
+/* ----------------------------------------------------------------
+   TOAST
+---------------------------------------------------------------- */
+let toastTimer;
+function showToast(msg, type) {
+    const t    = document.getElementById('toast');
+    const icon = t.querySelector('i');
+    const span = document.getElementById('toastMsg');
+    span.textContent        = msg;
+    icon.className          = type==='err' ? 'fas fa-exclamation-circle':'fas fa-check-circle';
+    icon.style.color        = type==='err' ? '#EF4444':'var(--rose)';
+    t.style.borderLeftColor = type==='err' ? '#EF4444':'var(--rose)';
+    t.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('on'), 3600);
+}
+
+/* ----------------------------------------------------------------
+   SECURITY
+---------------------------------------------------------------- */
+function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+function escAttr(str) {
+    return String(str).replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+</script>
+
+</body>
+</html>
