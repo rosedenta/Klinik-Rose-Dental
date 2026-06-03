@@ -1376,48 +1376,7 @@ document.addEventListener('DOMContentLoaded', () => {
     genParticles();
     initNavbar();
     initScrollTop();
-    /* ----------------------------------------------------------------
-   LOAD SERVICES — Update untuk merender Foto dari Admin
----------------------------------------------------------------- */
-async function loadServices() {
-    const grid = document.getElementById('servicesGrid');
-    let list   = FB_SERVICES;
-    try { 
-        const d = await gasGet('layanan'); 
-        if (d && d.length > 0) list = d; 
-    }
-    catch (err) { console.warn('[RDC] Layanan fallback:', err.message); }
-
-    grid.innerHTML = list.map((s, i) => {
-        // Cek apakah data dari Sheets/Fallback berupa link foto (http) atau emoji
-        // Perhatikan penulisan nama kolom 'ikon/gambar' sesuai dengan yang ada di Google Sheets
-        let visual = s['ikon/gambar'] || s.ikon || '🦷';
-        
-        // Logika untuk menampilkan img tag jika itu berupa link foto
-        let iconHtml = visual.startsWith('http') 
-            ? `<img src="${visual}" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">`
-            : visual;
-            
-        // Jika pakai foto, hilangkan padding bawaan kotak putihnya
-        let wrapStyle = visual.startsWith('http') ? 'padding:0; overflow:hidden; background:transparent;' : '';
-
-        return `
-        <div class="svc-card" data-aos="fade-up" data-aos-delay="${(i % 4) * 80}">
-            <div class="svc-icon-wrap" style="${wrapStyle}">${iconHtml}</div>
-            <div class="svc-name">${escHtml(s.nama || '')}</div>
-            <div class="svc-desc">${escHtml(s.deskripsi || '')}</div>
-            <div class="svc-price-lbl">Estimasi Biaya</div>
-            <div class="svc-price">${escHtml(s.harga || 'Hubungi Kami')}</div>
-            <a class="svc-book-btn" onclick="openWaModal('${escAttr(s.nama || '')}')">
-                <i class="fab fa-whatsapp"></i> Reservasi Sekarang
-            </a>
-        </div>
-        `;
-    }).join('');
-    
-    AOS.refresh();
-}
-
+    loadServices();
     loadPromos();
     loadGallery();
     loadReviews();
