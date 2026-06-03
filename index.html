@@ -1272,7 +1272,7 @@
 /* ================================================================
    KONFIGURASI
 ================================================================ */
-const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyFNpRlkH8S-2YAiMIj_IDxuNvqwijuVV17dzN8wDsxsMFsyahfELwWnoSsGS1U1Sm0/exec";
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyKNPR5Es1sYYL4jXIDGTkCYSpwRT6pQ4wrJLzFbxJprW4fXH3wIwPpPfrB00fz1IkD/exec";
 const WA_NUMBER  = "6281392647923";
 
 /* ================================================================
@@ -1526,15 +1526,22 @@ async function gasGet(sheet) {
 // ================================================================
 function toDriveDirectUrl(url) {
     if (!url) return '';
-    if (url.includes('export=view')) return url;
+    
+    // Jika sudah menggunakan format lh3 yang baru, langsung kembalikan
+    if (url.includes('lh3.googleusercontent.com')) return url;
+
+    // Ambil ID dari format https://drive.google.com/file/d/FILE_ID/view
     var matchFile = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
     if (matchFile) {
-        return 'https://drive.google.com/uc?export=view&id=' + matchFile[1];
+        return 'https://lh3.googleusercontent.com/d/' + matchFile[1];
     }
+
+    // Ambil ID dari format https://drive.google.com/open?id=FILE_ID
     var matchOpen = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
     if (matchOpen) {
-        return 'https://drive.google.com/uc?export=view&id=' + matchOpen[1];
+        return 'https://lh3.googleusercontent.com/d/' + matchOpen[1];
     }
+
     return url;
 }
 
