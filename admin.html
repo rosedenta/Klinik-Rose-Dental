@@ -88,11 +88,21 @@
 <!-- =====================================================
      HALAMAN LOGIN
 ====================================================== -->
-<div id="loginPage" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-900 via-rose-700 to-rose-500 px-4">
+<div id="loginPage" class="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+
+    <!-- 1. Background Video dari folder lokal -->
+    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+        <!-- Panggil video dari folder assets -->
+        <source src="assets/background.mp4" type="video/mp4">
+        Browser Anda tidak mendukung tag video.
+    </video>
+
+    <!-- 2. Overlay Gelap (Agar form login dan teks tetap mudah dibaca) -->
+    <div class="absolute inset-0 bg-black/50 z-0"></div>
 
     <!-- Lingkaran dekoratif -->
-    <div class="absolute top-[-100px] right-[-100px] w-96 h-96 rounded-full bg-white opacity-5 pointer-events-none"></div>
-    <div class="absolute bottom-[-80px] left-[-80px] w-72 h-72 rounded-full bg-white opacity-5 pointer-events-none"></div>
+    <div class="absolute top-[-100px] right-[-100px] w-96 h-96 rounded-full bg-white opacity-5 pointer-events-none z-0"></div>
+    <div class="absolute bottom-[-80px] left-[-80px] w-72 h-72 rounded-full bg-white opacity-5 pointer-events-none z-0"></div>
 
     <div class="relative z-10 max-w-md w-full">
         <!-- Logo -->
@@ -100,8 +110,8 @@
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-xl mb-4">
                 <span class="text-3xl">🌹</span>
             </div>
-            <h1 class="font-display text-3xl font-semibold text-white">Rose Dental Care</h1>
-            <p class="text-rose-200 text-sm mt-1">Dashboard Admin</p>
+            <h1 class="font-display text-3xl font-semibold text-white drop-shadow-md">Rose Dental Care</h1>
+            <p class="text-rose-100 text-sm mt-1 drop-shadow-sm">Dashboard Admin</p>
         </div>
 
         <!-- Card Login -->
@@ -154,7 +164,7 @@
         </div>
 
         <!-- Link balik ke website publik -->
-        <p class="text-center mt-4 text-rose-200 text-sm">
+        <p class="text-center mt-4 text-rose-100 text-sm drop-shadow-sm">
             <a href="index.html" class="hover:text-white transition">← Kembali ke Website Utama</a>
         </p>
     </div>
