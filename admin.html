@@ -176,56 +176,60 @@
 <div id="dashboardPage" class="hidden min-h-screen flex flex-col md:flex-row">
 
     <!-- ==========================
+         SIDEBAR<!-- ==========================
          SIDEBAR
     =========================== -->
-    <aside class="w-full md:w-64 bg-white border-r border-gray-100 shadow-sm flex-shrink-0 md:min-h-screen">
+    <aside class="relative w-full md:w-64 border-r border-gray-100 shadow-sm flex-shrink-0 md:min-h-screen bg-cover bg-center" style="background-image: url('assets/bg-menu.jpg');">
+        
+        <!-- Lapisan putih transparan agar teks menu tetap jelas dibaca -->
+        <div class="absolute inset-0 bg-white/75 z-0"></div>
 
         <!-- Header Sidebar -->
-        <div class="p-5 border-b border-gray-100">
+        <div class="relative z-10 p-5 border-b border-rose-100/50">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center text-lg shadow-md flex-shrink-0">
                     🌹
                 </div>
                 <div>
                     <div class="font-display text-base font-semibold text-gray-900"><em class="not-italic text-rose-500">Rose</em> Admin</div>
-                    <div class="text-xs text-gray-400">Klinik Gigi Gresik</div>
+                    <div class="text-xs text-gray-700 font-medium">Klinik Gigi Gresik</div>
                 </div>
             </div>
         </div>
 
         <!-- Menu -->
-        <nav class="p-3 space-y-1">
-            <p class="text-xs font-semibold text-gray-400 px-3 pt-3 pb-1 uppercase tracking-wider">Konten Website</p>
+        <nav class="relative z-10 p-3 space-y-1">
+            <p class="text-xs font-semibold text-gray-500 px-3 pt-3 pb-1 uppercase tracking-wider">Konten Website</p>
 
-            <button onclick="switchTab('layanan')" class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-layanan">
-                <i class="fas fa-tooth w-4 text-gray-400 text-center"></i>
+            <button onclick="switchTab('layanan')" class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-layanan">
+                <i class="fas fa-tooth w-4 text-rose-500 text-center"></i>
                 Layanan Gigi
             </button>
 
-            <button onclick="switchTab('promo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-promo">
-                <i class="fas fa-tags w-4 text-gray-400 text-center"></i>
+            <button onclick="switchTab('promo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-promo">
+                <i class="fas fa-tags w-4 text-rose-500 text-center"></i>
                 Promo & Penawaran
             </button>
 
-            <button onclick="switchTab('galeri')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-galeri">
-                <i class="fas fa-images w-4 text-gray-400 text-center"></i>
+            <button onclick="switchTab('galeri')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-galeri">
+                <i class="fas fa-images w-4 text-rose-500 text-center"></i>
                 Rose Family (Galeri)
             </button>
 
-            <p class="text-xs font-semibold text-gray-400 px-3 pt-4 pb-1 uppercase tracking-wider">Interaksi Pasien</p>
+            <p class="text-xs font-semibold text-gray-500 px-3 pt-4 pb-1 uppercase tracking-wider">Interaksi Pasien</p>
 
-            <button onclick="switchTab('review')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-rose-50 hover:text-rose-500 rounded-xl text-sm transition" id="nav-review">
-                <i class="fas fa-star w-4 text-gray-400 text-center"></i>
+            <button onclick="switchTab('review')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-review">
+                <i class="fas fa-star w-4 text-rose-500 text-center"></i>
                 Ulasan Pasien
                 <span id="reviewBadge" class="ml-auto bg-rose-500 text-white text-xs px-1.5 py-0.5 rounded-full hidden">0</span>
             </button>
 
-            <div class="pt-4 mt-2 border-t border-gray-100">
-                <a href="index.html" target="_blank" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-600 hover:bg-gray-50 rounded-xl text-sm transition">
-                    <i class="fas fa-external-link-alt w-4 text-gray-400 text-center"></i>
+            <div class="pt-4 mt-2 border-t border-rose-100/50">
+                <a href="index.html" target="_blank" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 rounded-xl text-sm transition">
+                    <i class="fas fa-external-link-alt w-4 text-rose-500 text-center"></i>
                     Lihat Website Publik
                 </a>
-                <button onclick="logout()" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-red-500 hover:bg-red-50 rounded-xl text-sm transition mt-1">
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-red-600 hover:bg-red-50/80 rounded-xl text-sm transition mt-1">
                     <i class="fas fa-sign-out-alt w-4 text-center"></i>
                     Keluar
                 </button>
@@ -233,27 +237,28 @@
         </nav>
 
         <!-- Info User -->
-        <div class="p-3 mt-auto border-t border-gray-100 md:absolute md:bottom-0 md:left-0 md:right-0">
-            <div class="flex items-center gap-3 px-3 py-2.5 bg-rose-50 rounded-xl">
+        <div class="relative z-10 p-3 mt-auto border-t border-rose-100/50 md:absolute md:bottom-0 md:left-0 md:right-0">
+            <div class="flex items-center gap-3 px-3 py-2.5 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl">
                 <div class="w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white text-sm font-semibold">A</div>
                 <div>
-                    <div class="text-sm font-medium text-gray-800">Admin</div>
-                    <div class="text-xs text-gray-400">Rose Dental Care</div>
+                    <div class="text-sm font-semibold text-gray-800">Admin</div>
+                    <div class="text-xs text-gray-600">Rose Dental Care</div>
                 </div>
             </div>
         </div>
     </aside>
 
-    <!-- ==========================
+   <!-- ==========================
          KONTEN UTAMA
     =========================== -->
-    <main class="flex-1 overflow-auto">
+    <!-- Tambahkan efek background image dan gradient overlay di tag main -->
+    <main class="flex-1 overflow-auto bg-cover bg-center bg-fixed" style="background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('assets/bg-dashboard.jpg');">
 
-        <!-- Header halaman -->
-        <div class="bg-white border-b border-gray-100 sticky top-0 z-10 px-6 py-4 flex items-center justify-between shadow-sm">
+        <!-- Header halaman (Dibuat efek kaca / glassmorphism agar estetik) -->
+        <div class="bg-white/80 backdrop-blur-md border-b border-rose-100 sticky top-0 z-20 px-6 py-4 flex items-center justify-between shadow-sm">
             <div>
                 <h2 class="text-lg font-semibold text-gray-800" id="pageTitle">Kelola Layanan</h2>
-                <p class="text-xs text-gray-400" id="pageSubtitle">Tambah, ubah, atau nonaktifkan layanan klinik</p>
+                <p class="text-xs text-gray-600 font-medium" id="pageSubtitle">Tambah, ubah, atau nonaktifkan layanan klinik</p>
             </div>
             <!-- Tombol tambah — berubah sesuai tab aktif -->
             <button onclick="openModal()" id="btnTambah"
@@ -264,7 +269,7 @@
         </div>
 
         <div class="p-6">
-
+            
             <!-- ============================================
                  TAB: LAYANAN
             ============================================= -->
