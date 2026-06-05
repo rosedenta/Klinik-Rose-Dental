@@ -6,7 +6,7 @@
     <title>Admin — Rose Dental Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -36,280 +36,594 @@
     </script>
 
     <style>
+        :root {
+            --rose-glow: rgba(196, 65, 90, 0.18);
+            --rose-deep: #1a0710;
+            --rose-mid:  #2d1020;
+            --glass-bg:  rgba(255,255,255,0.06);
+            --glass-border: rgba(255,160,180,0.18);
+        }
+
+        * { box-sizing: border-box; }
         body { font-family: 'DM Sans', sans-serif; }
 
-        /* Animasi transisi halaman */
+        /* ─── PARTICLES ─── */
+        #loginParticles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+        .particle {
+            position: absolute;
+            width: 5px; height: 5px;
+            background: radial-gradient(circle, rgba(255,140,160,0.9), transparent 70%);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0%   { transform: translateY(0) scale(0); opacity: 0; }
+            15%  { opacity: 0.8; transform: scale(1); }
+            85%  { opacity: 0.3; }
+            100% { transform: translateY(-600px) scale(0.5) rotate(20deg); opacity: 0; }
+        }
+
+        /* ─── LOGIN PAGE ─── */
+        #loginPage {
+            background: linear-gradient(145deg, var(--rose-deep) 0%, var(--rose-mid) 55%, #1f0d18 100%);
+        }
+
+        .login-card {
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,160,180,0.2);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 32px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .login-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px; font-weight: 600;
+            color: #ffd6df; margin-bottom: 28px;
+        }
+
+        .login-input-wrap { position: relative; margin-bottom: 16px; }
+        .login-input-wrap i.icon {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            color: rgba(255,160,180,0.5); font-size: 13px;
+        }
+        .login-input {
+            width: 100%; padding: 11px 14px 11px 38px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,160,180,0.2);
+            border-radius: 12px;
+            color: #ffe0e8;
+            font-size: 13.5px; font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+        }
+        .login-input::placeholder { color: rgba(255,160,180,0.35); }
+        .login-input:focus {
+            border-color: rgba(255,120,150,0.6);
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 0 0 3px rgba(196,65,90,0.2);
+        }
+
+        .login-btn {
+            width: 100%; padding: 12px;
+            background: linear-gradient(135deg, #c4415a, #8d1f33);
+            border: none; border-radius: 12px;
+            color: #fff; font-weight: 600; font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(196,65,90,0.45);
+            transition: transform .15s, box-shadow .2s, background .2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .login-btn:hover {
+            background: linear-gradient(135deg, #d4516a, #9d2e43);
+            box-shadow: 0 6px 28px rgba(196,65,90,0.55);
+            transform: translateY(-1px);
+        }
+        .login-btn:active { transform: translateY(0); }
+
+        /* ─── FADE ANIMATION ─── */
         .fade-enter { animation: fadeIn .25s ease forwards; }
         @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-        /* Toast */
-        #toast { transition: all .3s ease; }
+        /* ─── SIDEBAR ─── */
+        #sidebar {
+            background: linear-gradient(180deg, var(--rose-deep) 0%, var(--rose-mid) 100%);
+            border-right: 1px solid rgba(255,160,180,0.12);
+        }
+        .nav-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px; border-radius: 10px;
+            font-size: 13px; color: rgba(255,200,215,0.65);
+            cursor: pointer; border: 1px solid transparent;
+            transition: all .2s; width: 100%; text-align: left;
+        }
+        .nav-item:hover { background: rgba(255,160,180,0.1); color: #ffccd5; }
+        .nav-item.active {
+            background: rgba(196,65,90,0.2);
+            border-color: rgba(196,65,90,0.3);
+            color: #ff8fab; font-weight: 600;
+        }
+        .nav-item.active i { color: #ff8fab; }
+        .nav-item i { color: rgba(255,160,180,0.5); font-size: 14px; width: 16px; text-align: center; }
+        .nav-section-label {
+            font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px;
+            color: rgba(255,200,215,0.3); padding: 12px 12px 4px;
+            text-transform: uppercase;
+        }
 
-        /* Tabel scroll horizontal di mobile */
+        /* ─── MAIN AREA ─── */
+        #mainArea {
+            background:
+                linear-gradient(rgba(253,240,243,0.9), rgba(255,248,249,0.9)),
+                url('assets/bg-dashboard.jpg') center/cover fixed;
+        }
+
+        /* ─── TOPBAR ─── */
+        #topbar {
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(196,65,90,0.1);
+        }
+
+        /* ─── STAT CARDS ─── */
+        .stat-card {
+            background: #fff;
+            border: 1px solid #f3e8eb;
+            border-radius: 16px;
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,65,90,0.1); }
+        .stat-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+        .stat-card.c-rose::before   { background: linear-gradient(90deg,#C4415A,#e8879f); }
+        .stat-card.c-green::before  { background: linear-gradient(90deg,#059669,#34d399); }
+        .stat-card.c-amber::before  { background: linear-gradient(90deg,#d97706,#fbbf24); }
+        .stat-card.c-red::before    { background: linear-gradient(90deg,#dc2626,#f87171); }
+        .stat-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px; font-weight: 600; line-height: 1;
+        }
+        .stat-icon {
+            position: absolute; right: 16px; top: 20px;
+            width: 38px; height: 38px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+
+        /* ─── DATA TABLE ─── */
+        .data-table-wrap {
+            background: #fff;
+            border: 1px solid #f3e8eb;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(196,65,90,0.06);
+        }
+        .data-table-wrap table { width: 100%; font-size: 13.5px; }
+        .data-table-wrap thead tr {
+            background: linear-gradient(135deg, #FFF8F9, #FDF0F3);
+            border-bottom: 1px solid #f3e8eb;
+        }
+        .data-table-wrap thead th {
+            padding: 12px 16px; text-align: left;
+            font-size: 10.5px; font-weight: 700;
+            color: #9D2E45; letter-spacing: 0.8px; text-transform: uppercase;
+        }
+        .data-table-wrap tbody tr {
+            border-bottom: 1px solid #fdf0f3;
+            transition: background .15s;
+        }
+        .data-table-wrap tbody tr:hover { background: #FFF8F9; }
+        .data-table-wrap tbody tr:last-child { border-bottom: none; }
+        .data-table-wrap tbody td { padding: 12px 16px; color: #374151; vertical-align: middle; }
         .table-wrap { overflow-x: auto; }
 
-        /* Skeleton loading */
+        /* ─── MODAL ─── */
+        .modal-backdrop {
+            position: fixed; inset: 0; z-index: 50;
+            background: rgba(30,5,15,0.65);
+            backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center; padding: 16px;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: 20px;
+            width: 100%; max-width: 480px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.3), 0 0 0 1px rgba(196,65,90,0.1);
+        }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid #f3e8eb;
+            position: sticky; top: 0; background: #fff; z-index: 5;
+        }
+        .modal-header h3 {
+            font-size: 16px; font-weight: 600; color: #3D0D18;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .modal-header h3 i { color: #C4415A; }
+        .modal-close {
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 1px solid #f3e8eb; background: none;
+            color: #9ca3af; font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all .15s;
+        }
+        .modal-close:hover { background: #fee2e8; color: #C4415A; }
+        .modal-body { padding: 20px 24px 24px; }
+
+        /* ─── FORM CONTROLS ─── */
+        .input-ctrl {
+            width: 100%; padding: 10px 14px;
+            border: 1.5px solid #e5e7eb; border-radius: 10px;
+            font-size: 13.5px; font-family: 'DM Sans', sans-serif; color: #1f2937;
+            outline: none; background: #fafafa;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+        }
+        .input-ctrl:focus {
+            border-color: #C4415A; background: #fff;
+            box-shadow: 0 0 0 3px rgba(196,65,90,0.1);
+        }
+        .input-ctrl::placeholder { color: #9ca3af; }
+
+        .upload-zone {
+            cursor: pointer; border: 2px dashed #e8d0d6; border-radius: 14px;
+            padding: 24px; text-align: center; background: #fff8f9;
+            transition: border-color .2s, background .2s;
+        }
+        .upload-zone:hover { border-color: #C4415A; background: #fdf0f3; }
+
+        /* ─── BADGE ─── */
+        .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+        .badge-aktif   { background: #dcfce7; color: #15803d; }
+        .badge-nonaktif{ background: #fee2e2; color: #b91c1c; }
+        .badge-tampil  { background: #dcfce7; color: #15803d; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+
+        /* ─── ACTION BUTTONS ─── */
+        .btn-icon {
+            padding: 6px 10px; border-radius: 8px;
+            font-size: 12px; font-weight: 500;
+            border: 1px solid; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 5px;
+            transition: all .15s;
+        }
+        .btn-toggle-on  { border-color: #bbf7d0; color: #15803d; background: #f0fdf4; }
+        .btn-toggle-on:hover  { background: #dcfce7; }
+        .btn-toggle-off { border-color: #fecaca; color: #b91c1c; background: #fef2f2; }
+        .btn-toggle-off:hover { background: #fee2e2; }
+        .btn-delete { border-color: #fecaca; color: #ef4444; background: #fff5f5; }
+        .btn-delete:hover { background: #fee2e2; border-color: #fca5a5; }
+        .btn-show   { border-color: #bbf7d0; color: #059669; background: #f0fdf4; }
+        .btn-show:hover   { background: #dcfce7; }
+        .btn-hide   { border-color: #e5e7eb; color: #6b7280; background: #f9fafb; }
+        .btn-hide:hover   { background: #f3f4f6; }
+
+        /* ─── TOAST ─── */
+        #toast {
+            position: fixed; bottom: 24px; right: 24px; z-index: 100;
+            display: flex; align-items: center; gap: 10px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 12px 18px;
+            font-size: 13.5px; font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.06);
+            opacity: 0; pointer-events: none; transform: translateY(8px);
+            transition: opacity .3s, transform .3s;
+            max-width: 320px;
+        }
+        #toast.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+        /* ─── SKELETON ─── */
         .skeleton {
-            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background: linear-gradient(90deg,#f9f0f2 25%,#f3e6ea 50%,#f9f0f2 75%);
             background-size: 200% 100%;
             animation: shimmer 1.4s infinite;
-            border-radius: 8px;
+            border-radius: 12px;
         }
         @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-        /* Scrollbar kustom */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #C4415A; border-radius: 3px; }
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e8879f; border-radius: 10px; }
 
-        /* Preview gambar di modal */
-        #imgPreview, #imgPreviewPromo, #imgPreviewGaleri {
-            transition: all .3s ease;
+        /* ─── REVIEW BADGE ─── */
+        .review-badge {
+            background: linear-gradient(135deg,#c4415a,#9d2e45);
+            color: #fff; font-size: 10px; font-weight: 700;
+            padding: 1px 7px; border-radius: 20px; margin-left: auto;
         }
 
-        /* Active nav item */
-        .nav-item.active {
-            background: #FDF0F3;
-            color: #C4415A;
-            font-weight: 600;
+        /* ─── GALERI CARD HOVER ─── */
+        .galeri-card { position: relative; border-radius: 14px; overflow: hidden; }
+        .galeri-card .overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(30,5,15,0.7), transparent 50%);
+            opacity: 0; transition: opacity .25s;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 12px;
         }
-        .nav-item.active i { color: #C4415A; }
+        .galeri-card:hover .overlay { opacity: 1; }
+        .galeri-card .del-btn {
+            position: absolute; top: 8px; right: 8px;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(220,38,38,0.9); color: #fff;
+            font-size: 11px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity .2s;
+        }
+        .galeri-card:hover .del-btn { opacity: 1; }
 
-        /* Badge status */
-        .badge-aktif    { background: #d1fae5; color: #065f46; }
-        .badge-nonaktif { background: #fee2e2; color: #991b1b; }
-        .badge-tampil   { background: #d1fae5; color: #065f46; }
-        .badge-pending  { background: #fef3c7; color: #92400e; }
+        /* ─── Info banner ─── */
+        .info-banner { display: flex; align-items: center; gap: 10px; border-radius: 12px; padding: 12px 16px; font-size: 13px; }
+        .info-banner.blue  { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+        .info-banner.amber { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+
+        /* ─── User info card ─── */
+        .user-card {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; border-radius: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,160,180,0.12);
+            margin: 12px;
+        }
+        .user-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg,#C4415A,#7A2035);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: 14px; flex-shrink: 0;
+        }
+
+        /* ─── Section: Quick stats ─── */
+        .quick-stats { display: grid; gap: 12px; }
+        @media (min-width: 640px) { .quick-stats.cols-3 { grid-template-columns: repeat(3,1fr); } }
+        @media (min-width: 640px) { .quick-stats.cols-2 { grid-template-columns: repeat(2,1fr); } }
+
+        /* ─── Main btn ─── */
+        .main-btn {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 9px 18px; border-radius: 12px;
+            background: linear-gradient(135deg,#C4415A,#9D2E45);
+            color: #fff; font-weight: 600; font-size: 13.5px;
+            border: none; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(196,65,90,0.3);
+            transition: transform .15s, box-shadow .2s;
+        }
+        .main-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(196,65,90,0.4);
+        }
+
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 9px 18px; border-radius: 12px;
+            background: #fff; color: #4b5563;
+            border: 1.5px solid #e5e7eb; font-size: 13.5px; font-weight: 500;
+            cursor: pointer; transition: all .15s;
+        }
+        .btn-secondary:hover { border-color: #C4415A; color: #C4415A; background: #fff8f9; }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="antialiased">
 
-<!-- =====================================================
+<!-- ═══════════════════════════════════════════
      HALAMAN LOGIN
-====================================================== -->
+═══════════════════════════════════════════ -->
 <div id="loginPage" class="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
 
-    <!-- 1. Background Video dari folder lokal -->
-    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
-        <!-- Panggil video dari folder assets -->
+    <!-- Background video -->
+    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0 opacity-30">
         <source src="assets/background.mp4" type="video/mp4">
-        Browser Anda tidak mendukung tag video.
     </video>
 
-    <!-- 2. Overlay Gelap (Agar form login dan teks tetap mudah dibaca) -->
-    <div class="absolute inset-0 bg-black/50 z-0"></div>
+    <!-- Overlay gradient -->
+    <div class="absolute inset-0 z-0" style="background: linear-gradient(145deg, rgba(26,7,16,0.92) 0%, rgba(45,16,32,0.85) 55%, rgba(31,13,24,0.95) 100%);"></div>
 
-    <!-- Lingkaran dekoratif -->
-    <div class="absolute top-[-100px] right-[-100px] w-96 h-96 rounded-full bg-white opacity-5 pointer-events-none z-0"></div>
-    <div class="absolute bottom-[-80px] left-[-80px] w-72 h-72 rounded-full bg-white opacity-5 pointer-events-none z-0"></div>
+    <!-- Particles container -->
+    <div id="loginParticles"></div>
 
-    <div class="relative z-10 max-w-md w-full">
+    <!-- Dekoratif lingkaran blur -->
+    <div class="absolute top-[-80px] right-[-80px] w-80 h-80 rounded-full pointer-events-none z-1"
+         style="background: radial-gradient(circle, rgba(196,65,90,0.15), transparent 70%);"></div>
+    <div class="absolute bottom-[-60px] left-[-60px] w-64 h-64 rounded-full pointer-events-none z-1"
+         style="background: radial-gradient(circle, rgba(196,65,90,0.1), transparent 70%);"></div>
+
+    <div class="relative z-10 max-w-sm w-full">
         <!-- Logo -->
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-xl mb-4">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4"
+                 style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,160,180,0.25); backdrop-filter: blur(12px);">
                 <span class="text-3xl">🌹</span>
             </div>
-            <h1 class="font-display text-3xl font-semibold text-white drop-shadow-md">Rose Dental Care</h1>
-            <p class="text-rose-100 text-sm mt-1 drop-shadow-sm">Dashboard Admin</p>
+            <h1 class="font-display text-3xl font-semibold drop-shadow-md" style="color:#ffd6df;">Rose Dental Care</h1>
+            <p class="text-sm mt-1" style="color: rgba(255,180,200,0.6);">Dashboard Admin</p>
         </div>
 
         <!-- Card Login -->
-        <div class="bg-white rounded-2xl shadow-2xl p-8">
-            <h2 class="text-xl font-semibold text-gray-800 mb-6">Masuk ke Dashboard</h2>
+        <div class="login-card">
+            <h2>Masuk ke Dashboard</h2>
 
-            <form onsubmit="handleLogin(event)">
-                <!-- Username -->
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-600 mb-1.5">Username</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-user text-sm"></i>
-                        </span>
-                        <input type="text" id="loginUser"
-                               class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
-                               placeholder="Masukkan username" required>
-                    </div>
+            <!-- Username -->
+            <div class="mb-4">
+                <label class="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style="color:rgba(255,180,200,0.6);">Username</label>
+                <div class="login-input-wrap" style="margin-bottom:0;">
+                    <i class="fas fa-user icon"></i>
+                    <input type="text" id="loginUser" class="login-input" placeholder="Masukkan username" required autocomplete="username">
                 </div>
+            </div>
 
-                <!-- Password -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-600 mb-1.5">Password</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-lock text-sm"></i>
-                        </span>
-                        <input type="password" id="loginPass"
-                               class="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
-                               placeholder="Masukkan password" required>
-                        <button type="button" onclick="togglePass()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-eye text-sm" id="eyeIcon"></i>
-                        </button>
-                    </div>
+            <!-- Password -->
+            <div class="mb-6">
+                <label class="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style="color:rgba(255,180,200,0.6);">Password</label>
+                <div class="login-input-wrap" style="margin-bottom:0; position:relative;">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="loginPass" class="login-input" style="padding-right:40px;" placeholder="Masukkan password" required autocomplete="current-password">
+                    <button type="button" onclick="togglePass()"
+                            style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,160,180,0.45);font-size:13px;"
+                            id="eyeBtn">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
                 </div>
+            </div>
 
-                <!-- Error -->
-                <div id="loginErr" class="hidden mb-4 px-4 py-2.5 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 flex items-center gap-2">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span>Username atau password salah!</span>
-                </div>
+            <!-- Error -->
+            <div id="loginErr" class="hidden mb-4 px-4 py-3 rounded-xl flex items-center gap-2 text-sm"
+                 style="background:rgba(220,38,38,0.15); border:1px solid rgba(220,38,38,0.3); color:#fca5a5;">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Username atau password salah!</span>
+            </div>
 
-                <!-- Tombol Masuk -->
-                <button type="submit" id="loginBtn"
-                        class="w-full py-3 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center gap-2">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Masuk Dashboard
-                </button>
-            </form>
+            <!-- Submit -->
+            <button onclick="handleLogin()" id="loginBtn" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i>
+                Masuk Dashboard
+            </button>
         </div>
 
-        <!-- Link balik ke website publik -->
-        <p class="text-center mt-4 text-rose-100 text-sm drop-shadow-sm">
-            <a href="index.html" class="hover:text-white transition">← Kembali ke Website Utama</a>
+        <p class="text-center mt-5 text-sm" style="color:rgba(255,180,200,0.45);">
+            <a href="index.html" style="color:rgba(255,180,200,0.5); text-decoration:none; transition: color .2s;"
+               onmouseover="this.style.color='rgba(255,180,200,0.85)'" onmouseout="this.style.color='rgba(255,180,200,0.5)'">
+                ← Kembali ke Website Utama
+            </a>
         </p>
     </div>
 </div>
 
-<!-- =====================================================
-     DASHBOARD UTAMA (Tersembunyi sebelum login)
-====================================================== -->
-<div id="dashboardPage" class="hidden min-h-screen flex flex-col md:flex-row">
 
-    <!-- ==========================
-         SIDEBAR<!-- ==========================
-         SIDEBAR
-    =========================== -->
-    <aside class="relative w-full md:w-64 border-r border-gray-100 shadow-sm flex-shrink-0 md:min-h-screen bg-cover bg-center" style="background-image: url('assets/bg-menu.jpg');">
-        
-        <!-- Lapisan putih transparan agar teks menu tetap jelas dibaca -->
-        <div class="absolute inset-0 bg-white/75 z-0"></div>
+<!-- ═══════════════════════════════════════════
+     DASHBOARD UTAMA
+═══════════════════════════════════════════ -->
+<div id="dashboardPage" class="hidden min-h-screen flex">
 
-        <!-- Header Sidebar -->
-        <div class="relative z-10 p-5 border-b border-rose-100/50">
+    <!-- ─── SIDEBAR ─── -->
+    <aside id="sidebar" class="w-60 flex-shrink-0 flex flex-col min-h-screen sticky top-0">
+
+        <!-- Logo -->
+        <div class="px-5 py-5 border-b" style="border-color:rgba(255,160,180,0.12);">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center text-lg shadow-md flex-shrink-0">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                     style="background: linear-gradient(135deg,#C4415A,#7A2035); box-shadow: 0 4px 12px rgba(196,65,90,0.4);">
                     🌹
                 </div>
                 <div>
-                    <div class="font-display text-base font-semibold text-gray-900"><em class="not-italic text-rose-500">Rose</em> Admin</div>
-                    <div class="text-xs text-gray-700 font-medium">Klinik Gigi Gresik</div>
+                    <div class="font-display text-sm font-semibold" style="color:#ffd6df;">
+                        <em class="not-italic" style="color:#ff8fab;">Rose</em> Admin
+                    </div>
+                    <div class="text-xs" style="color:rgba(255,180,200,0.45);">Klinik Gigi Gresik</div>
                 </div>
             </div>
         </div>
 
-        <!-- Menu -->
-        <nav class="relative z-10 p-3 space-y-1">
-            <p class="text-xs font-semibold text-gray-500 px-3 pt-3 pb-1 uppercase tracking-wider">Konten Website</p>
+        <!-- Nav -->
+        <nav class="flex-1 px-3 py-4 space-y-0.5">
+            <p class="nav-section-label">Konten Website</p>
 
-            <button onclick="switchTab('layanan')" class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-layanan">
-                <i class="fas fa-tooth w-4 text-rose-500 text-center"></i>
+            <button onclick="switchTab('layanan')" id="nav-layanan" class="nav-item active w-full">
+                <i class="fas fa-tooth"></i>
                 Layanan Gigi
             </button>
-
-            <button onclick="switchTab('promo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-promo">
-                <i class="fas fa-tags w-4 text-rose-500 text-center"></i>
+            <button onclick="switchTab('promo')" id="nav-promo" class="nav-item w-full">
+                <i class="fas fa-tags"></i>
                 Promo & Penawaran
             </button>
-
-            <button onclick="switchTab('galeri')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-galeri">
-                <i class="fas fa-images w-4 text-rose-500 text-center"></i>
+            <button onclick="switchTab('galeri')" id="nav-galeri" class="nav-item w-full">
+                <i class="fas fa-images"></i>
                 Rose Family (Galeri)
             </button>
 
-            <p class="text-xs font-semibold text-gray-500 px-3 pt-4 pb-1 uppercase tracking-wider">Interaksi Pasien</p>
+            <p class="nav-section-label">Interaksi Pasien</p>
 
-            <button onclick="switchTab('review')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 hover:text-rose-600 rounded-xl text-sm transition" id="nav-review">
-                <i class="fas fa-star w-4 text-rose-500 text-center"></i>
+            <button onclick="switchTab('review')" id="nav-review" class="nav-item w-full">
+                <i class="fas fa-star"></i>
                 Ulasan Pasien
-                <span id="reviewBadge" class="ml-auto bg-rose-500 text-white text-xs px-1.5 py-0.5 rounded-full hidden">0</span>
+                <span id="reviewBadge" class="review-badge hidden">0</span>
             </button>
 
-            <div class="pt-4 mt-2 border-t border-rose-100/50">
-                <a href="index.html" target="_blank" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-800 hover:bg-white/60 rounded-xl text-sm transition">
-                    <i class="fas fa-external-link-alt w-4 text-rose-500 text-center"></i>
+            <div class="pt-3 mt-2" style="border-top:1px solid rgba(255,160,180,0.1);">
+                <a href="index.html" target="_blank" class="nav-item block" style="text-decoration:none;">
+                    <i class="fas fa-external-link-alt"></i>
                     Lihat Website Publik
                 </a>
-                <button onclick="logout()" class="w-full flex items-center gap-3 px-3 py-2.5 text-left text-red-600 hover:bg-red-50/80 rounded-xl text-sm transition mt-1">
-                    <i class="fas fa-sign-out-alt w-4 text-center"></i>
+                <button onclick="logout()" class="nav-item w-full mt-0.5" style="color:rgba(252,165,165,0.7);">
+                    <i class="fas fa-sign-out-alt" style="color:rgba(252,165,165,0.5);"></i>
                     Keluar
                 </button>
             </div>
         </nav>
 
-        <!-- Info User -->
-        <div class="relative z-10 p-3 mt-auto border-t border-rose-100/50 md:absolute md:bottom-0 md:left-0 md:right-0">
-            <div class="flex items-center gap-3 px-3 py-2.5 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl">
-                <div class="w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white text-sm font-semibold">A</div>
-                <div>
-                    <div class="text-sm font-semibold text-gray-800">Admin</div>
-                    <div class="text-xs text-gray-600">Rose Dental Care</div>
-                </div>
+        <!-- User info -->
+        <div class="user-card">
+            <div class="user-avatar">A</div>
+            <div>
+                <div class="text-sm font-semibold" style="color:#ffd6df;">Admin</div>
+                <div class="text-xs" style="color:rgba(255,180,200,0.4);">Rose Dental Care</div>
             </div>
         </div>
     </aside>
 
-   <!-- ==========================
-         KONTEN UTAMA
-    =========================== -->
-    <!-- Tambahkan efek background image dan gradient overlay di tag main -->
-    <main class="flex-1 overflow-auto bg-cover bg-center bg-fixed" style="background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('assets/bg-dashboard.jpg');">
+    <!-- ─── MAIN AREA ─── -->
+    <main id="mainArea" class="flex-1 flex flex-col min-w-0">
 
-        <!-- Header halaman (Dibuat efek kaca / glassmorphism agar estetik) -->
-        <div class="bg-white/80 backdrop-blur-md border-b border-rose-100 sticky top-0 z-20 px-6 py-4 flex items-center justify-between shadow-sm">
+        <!-- Topbar -->
+        <div id="topbar" class="px-6 py-4 sticky top-0 z-20 flex items-center justify-between">
             <div>
-                <h2 class="text-lg font-semibold text-gray-800" id="pageTitle">Kelola Layanan</h2>
-                <p class="text-xs text-gray-600 font-medium" id="pageSubtitle">Tambah, ubah, atau nonaktifkan layanan klinik</p>
+                <h2 class="text-base font-semibold text-gray-800" id="pageTitle">Kelola Layanan</h2>
+                <p class="text-xs text-gray-500 mt-0.5" id="pageSubtitle">Tambah, ubah, atau nonaktifkan layanan klinik</p>
             </div>
-            <!-- Tombol tambah — berubah sesuai tab aktif -->
-            <button onclick="openModal()" id="btnTambah"
-                    class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition shadow-sm hover:shadow-md">
-                <i class="fas fa-plus"></i>
+            <button onclick="openModal()" id="btnTambah" class="main-btn">
+                <i class="fas fa-plus text-xs"></i>
                 <span id="btnTambahLabel">Tambah Layanan</span>
             </button>
         </div>
 
-        <div class="p-6">
-            
-            <!-- ============================================
+        <div class="p-6 flex-1">
+
+            <!-- ══════════════════════
                  TAB: LAYANAN
-            ============================================= -->
+            ══════════════════════ -->
             <div id="tab-layanan" class="tab-content fade-enter">
-                <!-- Stat Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-2xl font-display font-semibold text-gray-800" id="statTotalLayanan">—</div>
-                        <div class="text-xs text-gray-500 mt-1">Total Layanan</div>
+                <div class="quick-stats cols-3 mb-6">
+                    <div class="stat-card c-rose">
+                        <div class="stat-icon" style="background:#fff0f3; color:#C4415A;"><i class="fas fa-th-list"></i></div>
+                        <div class="stat-value text-gray-800" id="statTotalLayanan">—</div>
+                        <div class="text-xs text-gray-400 mt-1">Total Layanan</div>
                     </div>
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-2xl font-display font-semibold text-green-600" id="statAktifLayanan">—</div>
-                        <div class="text-xs text-gray-500 mt-1">Layanan Aktif</div>
+                    <div class="stat-card c-green">
+                        <div class="stat-icon" style="background:#f0fdf4; color:#15803d;"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-value text-green-600" id="statAktifLayanan">—</div>
+                        <div class="text-xs text-gray-400 mt-1">Layanan Aktif</div>
                     </div>
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-2xl font-display font-semibold text-red-400" id="statNonAktifLayanan">—</div>
-                        <div class="text-xs text-gray-500 mt-1">Non-Aktif</div>
+                    <div class="stat-card c-red">
+                        <div class="stat-icon" style="background:#fff5f5; color:#ef4444;"><i class="fas fa-times-circle"></i></div>
+                        <div class="stat-value text-red-400" id="statNonAktifLayanan">—</div>
+                        <div class="text-xs text-gray-400 mt-1">Non-Aktif</div>
                     </div>
                 </div>
-
-                <!-- Tabel Layanan -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+                <div class="data-table-wrap">
                     <div class="table-wrap">
-                        <table class="w-full text-sm">
+                        <table>
                             <thead>
-                                <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wide">
-                                    <th class="px-4 py-3 text-left font-medium">Foto / Ikon</th>
-                                    <th class="px-4 py-3 text-left font-medium">Nama Layanan</th>
-                                    <th class="px-4 py-3 text-left font-medium">Harga</th>
-                                    <th class="px-4 py-3 text-left font-medium hidden md:table-cell">Deskripsi</th>
-                                    <th class="px-4 py-3 text-left font-medium">Status</th>
-                                    <th class="px-4 py-3 text-right font-medium">Aksi</th>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nama Layanan</th>
+                                    <th>Harga</th>
+                                    <th class="hidden md:table-cell">Deskripsi</th>
+                                    <th>Status</th>
+                                    <th style="text-align:right;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="tabelLayanan">
-                                <tr><td colspan="6" class="px-4 py-8 text-center text-gray-400">
-                                    <div class="flex flex-col items-center gap-2">
-                                        <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
-                                        <span class="text-sm">Memuat data layanan...</span>
-                                    </div>
+                                <tr><td colspan="6" class="text-center py-10 text-gray-300">
+                                    <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2"></i>
+                                    Memuat data...
                                 </td></tr>
                             </tbody>
                         </table>
@@ -317,38 +631,39 @@
                 </div>
             </div>
 
-            <!-- ============================================
+            <!-- ══════════════════════
                  TAB: PROMO
-            ============================================= -->
+            ══════════════════════ -->
             <div id="tab-promo" class="tab-content hidden fade-enter">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-2xl font-display font-semibold text-gray-800" id="statTotalPromo">—</div>
-                        <div class="text-xs text-gray-500 mt-1">Total Promo</div>
+                <div class="quick-stats cols-2 mb-6">
+                    <div class="stat-card c-rose">
+                        <div class="stat-icon" style="background:#fff0f3; color:#C4415A;"><i class="fas fa-tags"></i></div>
+                        <div class="stat-value text-gray-800" id="statTotalPromo">—</div>
+                        <div class="text-xs text-gray-400 mt-1">Total Promo</div>
                     </div>
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-xs text-gray-500 mt-1">Promo tampil di website publik secara otomatis</div>
+                    <div class="stat-card" style="border-color:#f3e8eb;">
+                        <div class="text-xs text-gray-400 mt-1 leading-relaxed">
+                            <i class="fas fa-info-circle text-rose-300 mr-1"></i>
+                            Promo aktif tampil otomatis di website publik
+                        </div>
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+                <div class="data-table-wrap">
                     <div class="table-wrap">
-                        <table class="w-full text-sm">
+                        <table>
                             <thead>
-                                <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wide">
-                                    <th class="px-4 py-3 text-left font-medium">Gambar</th>
-                                    <th class="px-4 py-3 text-left font-medium">Judul Promo</th>
-                                    <th class="px-4 py-3 text-left font-medium hidden md:table-cell">Deskripsi</th>
-                                    <th class="px-4 py-3 text-left font-medium">Berlaku Hingga</th>
-                                    <th class="px-4 py-3 text-right font-medium">Aksi</th>
+                                <tr>
+                                    <th>Gambar</th>
+                                    <th>Judul Promo</th>
+                                    <th class="hidden md:table-cell">Deskripsi</th>
+                                    <th>Berlaku Hingga</th>
+                                    <th style="text-align:right;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="tabelPromo">
-                                <tr><td colspan="5" class="px-4 py-8 text-center text-gray-400">
-                                    <div class="flex flex-col items-center gap-2">
-                                        <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
-                                        <span class="text-sm">Memuat data promo...</span>
-                                    </div>
+                                <tr><td colspan="5" class="text-center py-10 text-gray-300">
+                                    <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2"></i>
+                                    Memuat data...
                                 </td></tr>
                             </tbody>
                         </table>
@@ -356,67 +671,64 @@
                 </div>
             </div>
 
-            <!-- ============================================
+            <!-- ══════════════════════
                  TAB: GALERI
-            ============================================= -->
+            ══════════════════════ -->
             <div id="tab-galeri" class="tab-content hidden fade-enter">
-                <div class="mb-6 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 text-sm text-blue-700 flex items-center gap-2">
-                    <i class="fas fa-info-circle"></i>
-                    Foto galeri ditampilkan di section "Rose Family" pada halaman utama website.
+                <div class="info-banner blue mb-5">
+                    <i class="fas fa-info-circle flex-shrink-0"></i>
+                    <span>Foto galeri ditampilkan di section "Rose Family" pada halaman utama website.</span>
                 </div>
-
-                <!-- Grid Galeri -->
                 <div id="galeriGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    <div class="skeleton h-40 rounded-xl"></div>
-                    <div class="skeleton h-40 rounded-xl"></div>
-                    <div class="skeleton h-40 rounded-xl"></div>
-                    <div class="skeleton h-40 rounded-xl"></div>
+                    <div class="skeleton h-40"></div>
+                    <div class="skeleton h-40"></div>
+                    <div class="skeleton h-40"></div>
+                    <div class="skeleton h-40"></div>
                 </div>
             </div>
 
-            <!-- ============================================
+            <!-- ══════════════════════
                  TAB: REVIEW
-            ============================================= -->
+            ══════════════════════ -->
             <div id="tab-review" class="tab-content hidden fade-enter">
-                <div class="mb-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-700 flex items-center gap-2">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Review baru dari pasien perlu diverifikasi sebelum tampil di website publik.
+                <div class="info-banner amber mb-5">
+                    <i class="fas fa-exclamation-triangle flex-shrink-0"></i>
+                    <span>Review baru dari pasien perlu diverifikasi sebelum tampil di website publik.</span>
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-2xl font-display font-semibold text-gray-800" id="statTotalReview">—</div>
-                        <div class="text-xs text-gray-500 mt-1">Total Review</div>
+                <div class="quick-stats cols-3 mb-6">
+                    <div class="stat-card c-rose">
+                        <div class="stat-icon" style="background:#fff0f3; color:#C4415A;"><i class="fas fa-comment-dots"></i></div>
+                        <div class="stat-value text-gray-800" id="statTotalReview">—</div>
+                        <div class="text-xs text-gray-400 mt-1">Total Review</div>
                     </div>
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-2xl font-display font-semibold text-green-600" id="statTampilReview">—</div>
-                        <div class="text-xs text-gray-500 mt-1">Tampil di Website</div>
+                    <div class="stat-card c-green">
+                        <div class="stat-icon" style="background:#f0fdf4; color:#15803d;"><i class="fas fa-eye"></i></div>
+                        <div class="stat-value text-green-600" id="statTampilReview">—</div>
+                        <div class="text-xs text-gray-400 mt-1">Tampil di Website</div>
                     </div>
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="text-2xl font-display font-semibold text-amber-500" id="statPendingReview">—</div>
-                        <div class="text-xs text-gray-500 mt-1">Menunggu Verifikasi</div>
+                    <div class="stat-card c-amber">
+                        <div class="stat-icon" style="background:#fffbeb; color:#d97706;"><i class="fas fa-clock"></i></div>
+                        <div class="stat-value text-amber-500" id="statPendingReview">—</div>
+                        <div class="text-xs text-gray-400 mt-1">Menunggu Verifikasi</div>
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+                <div class="data-table-wrap">
                     <div class="table-wrap">
-                        <table class="w-full text-sm">
+                        <table>
                             <thead>
-                                <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wide">
-                                    <th class="px-4 py-3 text-left font-medium">Pasien</th>
-                                    <th class="px-4 py-3 text-left font-medium">Rating</th>
-                                    <th class="px-4 py-3 text-left font-medium">Komentar</th>
-                                    <th class="px-4 py-3 text-left font-medium">Tanggal</th>
-                                    <th class="px-4 py-3 text-left font-medium">Status</th>
-                                    <th class="px-4 py-3 text-right font-medium">Aksi</th>
+                                <tr>
+                                    <th>Pasien</th>
+                                    <th>Rating</th>
+                                    <th>Komentar</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th style="text-align:right;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="tabelReview">
-                                <tr><td colspan="6" class="px-4 py-8 text-center text-gray-400">
-                                    <div class="flex flex-col items-center gap-2">
-                                        <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
-                                        <span class="text-sm">Memuat data review...</span>
-                                    </div>
+                                <tr><td colspan="6" class="text-center py-10 text-gray-300">
+                                    <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2"></i>
+                                    Memuat data...
                                 </td></tr>
                             </tbody>
                         </table>
@@ -429,233 +741,244 @@
 </div>
 
 
-<!-- =====================================================
+<!-- ═══════════════════════════════════════════
      MODAL: TAMBAH LAYANAN
-====================================================== -->
-<div id="modalLayanan" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div class="flex justify-between items-center p-6 border-b sticky top-0 bg-white z-10">
-            <h3 class="font-semibold text-lg text-gray-800">
-                <i class="fas fa-tooth text-rose-400 mr-2"></i> Tambah Layanan Baru
-            </h3>
-            <button onclick="closeModal('modalLayanan')" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition text-xl">&times;</button>
+═══════════════════════════════════════════ -->
+<div id="modalLayanan" class="modal-backdrop hidden">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-tooth"></i> Tambah Layanan Baru</h3>
+            <button onclick="closeModal('modalLayanan')" class="modal-close">×</button>
         </div>
-        <form onsubmit="submitLayanan(event)" class="p-6 space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama Layanan <span class="text-red-500">*</span></label>
-                <input type="text" id="inpNama" class="input-ctrl" placeholder="Contoh: Scaling Gigi" maxlength="60" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Estimasi Harga <span class="text-red-500">*</span></label>
-                <input type="text" id="inpHarga" class="input-ctrl" placeholder="Contoh: Mulai Rp 150.000" maxlength="50" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi Singkat <span class="text-red-500">*</span></label>
-                <textarea id="inpDeskripsi" rows="3" class="input-ctrl resize-none" placeholder="Penjelasan singkat tentang layanan ini..." maxlength="200" required></textarea>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Foto Layanan <span class="text-red-500">*</span></label>
-                <label for="inpFotoLayanan" class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-rose-400 hover:bg-rose-50 transition">
-                    <div id="imgPreview" class="hidden w-full">
-                        <img id="imgPreviewEl" src="" alt="" class="w-full max-h-40 object-contain rounded-lg mb-2">
-                        <p class="text-xs text-gray-500" id="imgFileName"></p>
-                    </div>
-                    <div id="imgPlaceholder">
-                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i>
-                        <p class="text-sm font-medium text-gray-500">Klik untuk upload foto</p>
-                        <p class="text-xs text-gray-400 mt-1">JPG / PNG, maks. 2MB</p>
-                    </div>
-                </label>
-                <input type="file" id="inpFotoLayanan" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="previewImage(this,'imgPreview','imgPreviewEl','imgFileName','imgPlaceholder')" required>
-            </div>
-            <div class="flex gap-3 pt-2">
-                <button type="button" onclick="closeModal('modalLayanan')" class="flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition">Batal</button>
-                <button type="submit" id="btnSimpanLayanan" class="flex-1 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition">
-                    <i class="fas fa-save"></i> Simpan Layanan
-                </button>
-            </div>
-        </form>
+        <div class="modal-body">
+            <form onsubmit="submitLayanan(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Nama Layanan <span class="text-red-400">*</span></label>
+                    <input type="text" id="inpNama" class="input-ctrl" placeholder="Contoh: Scaling Gigi" maxlength="60" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Estimasi Harga <span class="text-red-400">*</span></label>
+                    <input type="text" id="inpHarga" class="input-ctrl" placeholder="Contoh: Mulai Rp 150.000" maxlength="50" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Deskripsi Singkat <span class="text-red-400">*</span></label>
+                    <textarea id="inpDeskripsi" rows="3" class="input-ctrl resize-none" placeholder="Penjelasan singkat tentang layanan ini..." maxlength="200" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Foto Layanan <span class="text-red-400">*</span></label>
+                    <label for="inpFotoLayanan" class="upload-zone block">
+                        <div id="imgPreview" class="hidden">
+                            <img id="imgPreviewEl" src="" alt="" class="w-full max-h-36 object-contain rounded-lg mb-2">
+                            <p class="text-xs text-gray-400" id="imgFileName"></p>
+                        </div>
+                        <div id="imgPlaceholder">
+                            <i class="fas fa-cloud-upload-alt text-3xl mb-2 block" style="color:#e8879f;"></i>
+                            <p class="text-sm font-medium text-gray-400">Klik untuk upload foto</p>
+                            <p class="text-xs text-gray-300 mt-1">JPG / PNG, maks. 2MB</p>
+                        </div>
+                    </label>
+                    <input type="file" id="inpFotoLayanan" accept="image/jpeg,image/png,image/webp" class="hidden"
+                           onchange="previewImage(this,'imgPreview','imgPreviewEl','imgFileName','imgPlaceholder')" required>
+                </div>
+                <div class="flex gap-3 pt-1">
+                    <button type="button" onclick="closeModal('modalLayanan')" class="btn-secondary flex-1 justify-center">Batal</button>
+                    <button type="submit" id="btnSimpanLayanan" class="main-btn flex-1 justify-center">
+                        <i class="fas fa-save"></i> Simpan Layanan
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 
-<!-- =====================================================
+<!-- ═══════════════════════════════════════════
      MODAL: TAMBAH PROMO
-====================================================== -->
-<div id="modalPromo" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div class="flex justify-between items-center p-6 border-b sticky top-0 bg-white z-10">
-            <h3 class="font-semibold text-lg text-gray-800">
-                <i class="fas fa-tag text-rose-400 mr-2"></i> Tambah Promo Baru
-            </h3>
-            <button onclick="closeModal('modalPromo')" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition text-xl">&times;</button>
+═══════════════════════════════════════════ -->
+<div id="modalPromo" class="modal-backdrop hidden">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-tag"></i> Tambah Promo Baru</h3>
+            <button onclick="closeModal('modalPromo')" class="modal-close">×</button>
         </div>
-        <form onsubmit="submitPromo(event)" class="p-6 space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Judul Promo <span class="text-red-500">*</span></label>
-                <input type="text" id="inpJudulPromo" class="input-ctrl" placeholder="Contoh: Scaling Gratis Konsultasi" maxlength="80" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi Promo <span class="text-red-500">*</span></label>
-                <textarea id="inpDeskripsiPromo" rows="3" class="input-ctrl resize-none" placeholder="Jelaskan detail keuntungan promo ini..." maxlength="300" required></textarea>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Berlaku Hingga <span class="text-red-500">*</span></label>
-                <input type="text" id="inpTglPromo" class="input-ctrl" placeholder="Contoh: 31 Desember 2025" maxlength="30" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Foto Promo <span class="text-red-500">*</span></label>
-                <label for="inpFotoPromo" class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-rose-400 hover:bg-rose-50 transition">
-                    <div id="imgPreviewPromo" class="hidden w-full">
-                        <img id="imgPreviewElPromo" src="" alt="" class="w-full max-h-40 object-contain rounded-lg mb-2">
-                        <p class="text-xs text-gray-500" id="imgFileNamePromo"></p>
-                    </div>
-                    <div id="imgPlaceholderPromo">
-                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i>
-                        <p class="text-sm font-medium text-gray-500">Klik untuk upload foto</p>
-                        <p class="text-xs text-gray-400 mt-1">JPG / PNG, maks. 2MB</p>
-                    </div>
-                </label>
-                <input type="file" id="inpFotoPromo" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="previewImage(this,'imgPreviewPromo','imgPreviewElPromo','imgFileNamePromo','imgPlaceholderPromo')" required>
-            </div>
-            <div class="flex gap-3 pt-2">
-                <button type="button" onclick="closeModal('modalPromo')" class="flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition">Batal</button>
-                <button type="submit" id="btnSimpanPromo" class="flex-1 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition">
-                    <i class="fas fa-save"></i> Simpan Promo
-                </button>
-            </div>
-        </form>
+        <div class="modal-body">
+            <form onsubmit="submitPromo(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Judul Promo <span class="text-red-400">*</span></label>
+                    <input type="text" id="inpJudulPromo" class="input-ctrl" placeholder="Contoh: Scaling Gratis Konsultasi" maxlength="80" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Deskripsi Promo <span class="text-red-400">*</span></label>
+                    <textarea id="inpDeskripsiPromo" rows="3" class="input-ctrl resize-none" placeholder="Jelaskan detail keuntungan promo ini..." maxlength="300" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Berlaku Hingga <span class="text-red-400">*</span></label>
+                    <input type="text" id="inpTglPromo" class="input-ctrl" placeholder="Contoh: 31 Desember 2025" maxlength="30" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Foto Promo <span class="text-red-400">*</span></label>
+                    <label for="inpFotoPromo" class="upload-zone block">
+                        <div id="imgPreviewPromo" class="hidden">
+                            <img id="imgPreviewElPromo" src="" alt="" class="w-full max-h-36 object-contain rounded-lg mb-2">
+                            <p class="text-xs text-gray-400" id="imgFileNamePromo"></p>
+                        </div>
+                        <div id="imgPlaceholderPromo">
+                            <i class="fas fa-cloud-upload-alt text-3xl mb-2 block" style="color:#e8879f;"></i>
+                            <p class="text-sm font-medium text-gray-400">Klik untuk upload foto</p>
+                            <p class="text-xs text-gray-300 mt-1">JPG / PNG, maks. 2MB</p>
+                        </div>
+                    </label>
+                    <input type="file" id="inpFotoPromo" accept="image/jpeg,image/png,image/webp" class="hidden"
+                           onchange="previewImage(this,'imgPreviewPromo','imgPreviewElPromo','imgFileNamePromo','imgPlaceholderPromo')" required>
+                </div>
+                <div class="flex gap-3 pt-1">
+                    <button type="button" onclick="closeModal('modalPromo')" class="btn-secondary flex-1 justify-center">Batal</button>
+                    <button type="submit" id="btnSimpanPromo" class="main-btn flex-1 justify-center">
+                        <i class="fas fa-save"></i> Simpan Promo
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 
-<!-- =====================================================
+<!-- ═══════════════════════════════════════════
      MODAL: TAMBAH GALERI
-====================================================== -->
-<div id="modalGaleri" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div class="flex justify-between items-center p-6 border-b sticky top-0 bg-white z-10">
-            <h3 class="font-semibold text-lg text-gray-800">
-                <i class="fas fa-image text-rose-400 mr-2"></i> Upload Foto Galeri
-            </h3>
-            <button onclick="closeModal('modalGaleri')" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition text-xl">&times;</button>
+═══════════════════════════════════════════ -->
+<div id="modalGaleri" class="modal-backdrop hidden">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-image"></i> Upload Foto Galeri</h3>
+            <button onclick="closeModal('modalGaleri')" class="modal-close">×</button>
         </div>
-        <form onsubmit="submitGaleri(event)" class="p-6 space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Caption Foto <span class="text-red-500">*</span></label>
-                <input type="text" id="inpCaption" class="input-ctrl" placeholder="Contoh: Senyum indah pasien kami 😊" maxlength="80" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Foto <span class="text-red-500">*</span></label>
-                <label for="inpFotoGaleri" class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-rose-400 hover:bg-rose-50 transition">
-                    <div id="imgPreviewGaleri" class="hidden w-full">
-                        <img id="imgPreviewElGaleri" src="" alt="" class="w-full max-h-40 object-contain rounded-lg mb-2">
-                        <p class="text-xs text-gray-500" id="imgFileNameGaleri"></p>
-                    </div>
-                    <div id="imgPlaceholderGaleri">
-                        <i class="fas fa-camera text-3xl text-gray-300 mb-2"></i>
-                        <p class="text-sm font-medium text-gray-500">Upload foto momen pasien</p>
-                        <p class="text-xs text-gray-400 mt-1">JPG / PNG, maks. 2MB</p>
-                    </div>
-                </label>
-                <input type="file" id="inpFotoGaleri" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="previewImage(this,'imgPreviewGaleri','imgPreviewElGaleri','imgFileNameGaleri','imgPlaceholderGaleri')" required>
-            </div>
-            <div class="flex gap-3 pt-2">
-                <button type="button" onclick="closeModal('modalGaleri')" class="flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition">Batal</button>
-                <button type="submit" id="btnSimpanGaleri" class="flex-1 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition">
-                    <i class="fas fa-upload"></i> Upload Foto
-                </button>
-            </div>
-        </form>
+        <div class="modal-body">
+            <form onsubmit="submitGaleri(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Caption Foto <span class="text-red-400">*</span></label>
+                    <input type="text" id="inpCaption" class="input-ctrl" placeholder="Contoh: Senyum indah pasien kami 😊" maxlength="80" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Foto <span class="text-red-400">*</span></label>
+                    <label for="inpFotoGaleri" class="upload-zone block">
+                        <div id="imgPreviewGaleri" class="hidden">
+                            <img id="imgPreviewElGaleri" src="" alt="" class="w-full max-h-36 object-contain rounded-lg mb-2">
+                            <p class="text-xs text-gray-400" id="imgFileNameGaleri"></p>
+                        </div>
+                        <div id="imgPlaceholderGaleri">
+                            <i class="fas fa-camera text-3xl mb-2 block" style="color:#e8879f;"></i>
+                            <p class="text-sm font-medium text-gray-400">Upload foto momen pasien</p>
+                            <p class="text-xs text-gray-300 mt-1">JPG / PNG, maks. 2MB</p>
+                        </div>
+                    </label>
+                    <input type="file" id="inpFotoGaleri" accept="image/jpeg,image/png,image/webp" class="hidden"
+                           onchange="previewImage(this,'imgPreviewGaleri','imgPreviewElGaleri','imgFileNameGaleri','imgPlaceholderGaleri')" required>
+                </div>
+                <div class="flex gap-3 pt-1">
+                    <button type="button" onclick="closeModal('modalGaleri')" class="btn-secondary flex-1 justify-center">Batal</button>
+                    <button type="submit" id="btnSimpanGaleri" class="main-btn flex-1 justify-center">
+                        <i class="fas fa-upload"></i> Upload Foto
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 
-<!-- =====================================================
+<!-- ═══════════════════════════════════════════
      TOAST NOTIFIKASI
-====================================================== -->
-<div id="toast" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-white border rounded-xl shadow-xl px-5 py-3.5 text-sm font-medium opacity-0 pointer-events-none max-w-xs"
-     style="border-left: 4px solid #C4415A;">
-    <i class="fas fa-check-circle text-rose-500" id="toastIcon"></i>
+═══════════════════════════════════════════ -->
+<div id="toast">
+    <i id="toastIcon" class="fas fa-check-circle" style="font-size:16px;"></i>
     <span id="toastMsg">Berhasil!</span>
 </div>
 
 
-<!-- =====================================================
-     STYLE INLINE (Input control yang konsisten)
-====================================================== -->
-<style>
-.input-ctrl {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 0.875rem;
-    font-family: 'DM Sans', sans-serif;
-    color: #1f2937;
-    transition: border-color .2s, box-shadow .2s;
-    outline: none;
-    background: #fff;
-}
-.input-ctrl:focus {
-    border-color: #C4415A;
-    box-shadow: 0 0 0 3px rgba(196,65,90,0.1);
-}
-.input-ctrl::placeholder { color: #9ca3af; }
-</style>
-
-
-<!-- =====================================================
-     JAVASCRIPT
-====================================================== -->
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT — semua logika asli dipertahankan
+═══════════════════════════════════════════ -->
 <script>
-// ============================================================
-//  KONFIGURASI — Ganti dengan URL GAS yang sudah kamu deploy
-// ============================================================
+// ─────────────────────────────────────────────
+//  KONFIGURASI GAS
+// ─────────────────────────────────────────────
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyKNPR5Es1sYYL4jXIDGTkCYSpwRT6pQ4wrJLzFbxJprW4fXH3wIwPpPfrB00fz1IkD/exec";
 
-// Tab yang sedang aktif
 let activeTab = "layanan";
 
-// ============================================================
+// ─────────────────────────────────────────────
+//  PARTICLES (Login page)
+// ─────────────────────────────────────────────
+(function initParticles() {
+    const container = document.getElementById('loginParticles');
+    if (!container) return;
+    const positions = [
+        {left:'8%', top:'75%', dur:7, delay:0},
+        {left:'20%', top:'88%', dur:9, delay:1.2},
+        {left:'35%', top:'80%', dur:8, delay:2.8},
+        {left:'50%', top:'92%', dur:10, delay:0.5},
+        {left:'65%', top:'78%', dur:7.5, delay:3.5},
+        {left:'80%', top:'85%', dur:9.5, delay:1.8},
+        {left:'92%', top:'90%', dur:8.5, delay:4.2},
+        {left:'12%', top:'60%', dur:11, delay:5},
+        {left:'55%', top:'70%', dur:6.5, delay:2},
+        {left:'75%', top:'65%', dur:9, delay:3},
+    ];
+    positions.forEach(p => {
+        const el = document.createElement('div');
+        el.className = 'particle';
+        el.style.cssText = `left:${p.left};top:${p.top};animation-duration:${p.dur}s;animation-delay:${p.delay}s;`;
+        container.appendChild(el);
+    });
+})();
+
+// ─────────────────────────────────────────────
 //  LOGIN & LOGOUT
-// ============================================================
-function handleLogin(e) {
-    e.preventDefault();
+// ─────────────────────────────────────────────
+function handleLogin() {
     const user = document.getElementById('loginUser').value.trim();
     const pass = document.getElementById('loginPass').value;
     const btn  = document.getElementById('loginBtn');
     const err  = document.getElementById('loginErr');
 
-    // Validasi sederhana di sisi klien (password dicek juga di GAS untuk keamanan)
     if (user === 'admin' && pass === 'rose2026') {
         btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Masuk...';
         btn.disabled  = true;
-
         setTimeout(() => {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('dashboardPage').classList.remove('hidden');
             err.classList.add('hidden');
-            // Muat data tab pertama
             loadLayanan();
-        }, 400);
+        }, 500);
     } else {
         err.classList.remove('hidden');
         document.getElementById('loginPass').value = '';
         document.getElementById('loginPass').focus();
-        document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
-        document.getElementById('loginBtn').disabled = false;
+        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
+        btn.disabled  = false;
+        // Shake animation
+        err.style.animation = 'none';
+        err.offsetHeight;
+        err.style.animation = 'shake .3s ease';
     }
 }
 
+// Enter key on login inputs
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !document.getElementById('loginPage').classList.contains('hidden')) {
+        handleLogin();
+    }
+});
+
 function logout() {
-    if (!confirm("Yakin ingin keluar?")) return;
+    if (!confirm('Yakin ingin keluar dari dashboard?')) return;
     document.getElementById('dashboardPage').classList.add('hidden');
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('loginUser').value = '';
     document.getElementById('loginPass').value = '';
-    document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
-    document.getElementById('loginBtn').disabled = false;
+    const btn = document.getElementById('loginBtn');
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
+    btn.disabled  = false;
 }
 
 function togglePass() {
@@ -663,78 +986,52 @@ function togglePass() {
     const icon = document.getElementById('eyeIcon');
     if (inp.type === 'password') {
         inp.type = 'text';
-        icon.className = 'fas fa-eye-slash text-sm';
+        icon.className = 'fas fa-eye-slash';
     } else {
         inp.type = 'password';
-        icon.className = 'fas fa-eye text-sm';
+        icon.className = 'fas fa-eye';
     }
 }
 
-
-// ============================================================
+// ─────────────────────────────────────────────
 //  TAB NAVIGATION
-// ============================================================
+// ─────────────────────────────────────────────
 const TAB_CONFIG = {
-    layanan: {
-        title    : 'Kelola Layanan',
-        subtitle  : 'Tambah, ubah, atau nonaktifkan layanan klinik',
-        btnLabel  : 'Tambah Layanan',
-        loader    : loadLayanan
-    },
-    promo: {
-        title    : 'Promo & Penawaran',
-        subtitle  : 'Kelola promo yang tampil di halaman utama',
-        btnLabel  : 'Tambah Promo',
-        loader    : loadPromo
-    },
-    galeri: {
-        title    : 'Rose Family (Galeri)',
-        subtitle  : 'Upload foto momen bersama pasien',
-        btnLabel  : 'Upload Foto',
-        loader    : loadGaleri
-    },
-    review: {
-        title    : 'Ulasan Pasien',
-        subtitle  : 'Verifikasi dan kelola ulasan dari pasien',
-        btnLabel  : null, // Tab review tidak punya tombol tambah
-        loader    : loadReview
-    }
+    layanan: { title:'Kelola Layanan',         subtitle:'Tambah, ubah, atau nonaktifkan layanan klinik',  btnLabel:'Tambah Layanan', loader:loadLayanan },
+    promo  : { title:'Promo & Penawaran',       subtitle:'Kelola promo yang tampil di halaman utama',       btnLabel:'Tambah Promo',   loader:loadPromo   },
+    galeri : { title:'Rose Family (Galeri)',    subtitle:'Upload foto momen bersama pasien',                btnLabel:'Upload Foto',    loader:loadGaleri  },
+    review : { title:'Ulasan Pasien',           subtitle:'Verifikasi dan kelola ulasan dari pasien',        btnLabel:null,             loader:loadReview  }
 };
 
 function switchTab(tabName) {
-    // Sembunyikan semua konten
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-
-    // Tampilkan tab yang dipilih
     document.getElementById('tab-' + tabName).classList.remove('hidden');
     document.getElementById('nav-' + tabName).classList.add('active');
 
-    // Update header
     const cfg = TAB_CONFIG[tabName];
-    document.getElementById('pageTitle').textContent   = cfg.title;
+    document.getElementById('pageTitle').textContent    = cfg.title;
     document.getElementById('pageSubtitle').textContent = cfg.subtitle;
 
-    // Update tombol tambah
     const btnTambah = document.getElementById('btnTambah');
     if (cfg.btnLabel) {
-        btnTambah.classList.remove('hidden');
+        btnTambah.style.display = '';
         document.getElementById('btnTambahLabel').textContent = cfg.btnLabel;
     } else {
-        btnTambah.classList.add('hidden');
+        btnTambah.style.display = 'none';
     }
 
     activeTab = tabName;
-
-    // Muat data
     if (cfg.loader) cfg.loader();
 }
 
 function openModal() {
-    const modalMap = { layanan: 'modalLayanan', promo: 'modalPromo', galeri: 'modalGaleri' };
-    const id = modalMap[activeTab];
-    if (id) document.getElementById(id).classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    const map = { layanan:'modalLayanan', promo:'modalPromo', galeri:'modalGaleri' };
+    const id  = map[activeTab];
+    if (id) {
+        document.getElementById(id).classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 function closeModal(id) {
@@ -742,7 +1039,7 @@ function closeModal(id) {
     document.body.style.overflow = '';
 }
 
-// Tutup modal jika klik backdrop
+// Close on backdrop click
 document.addEventListener('click', function(e) {
     ['modalLayanan','modalPromo','modalGaleri'].forEach(id => {
         const modal = document.getElementById(id);
@@ -750,77 +1047,57 @@ document.addEventListener('click', function(e) {
     });
 });
 
-// Tutup modal dengan Escape
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-        ['modalLayanan','modalPromo','modalGaleri'].forEach(id => closeModal(id));
-    }
+    if (e.key === 'Escape') ['modalLayanan','modalPromo','modalGaleri'].forEach(id => closeModal(id));
 });
 
-
-// ============================================================
-//  PREVIEW GAMBAR DI MODAL
-// ============================================================
+// ─────────────────────────────────────────────
+//  IMAGE PREVIEW
+// ─────────────────────────────────────────────
 function previewImage(input, previewWrapId, previewImgId, fileNameId, placeholderId) {
     const file = input.files[0];
     if (!file) return;
-
-    // Validasi ukuran (maks 2MB)
     if (file.size > 2 * 1024 * 1024) {
         showToast('Ukuran file maksimal 2MB!', 'err');
         input.value = '';
         return;
     }
-
-    // Baca dan tampilkan preview
     const reader = new FileReader();
-    reader.onload = function(ev) {
+    reader.onload = ev => {
         document.getElementById(previewImgId).src = ev.target.result;
-        document.getElementById(fileNameId).textContent = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+        document.getElementById(fileNameId).textContent = file.name + ' (' + (file.size/1024).toFixed(0) + ' KB)';
         document.getElementById(previewWrapId).classList.remove('hidden');
         document.getElementById(placeholderId).classList.add('hidden');
     };
     reader.readAsDataURL(file);
 }
 
-
-// ============================================================
-//  HELPER: Konversi File ke Base64 (Promise)
-// ============================================================
 function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
+    return new Promise((res, rej) => {
         const reader = new FileReader();
-        reader.onload  = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Gagal membaca file"));
+        reader.onload  = () => res(reader.result);
+        reader.onerror = () => rej(new Error('Gagal membaca file'));
         reader.readAsDataURL(file);
     });
 }
 
-
-// ============================================================
-//  HELPER: POST ke GAS
-// ============================================================
+// ─────────────────────────────────────────────
+//  GAS POST / GET
+// ─────────────────────────────────────────────
 async function gasPost(payload) {
     try {
         const res  = await fetch(GAS_URL, {
             method : 'POST',
-            headers: { 'Content-Type': 'text/plain' }, // GAS minta text/plain untuk hindari preflight
+            headers: { 'Content-Type': 'text/plain' },
             body   : JSON.stringify(payload)
         });
-        const json = await res.json();
-        return json;
+        return await res.json();
     } catch (err) {
-        // CORS error saat POST ke GAS itu normal di browser,
-        // data tetap masuk ke Google Sheets. Anggap berhasil.
-        console.warn('[RDC Admin] POST mungkin CORS error, tapi data biasanya tetap masuk:', err.message);
-        return { success: true, _note: 'cors_bypass' };
+        console.warn('[RDC Admin] POST CORS bypass:', err.message);
+        return { success:true, _note:'cors_bypass' };
     }
 }
 
-
-// ============================================================
-//  HELPER: GET dari GAS
-// ============================================================
 async function gasGet(sheetName) {
     const res  = await fetch(`${GAS_URL}?sheet=${sheetName}`);
     const json = await res.json();
@@ -828,324 +1105,211 @@ async function gasGet(sheetName) {
     return json.data;
 }
 
-
-// ============================================================
-//  LOAD & RENDER LAYANAN
-// ============================================================
+// ─────────────────────────────────────────────
+//  LAYANAN
+// ─────────────────────────────────────────────
 async function loadLayanan() {
     const tbody = document.getElementById('tabelLayanan');
     tbody.innerHTML = renderLoadingRow(6);
-
     try {
-        // Admin pakai "admin_layanan" untuk mendapatkan semua data termasuk non-aktif
-        // Jika GAS kamu sudah support "admin_layanan", ganti di sini
         const data = await gasGet('layanan');
-
         if (!data || data.length === 0) {
             tbody.innerHTML = renderEmptyRow(6, 'Belum ada data layanan. Tambahkan layanan pertamamu!');
             return;
         }
-
-        // Update stat cards
         const aktif    = data.filter(d => String(d.status).toUpperCase() === 'AKTIF').length;
         const nonAktif = data.length - aktif;
-        document.getElementById('statTotalLayanan').textContent   = data.length;
-        document.getElementById('statAktifLayanan').textContent   = aktif;
+        document.getElementById('statTotalLayanan').textContent    = data.length;
+        document.getElementById('statAktifLayanan').textContent    = aktif;
         document.getElementById('statNonAktifLayanan').textContent = nonAktif;
 
-        // Render tabel
         tbody.innerHTML = data.map(item => `
-            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="px-4 py-3">
-                    ${renderVisual(item.ikon)}
+            <tr>
+                <td>${renderVisual(item.ikon)}</td>
+                <td><div class="font-semibold text-gray-800">${esc(item.nama)}</div></td>
+                <td><span class="font-semibold" style="color:#9D2E45;">${esc(item.harga)}</span></td>
+                <td class="hidden md:table-cell">
+                    <p class="text-gray-400 text-xs max-w-xs" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="${esc(item.deskripsi)}">${esc(item.deskripsi)}</p>
                 </td>
-                <td class="px-4 py-3">
-                    <div class="font-medium text-gray-800">${esc(item.nama)}</div>
-                </td>
-                <td class="px-4 py-3">
-                    <span class="text-rose-600 font-semibold">${esc(item.harga)}</span>
-                </td>
-                <td class="px-4 py-3 hidden md:table-cell">
-                    <p class="text-gray-500 text-xs max-w-xs truncate" title="${esc(item.deskripsi)}">${esc(item.deskripsi)}</p>
-                </td>
-                <td class="px-4 py-3">
-                    ${renderBadgeLayanan(item.status)}
-                </td>
-                <td class="px-4 py-3 text-right">
-                    <div class="flex items-center justify-end gap-2">
-                        <button onclick="toggleStatusLayanan('${esc(item.id)}', '${esc(item.status)}')"
-                                class="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition"
-                                title="Aktif / Non-Aktif">
-                            <i class="fas fa-toggle-${String(item.status).toUpperCase() === 'AKTIF' ? 'on text-green-500' : 'off text-gray-400'}"></i>
+                <td>${renderBadgeLayanan(item.status)}</td>
+                <td>
+                    <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;">
+                        <button onclick="toggleStatusLayanan('${esc(item.id)}','${esc(item.status)}')"
+                                class="btn-icon ${String(item.status).toUpperCase() === 'AKTIF' ? 'btn-toggle-on' : 'btn-toggle-off'}">
+                            <i class="fas fa-toggle-${String(item.status).toUpperCase() === 'AKTIF' ? 'on' : 'off'}"></i>
                         </button>
-                        <button onclick="hapusData('Layanan', '${esc(item.id)}', 'Yakin hapus layanan ${esc(item.nama)}?')"
-                                class="px-3 py-1.5 text-xs rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition">
+                        <button onclick="hapusData('Layanan','${esc(item.id)}','Yakin hapus layanan ${esc(item.nama)}?')" class="btn-icon btn-delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 </td>
             </tr>
         `).join('');
-
     } catch (err) {
         tbody.innerHTML = renderErrorRow(6, err.message);
     }
 }
 
-
-// ============================================================
-//  SUBMIT TAMBAH LAYANAN
-// ============================================================
 async function submitLayanan(e) {
     e.preventDefault();
     const btn  = document.getElementById('btnSimpanLayanan');
     const file = document.getElementById('inpFotoLayanan').files[0];
-
     if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
-
-    setLoading(btn, true, 'Mengunggah...');
-
+    setLoading(btn, true);
     try {
         const base64 = await fileToBase64(file);
-
         const result = await gasPost({
-            action    : 'tambah_layanan',
-            nama      : document.getElementById('inpNama').value.trim(),
-            harga     : document.getElementById('inpHarga').value.trim(),
-            deskripsi : document.getElementById('inpDeskripsi').value.trim(),
-            imageName : file.name,
-            mimeType  : file.type,
-            imageBase64: base64
+            action:'tambah_layanan',
+            nama:document.getElementById('inpNama').value.trim(),
+            harga:document.getElementById('inpHarga').value.trim(),
+            deskripsi:document.getElementById('inpDeskripsi').value.trim(),
+            imageName:file.name, mimeType:file.type, imageBase64:base64
         });
-
         if (result.success || result._note === 'cors_bypass') {
             showToast('Layanan berhasil ditambahkan! 🎉');
             closeModal('modalLayanan');
-            document.getElementById('inpNama').value     = '';
-            document.getElementById('inpHarga').value    = '';
-            document.getElementById('inpDeskripsi').value = '';
+            ['inpNama','inpHarga','inpDeskripsi'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('inpFotoLayanan').value = '';
-            resetImagePreview('imgPreview', 'imgPreviewEl', 'imgFileName', 'imgPlaceholder');
-            setTimeout(loadLayanan, 2000); // Beri waktu GAS menulis ke Sheets
-        } else {
-            showToast(result.message || 'Gagal menyimpan', 'err');
-        }
-    } catch (err) {
-        showToast('Error: ' + err.message, 'err');
-    } finally {
-        setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Layanan');
-    }
+            resetImgPreview('imgPreview','imgPreviewEl','imgFileName','imgPlaceholder');
+            setTimeout(loadLayanan, 2000);
+        } else { showToast(result.message || 'Gagal menyimpan', 'err'); }
+    } catch (err) { showToast('Error: ' + err.message, 'err'); }
+    finally { setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Layanan'); }
 }
 
-
-// ============================================================
-//  LOAD & RENDER PROMO
-// ============================================================
+// ─────────────────────────────────────────────
+//  PROMO
+// ─────────────────────────────────────────────
 async function loadPromo() {
     const tbody = document.getElementById('tabelPromo');
     tbody.innerHTML = renderLoadingRow(5);
-
     try {
         const data = await gasGet('promo');
-
         if (!data || data.length === 0) {
             tbody.innerHTML = renderEmptyRow(5, 'Belum ada promo. Tambahkan promo pertama!');
             return;
         }
-
         document.getElementById('statTotalPromo').textContent = data.length;
-
         tbody.innerHTML = data.map(item => `
-            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="px-4 py-3">
-                    ${renderVisual(item.url_gambar)}
-                </td>
-                <td class="px-4 py-3">
-                    <div class="font-medium text-gray-800">${esc(item.judul)}</div>
-                </td>
-                <td class="px-4 py-3 hidden md:table-cell">
-                    <p class="text-gray-500 text-xs max-w-xs truncate">${esc(item.deskripsi)}</p>
-                </td>
-                <td class="px-4 py-3">
-                    <span class="text-xs text-gray-500">${esc(item.tgl_berlaku)}</span>
-                </td>
-                <td class="px-4 py-3 text-right">
-                    <button onclick="hapusData('Promo', '${esc(item.id)}', 'Yakin hapus promo ${esc(item.judul)}?')"
-                            class="px-3 py-1.5 text-xs rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition">
-                        <i class="fas fa-trash"></i>
-                    </button>
+            <tr>
+                <td>${renderVisual(item.url_gambar)}</td>
+                <td><div class="font-semibold text-gray-800">${esc(item.judul)}</div></td>
+                <td class="hidden md:table-cell"><p class="text-gray-400 text-xs max-w-xs" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${esc(item.deskripsi)}</p></td>
+                <td><span class="text-xs text-gray-500">${esc(item.tgl_berlaku)}</span></td>
+                <td>
+                    <div style="display:flex;justify-content:flex-end;">
+                        <button onclick="hapusData('Promo','${esc(item.id)}','Yakin hapus promo ${esc(item.judul)}?')" class="btn-icon btn-delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `).join('');
-
-    } catch (err) {
-        tbody.innerHTML = renderErrorRow(5, err.message);
-    }
+    } catch (err) { tbody.innerHTML = renderErrorRow(5, err.message); }
 }
 
-
-// ============================================================
-//  SUBMIT TAMBAH PROMO
-// ============================================================
 async function submitPromo(e) {
     e.preventDefault();
     const btn  = document.getElementById('btnSimpanPromo');
     const file = document.getElementById('inpFotoPromo').files[0];
-
     if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
-
-    setLoading(btn, true, 'Mengunggah...');
-
+    setLoading(btn, true);
     try {
         const base64 = await fileToBase64(file);
-
         const result = await gasPost({
-            action     : 'tambah_promo',
-            judul      : document.getElementById('inpJudulPromo').value.trim(),
-            deskripsi  : document.getElementById('inpDeskripsiPromo').value.trim(),
-            tgl_berlaku: document.getElementById('inpTglPromo').value.trim(),
-            imageName  : file.name,
-            mimeType   : file.type,
-            imageBase64 : base64
+            action:'tambah_promo',
+            judul:document.getElementById('inpJudulPromo').value.trim(),
+            deskripsi:document.getElementById('inpDeskripsiPromo').value.trim(),
+            tgl_berlaku:document.getElementById('inpTglPromo').value.trim(),
+            imageName:file.name, mimeType:file.type, imageBase64:base64
         });
-
         if (result.success || result._note === 'cors_bypass') {
             showToast('Promo berhasil ditambahkan! 🎉');
             closeModal('modalPromo');
-            resetImagePreview('imgPreviewPromo', 'imgPreviewElPromo', 'imgFileNamePromo', 'imgPlaceholderPromo');
+            resetImgPreview('imgPreviewPromo','imgPreviewElPromo','imgFileNamePromo','imgPlaceholderPromo');
             setTimeout(loadPromo, 2000);
-        } else {
-            showToast(result.message || 'Gagal menyimpan', 'err');
-        }
-    } catch (err) {
-        showToast('Error: ' + err.message, 'err');
-    } finally {
-        setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Promo');
-    }
+        } else { showToast(result.message || 'Gagal menyimpan', 'err'); }
+    } catch (err) { showToast('Error: ' + err.message, 'err'); }
+    finally { setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Promo'); }
 }
 
-
-// ============================================================
-//  LOAD & RENDER GALERI
-// ============================================================
+// ─────────────────────────────────────────────
+//  GALERI
+// ─────────────────────────────────────────────
 async function loadGaleri() {
     const grid = document.getElementById('galeriGrid');
-    grid.innerHTML = `
-        <div class="skeleton h-40 rounded-xl"></div>
-        <div class="skeleton h-40 rounded-xl"></div>
-        <div class="skeleton h-40 rounded-xl"></div>
-        <div class="skeleton h-40 rounded-xl"></div>
-    `;
-
+    grid.innerHTML = '<div class="skeleton h-40"></div>'.repeat(4);
     try {
         const data = await gasGet('galeri');
-
         if (!data || data.length === 0) {
-            grid.innerHTML = `
-                <div class="col-span-4 py-12 text-center text-gray-400">
-                    <i class="fas fa-images text-4xl mb-3 text-gray-300"></i>
-                    <p class="text-sm">Belum ada foto galeri. Upload foto pertama!</p>
-                </div>
-            `;
+            grid.innerHTML = `<div style="grid-column:1/-1;" class="py-12 text-center text-gray-300">
+                <i class="fas fa-images text-4xl block mb-3"></i>
+                <p class="text-sm">Belum ada foto galeri. Upload foto pertama!</p>
+            </div>`;
             return;
         }
-
         grid.innerHTML = data.map(item => {
-            // Konversi URL sebelum dimasukkan ke tag img
-            var imgUrl = toDriveDirectUrl(item.url);
-            
-            return `
-            <div class="relative group rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-white">
-                <img src="${esc(imgUrl)}"
-                     alt="${esc(item.caption)}"
-                     class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
-                     loading="lazy"
+            const imgUrl = toDriveDirectUrl(item.url);
+            return `<div class="galeri-card border border-rose-50 shadow-sm bg-white">
+                <img src="${esc(imgUrl)}" alt="${esc(item.caption)}"
+                     class="w-full h-40 object-cover" loading="lazy"
                      onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
-
-                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all flex items-end">
-                    <div class="w-full px-3 py-2 text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                        ${esc(item.caption)}
-                    </div>
+                <div class="overlay">
+                    <p class="text-white text-xs font-medium">${esc(item.caption)}</p>
                 </div>
-
-                <button onclick="hapusData('Galeri', '${esc(item.id)}', 'Yakin hapus foto ini?')"
-                        class="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center shadow-md hover:bg-red-600">
+                <button onclick="hapusData('Galeri','${esc(item.id)}','Yakin hapus foto ini?')" class="del-btn">
                     <i class="fas fa-times"></i>
                 </button>
-            </div>
-        `}).join('');
-
+            </div>`;
+        }).join('');
     } catch (err) {
-        grid.innerHTML = `<div class="col-span-4 py-8 text-center text-red-500 text-sm">Error: ${esc(err.message)}</div>`;
+        grid.innerHTML = `<div style="grid-column:1/-1;" class="py-8 text-center text-red-400 text-sm">
+            Error: ${esc(err.message)}
+        </div>`;
     }
 }
 
-
-// ============================================================
-//  SUBMIT TAMBAH GALERI
-// ============================================================
 async function submitGaleri(e) {
     e.preventDefault();
     const btn  = document.getElementById('btnSimpanGaleri');
     const file = document.getElementById('inpFotoGaleri').files[0];
-
     if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
-
-    setLoading(btn, true, 'Mengunggah...');
-
+    setLoading(btn, true);
     try {
         const base64 = await fileToBase64(file);
-
         const result = await gasPost({
-            action     : 'tambah_galeri',
-            caption    : document.getElementById('inpCaption').value.trim(),
-            imageName  : file.name,
-            mimeType   : file.type,
-            imageBase64 : base64
+            action:'tambah_galeri',
+            caption:document.getElementById('inpCaption').value.trim(),
+            imageName:file.name, mimeType:file.type, imageBase64:base64
         });
-
         if (result.success || result._note === 'cors_bypass') {
             showToast('Foto galeri berhasil diupload! 🎉');
             closeModal('modalGaleri');
-            resetImagePreview('imgPreviewGaleri', 'imgPreviewElGaleri', 'imgFileNameGaleri', 'imgPlaceholderGaleri');
+            resetImgPreview('imgPreviewGaleri','imgPreviewElGaleri','imgFileNameGaleri','imgPlaceholderGaleri');
             setTimeout(loadGaleri, 2000);
-        } else {
-            showToast(result.message || 'Gagal upload', 'err');
-        }
-    } catch (err) {
-        showToast('Error: ' + err.message, 'err');
-    } finally {
-        setLoading(btn, false, '<i class="fas fa-upload"></i> Upload Foto');
-    }
+        } else { showToast(result.message || 'Gagal upload', 'err'); }
+    } catch (err) { showToast('Error: ' + err.message, 'err'); }
+    finally { setLoading(btn, false, '<i class="fas fa-upload"></i> Upload Foto'); }
 }
 
-
-// ============================================================
-//  LOAD & RENDER REVIEW
-// ============================================================
+// ─────────────────────────────────────────────
+//  REVIEW
+// ─────────────────────────────────────────────
 async function loadReview() {
     const tbody = document.getElementById('tabelReview');
     tbody.innerHTML = renderLoadingRow(6);
-
     try {
-        // Muat SEMUA review (termasuk yang belum tampil)
-        // Catatan: GAS getReview() filter hanya yang tampil=TRUE
-        // Untuk admin butuh getAllReview() → GAS pakai ?sheet=admin_review
         const data = await gasGet('review');
-
         if (!data || data.length === 0) {
             tbody.innerHTML = renderEmptyRow(6, 'Belum ada ulasan masuk dari pasien.');
             return;
         }
-
-        // Update stats
         const tampil  = data.filter(d => d.status_tampil === true || String(d.status_tampil).toUpperCase() === 'TRUE').length;
         const pending = data.length - tampil;
         document.getElementById('statTotalReview').textContent   = data.length;
         document.getElementById('statTampilReview').textContent  = tampil;
         document.getElementById('statPendingReview').textContent = pending;
 
-        // Update badge di sidebar
         if (pending > 0) {
             document.getElementById('reviewBadge').textContent = pending;
             document.getElementById('reviewBadge').classList.remove('hidden');
@@ -1153,264 +1317,166 @@ async function loadReview() {
 
         tbody.innerHTML = data.map(item => {
             const isTampil = (item.status_tampil === true || String(item.status_tampil).toUpperCase() === 'TRUE');
-            const stars    = '★'.repeat(Math.min(5, Math.max(1, parseInt(item.rating) || 5)));
-            const empty    = '☆'.repeat(5 - (Math.min(5, Math.max(1, parseInt(item.rating) || 5))));
-
-            return `
-            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="px-4 py-3">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 font-semibold text-sm flex-shrink-0">
+            const rating   = Math.min(5, Math.max(1, parseInt(item.rating) || 5));
+            const stars    = '★'.repeat(rating) + '<span style="color:#e5e7eb;">' + '★'.repeat(5-rating) + '</span>';
+            return `<tr>
+                <td>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fdf0f3,#f8d0d8);display:flex;align-items:center;justify-content:center;color:#9D2E45;font-weight:700;font-size:13px;flex-shrink:0;">
                             ${esc(item.nama_pasien.charAt(0).toUpperCase())}
                         </div>
-                        <span class="font-medium text-sm text-gray-800">${esc(item.nama_pasien)}</span>
+                        <span class="font-semibold text-gray-700">${esc(item.nama_pasien)}</span>
                     </div>
                 </td>
-                <td class="px-4 py-3">
-                    <span class="text-amber-400 text-sm">${stars}</span><span class="text-gray-200 text-sm">${empty}</span>
-                </td>
-                <td class="px-4 py-3 max-w-xs">
-                    <p class="text-xs text-gray-600 line-clamp-2">${esc(item.komentar)}</p>
-                </td>
-                <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">${esc(item.tanggal)}</td>
-                <td class="px-4 py-3">
-                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${isTampil ? 'badge-tampil' : 'badge-pending'}">
-                        ${isTampil ? '✓ Tampil' : '⏳ Pending'}
-                    </span>
-                </td>
-                <td class="px-4 py-3 text-right">
-                    <div class="flex items-center justify-end gap-2">
-                        <button onclick="toggleStatusReview('${esc(item.id)}', ${isTampil})"
-                                class="px-3 py-1.5 text-xs rounded-lg border ${isTampil ? 'border-gray-200 text-gray-500 hover:bg-gray-50' : 'border-green-200 text-green-600 hover:bg-green-50'} transition"
-                                title="${isTampil ? 'Sembunyikan' : 'Tampilkan di website'}">
+                <td><span style="color:#d97706;font-size:14px;">${stars}</span></td>
+                <td><p class="text-gray-500 text-xs" style="max-width:200px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${esc(item.komentar)}</p></td>
+                <td><span class="text-xs text-gray-400" style="white-space:nowrap;">${esc(item.tanggal)}</span></td>
+                <td><span class="badge ${isTampil ? 'badge-tampil' : 'badge-pending'}">${isTampil ? '✓ Tampil' : '⏳ Pending'}</span></td>
+                <td>
+                    <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;">
+                        <button onclick="toggleStatusReview('${esc(item.id)}',${isTampil})"
+                                class="btn-icon ${isTampil ? 'btn-hide' : 'btn-show'}">
                             <i class="fas ${isTampil ? 'fa-eye-slash' : 'fa-eye'}"></i>
                             ${isTampil ? 'Sembunyikan' : 'Tampilkan'}
                         </button>
-                        <button onclick="hapusData('Review', '${esc(item.id)}', 'Yakin hapus review dari ${esc(item.nama_pasien)}?')"
-                                class="px-3 py-1.5 text-xs rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition">
+                        <button onclick="hapusData('Review','${esc(item.id)}','Yakin hapus review dari ${esc(item.nama_pasien)}?')" class="btn-icon btn-delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 </td>
-            </tr>
-        `}).join('');
-
-    } catch (err) {
-        tbody.innerHTML = renderErrorRow(6, err.message);
-    }
+            </tr>`;
+        }).join('');
+    } catch (err) { tbody.innerHTML = renderErrorRow(6, err.message); }
 }
 
-
-// ============================================================
-//  AKSI: Toggle Status Layanan
-// ============================================================
+// ─────────────────────────────────────────────
+//  TOGGLE & HAPUS
+// ─────────────────────────────────────────────
 async function toggleStatusLayanan(id, statusSekarang) {
     const statusBaru = String(statusSekarang).toUpperCase() === 'AKTIF' ? 'NON-AKTIF' : 'AKTIF';
     if (!confirm(`Ubah status menjadi ${statusBaru}?`)) return;
-
     try {
-        await gasPost({ action: 'update_status_layanan', id: id, status_baru: statusBaru });
+        await gasPost({ action:'update_status_layanan', id, status_baru:statusBaru });
         showToast(`Status diubah ke ${statusBaru}`);
         setTimeout(loadLayanan, 1500);
-    } catch (err) {
-        showToast('Gagal update status', 'err');
-    }
+    } catch { showToast('Gagal update status', 'err'); }
 }
 
-
-// ============================================================
-//  AKSI: Toggle Status Review (Tampil/Sembunyikan)
-// ============================================================
 async function toggleStatusReview(id, statusTampilSekarang) {
     const statusBaru = !statusTampilSekarang;
     const label = statusBaru ? 'tampilkan' : 'sembunyikan';
     if (!confirm(`Yakin ingin ${label} review ini?`)) return;
-
     try {
-        await gasPost({ action: 'update_status_review', id: id, status_tampil: statusBaru });
+        await gasPost({ action:'update_status_review', id, status_tampil:statusBaru });
         showToast(`Review berhasil di${label}kan`);
         setTimeout(loadReview, 1500);
-    } catch (err) {
-        showToast('Gagal update status review', 'err');
-    }
+    } catch { showToast('Gagal update status review', 'err'); }
 }
 
-
-// ============================================================
-//  AKSI: Hapus Data
-// ============================================================
 async function hapusData(sheetName, id, confirmMsg) {
     if (!confirm(confirmMsg)) return;
-
     try {
-        await gasPost({ action: 'hapus', sheet: sheetName, id: id });
+        await gasPost({ action:'hapus', sheet:sheetName, id });
         showToast('Data berhasil dihapus!');
-
-        // Reload tab yang sesuai
-        const tabMap = { Layanan: loadLayanan, Promo: loadPromo, Galeri: loadGaleri, Review: loadReview };
-        if (tabMap[sheetName]) setTimeout(tabMap[sheetName], 1500);
-
-    } catch (err) {
-        showToast('Gagal menghapus data', 'err');
-    }
+        const map = { Layanan:loadLayanan, Promo:loadPromo, Galeri:loadGaleri, Review:loadReview };
+        if (map[sheetName]) setTimeout(map[sheetName], 1500);
+    } catch { showToast('Gagal menghapus data', 'err'); }
 }
 
-
-// ============================================================
-//  HELPER: Render Visual (gambar dari Drive atau emoji)
-// ============================================================
+// ─────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────
 function renderVisual(value) {
-    if (!value) return '<span class="text-2xl">🦷</span>';
-
-    // Jika URL gambar (Drive/http)
+    if (!value) return '<span style="font-size:24px;">🦷</span>';
     if (String(value).startsWith('http')) {
-        return `<img src="${esc(value)}" alt="" class="w-12 h-12 rounded-lg object-cover border border-gray-100"
-                     onerror="this.src='https://via.placeholder.com/48?text=?'">`;
+        const url = toDriveDirectUrl(value);
+        return `<img src="${esc(url)}" alt="" style="width:44px;height:44px;border-radius:10px;object-fit:cover;border:1px solid #f3e8eb;"
+                     onerror="this.src='https://via.placeholder.com/44?text=?'">`;
     }
-    // Emoji atau teks biasa
-    return `<span class="text-2xl">${esc(value)}</span>`;
-}
-// ============================================================
-//  HELPER: Render Visual (gambar dari Drive atau emoji)
-// ============================================================
-function renderVisual(value) {
-    if (!value) return '<span class="text-2xl">🦷</span>';
-
-    // Jika URL gambar (Drive/http)
-    if (String(value).startsWith('http')) {
-        // Gunakan konversi URL di sini
-        var directUrl = toDriveDirectUrl(value);
-        return `<img src="${esc(directUrl)}" alt="" class="w-12 h-12 rounded-lg object-cover border border-gray-100"
-                     onerror="this.src='https://via.placeholder.com/48?text=?'">`;
-    }
-    // Emoji atau teks biasa
-    return `<span class="text-2xl">${esc(value)}</span>`;
+    return `<span style="font-size:22px;">${esc(value)}</span>`;
 }
 
-
-// ============================================================
-//  HELPER: Badge Status Layanan
-// ============================================================
 function renderBadgeLayanan(status) {
     const isAktif = String(status).toUpperCase() === 'AKTIF';
-    return `<span class="px-2.5 py-1 rounded-full text-xs font-semibold ${isAktif ? 'badge-aktif' : 'badge-nonaktif'}">
-                ${isAktif ? '● Aktif' : '○ Non-Aktif'}
-            </span>`;
+    return `<span class="badge ${isAktif ? 'badge-aktif' : 'badge-nonaktif'}">${isAktif ? '● Aktif' : '○ Non-Aktif'}</span>`;
 }
 
-
-// ============================================================
-//  HELPER: Row Loading / Empty / Error
-// ============================================================
 function renderLoadingRow(colspan) {
-    return `<tr><td colspan="${colspan}" class="px-4 py-8 text-center text-gray-400">
-        <div class="flex flex-col items-center gap-2">
-            <i class="fas fa-circle-notch fa-spin text-rose-400 text-xl"></i>
-            <span class="text-sm">Memuat data...</span>
-        </div>
+    return `<tr><td colspan="${colspan}" class="text-center py-10 text-gray-300">
+        <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2" style="color:#e8879f;"></i>
+        <span class="text-sm text-gray-300">Memuat data...</span>
     </td></tr>`;
 }
 
 function renderEmptyRow(colspan, msg) {
-    return `<tr><td colspan="${colspan}" class="px-4 py-12 text-center text-gray-400">
-        <i class="fas fa-box-open text-3xl mb-2 block text-gray-300"></i>
-        <span class="text-sm">${msg}</span>
+    return `<tr><td colspan="${colspan}" class="py-12 text-center">
+        <i class="fas fa-box-open text-3xl block mb-2" style="color:#f3d0d8;"></i>
+        <span class="text-sm text-gray-300">${msg}</span>
     </td></tr>`;
 }
 
 function renderErrorRow(colspan, msg) {
-    return `<tr><td colspan="${colspan}" class="px-4 py-8 text-center text-red-500">
-        <i class="fas fa-exclamation-circle text-2xl mb-2 block"></i>
-        <span class="text-sm">Gagal memuat data: ${esc(msg)}</span>
-        <br><span class="text-xs text-gray-400 mt-1 block">Pastikan URL GAS di variable GAS_URL sudah benar dan sudah di-deploy.</span>
+    return `<tr><td colspan="${colspan}" class="py-8 text-center">
+        <i class="fas fa-exclamation-circle text-2xl block mb-2" style="color:#fca5a5;"></i>
+        <span class="text-sm text-red-400">Gagal memuat data: ${esc(msg)}</span><br>
+        <span class="text-xs text-gray-300 mt-1 block">Pastikan URL GAS sudah benar dan sudah di-deploy.</span>
     </td></tr>`;
 }
 
-
-// ============================================================
-//  HELPER: Set Loading State Tombol
-// ============================================================
 function setLoading(btn, isLoading, normalHtml) {
-    btn.disabled = isLoading;
-    btn.innerHTML = isLoading
-        ? '<i class="fas fa-circle-notch fa-spin"></i> Mengunggah...'
-        : normalHtml;
+    btn.disabled  = isLoading;
+    if (isLoading) btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Mengunggah...';
+    else if (normalHtml) btn.innerHTML = normalHtml;
 }
 
-
-// ============================================================
-//  HELPER: Reset Image Preview
-// ============================================================
-function resetImagePreview(previewWrapId, previewImgId, fileNameId, placeholderId) {
+function resetImgPreview(previewWrapId, previewImgId, fileNameId, placeholderId) {
     document.getElementById(previewImgId).src = '';
     document.getElementById(fileNameId).textContent = '';
     document.getElementById(previewWrapId).classList.add('hidden');
     document.getElementById(placeholderId).classList.remove('hidden');
 }
 
+function toDriveDirectUrl(url) {
+    if (!url) return '';
+    if (url.includes('lh3.googleusercontent.com')) return url;
+    const matchFile = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (matchFile) return 'https://lh3.googleusercontent.com/d/' + matchFile[1];
+    const matchOpen = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (matchOpen) return 'https://lh3.googleusercontent.com/d/' + matchOpen[1];
+    const matchUc = url.match(/id=([a-zA-Z0-9_-]+)/);
+    if (url.includes('uc?export') && matchUc) return 'https://lh3.googleusercontent.com/d/' + matchUc[1];
+    return url;
+}
 
-// ============================================================
-//  TOAST NOTIFIKASI
-// ============================================================
+function esc(str) {
+    return String(str || '')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+// ─────────────────────────────────────────────
+//  TOAST
+// ─────────────────────────────────────────────
 let toastTimer;
 function showToast(msg, type = 'ok') {
     const toast = document.getElementById('toast');
     const icon  = document.getElementById('toastIcon');
-    const span  = document.getElementById('toastMsg');
-
-    span.textContent     = msg;
-    icon.className       = type === 'err' ? 'fas fa-exclamation-circle text-red-500' : 'fas fa-check-circle text-green-500';
-    toast.style.borderLeftColor = type === 'err' ? '#ef4444' : '#C4415A';
-
-    toast.style.opacity         = '1';
-    toast.style.pointerEvents   = 'auto';
-    toast.style.transform       = 'translateY(0)';
-
+    document.getElementById('toastMsg').textContent = msg;
+    icon.className = type === 'err' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+    icon.style.color = type === 'err' ? '#ef4444' : '#10b981';
+    toast.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-        toast.style.opacity       = '0';
-        toast.style.pointerEvents = 'none';
-    }, 3800);
-}
-// ============================================================
-//  HELPER: Konversi URL Gambar Drive (Anti-Block)
-// ============================================================
-function toDriveDirectUrl(url) {
-    if (!url) return '';
-    
-    // Jika sudah menggunakan format lh3, biarkan
-    if (url.includes('lh3.googleusercontent.com')) return url;
-
-    // Ambil ID dari format https://drive.google.com/file/d/FILE_ID/view
-    var matchFile = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-    if (matchFile) return 'https://lh3.googleusercontent.com/d/' + matchFile[1];
-
-    // Ambil ID dari format https://drive.google.com/open?id=FILE_ID
-    var matchOpen = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-    if (matchOpen) return 'https://lh3.googleusercontent.com/d/' + matchOpen[1];
-
-    // Ambil ID dari format uc?export=view (format lama yang diblokir)
-    var matchUc = url.match(/id=([a-zA-Z0-9_-]+)/);
-    if (url.includes('uc?export') && matchUc) {
-        return 'https://lh3.googleusercontent.com/d/' + matchUc[1];
-    }
-
-    return url;
-}
-
-
-// ============================================================
-//  SECURITY: Escape HTML
-// ============================================================
-function esc(str) {
-    return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
 }
 </script>
+
+<!-- Shake keyframe for login error -->
+<style>
+@keyframes shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+}
+.stat-card.c-amber::before { background: linear-gradient(90deg,#d97706,#fbbf24); }
+</style>
 
 </body>
 </html>
