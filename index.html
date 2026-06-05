@@ -800,6 +800,38 @@
             .wa-modal-box { padding:24px; }
             #waFloat { width:48px;height:48px;font-size:1.2rem;bottom:24px;left:24px; }
         }
+        /* ================================================
+           VIDEO BACKGROUND MOBILE (HERO SECTION)
+        ================================================ */
+        /* Secara default (di Laptop), sembunyikan video */
+        .hero-video-mobile, .hero-overlay-mobile {
+            display: none;
+        }
+
+        /* Khusus layar kecil (HP / max-width 768px) */
+        @media (max-width: 768px) {
+            /* Tampilkan video agar menutupi layar penuh */
+            .hero-video-mobile {
+                display: block;
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: 0;
+            }
+            /* Tampilkan overlay gelap agar teks putih tetap mudah dibaca */
+            .hero-overlay-mobile {
+                display: block;
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(to bottom, rgba(196,65,90,0.3), rgba(28,10,16,0.85));
+                z-index: 1;
+            }
+            /* Matikan background warna, cincin animasi, dan partikel bawaan laptop */
+            #hero { background: #1C0A10; }
+            .hero-rings, #particles { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -847,6 +879,14 @@
 </div>
 
 <section id="hero">
+    <video class="hero-video-mobile" autoplay loop muted playsinline>
+        <source src="assets/video-klinik.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay-mobile"></div>
+    <div class="hero-rings">
+        <div class="hero-ring"></div><div class="hero-ring"></div>
+        <div class="hero-ring"></div><div class="hero-ring"></div>
+    </div>
     <div class="hero-rings">
         <div class="hero-ring"></div><div class="hero-ring"></div>
         <div class="hero-ring"></div><div class="hero-ring"></div>
