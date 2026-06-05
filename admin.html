@@ -1,1482 +1,1275 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — Rose Dental Care</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Rose Dental Care</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ════════════════════════════════════
+   ROOT & RESET
+════════════════════════════════════ */
+:root {
+  --d9:  #0d0307;
+  --d8:  #1a0710;
+  --d7:  #2d1020;
+  --d6:  #3d1428;
+  --rose:#c4415a;
+  --rose-lt:#e8879f;
+  --rose-glow:rgba(196,65,90,0.22);
+  --gold:#c9a84c;
+  --glass:rgba(255,255,255,0.045);
+  --gb:  rgba(255,160,180,0.14);
+  --txt: #fce8f0;
+  --txt2:rgba(252,232,240,0.58);
+  --txt3:rgba(252,232,240,0.32);
+  --sw:  240px;
+  --hh:  60px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--d8);color:var(--txt);-webkit-font-smoothing:antialiased;}
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        rose: {
-                            50 : '#FFF8F9',
-                            100: '#FDF0F3',
-                            200: '#F8D0D8',
-                            300: '#E8879F',
-                            400: '#D4617A',
-                            500: '#C4415A',
-                            600: '#9D2E45',
-                            700: '#7A2035',
-                            800: '#5C1525',
-                            900: '#3D0D18',
-                        }
-                    },
-                    fontFamily: {
-                        display: ['Cormorant Garamond', 'Georgia', 'serif'],
-                        body   : ['DM Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+/* ════════════════════════════════════
+   BG MESH + PARTICLES
+════════════════════════════════════ */
+.bg-mesh{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 85% 15%, rgba(139,30,58,0.22) 0%,transparent 70%),
+    radial-gradient(ellipse 55% 65% at 5%  85%, rgba(74,16,36,0.28)  0%,transparent 70%);
+}
+#ptcl{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.p{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,120,150,0.65),transparent 70%);
+  animation:floatP linear infinite;
+}
+@keyframes floatP{
+  0%  {transform:translateY(105vh) scale(0);opacity:0;}
+  12% {opacity:.7;transform:translateY(88vh) scale(1);}
+  88% {opacity:.25;}
+  100%{transform:translateY(-8vh) scale(.6) rotate(600deg);opacity:0;}
+}
 
-    <style>
-        :root {
-            --rose-glow: rgba(196, 65, 90, 0.18);
-            --rose-deep: #1a0710;
-            --rose-mid:  #2d1020;
-            --glass-bg:  rgba(255,255,255,0.06);
-            --glass-border: rgba(255,160,180,0.18);
-        }
+/* ════════════════════════════════════
+   LOGIN PAGE
+════════════════════════════════════ */
+#loginPage{
+  position:fixed;inset:0;z-index:900;
+  display:flex;align-items:center;justify-content:center;padding:16px;
+  background:linear-gradient(145deg, var(--d9) 0%, var(--d7) 55%, #180910 100%);
+  transition:opacity .5s;
+}
+#loginPage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:0;}
+#loginPage .inner{position:relative;z-index:2;width:100%;max-width:400px;}
 
-        * { box-sizing: border-box; }
-        body { font-family: 'DM Sans', sans-serif; }
+.login-logo{text-align:center;margin-bottom:32px;}
+.login-logo .icon-wrap{
+  width:64px;height:64px;border-radius:18px;margin:0 auto 14px;
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,160,180,0.22);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  backdrop-filter:blur(10px);
+}
+.login-logo h1{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#ffd6df;}
+.login-logo p{font-size:12px;color:var(--txt3);margin-top:3px;letter-spacing:1.5px;text-transform:uppercase;}
 
-        /* ─── PARTICLES ─── */
-        #loginParticles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
-        .particle {
-            position: absolute;
-            width: 5px; height: 5px;
-            background: radial-gradient(circle, rgba(255,140,160,0.9), transparent 70%);
-            border-radius: 50%;
-            animation: floatUp linear infinite;
-        }
-        @keyframes floatUp {
-            0%   { transform: translateY(0) scale(0); opacity: 0; }
-            15%  { opacity: 0.8; transform: scale(1); }
-            85%  { opacity: 0.3; }
-            100% { transform: translateY(-600px) scale(0.5) rotate(20deg); opacity: 0; }
-        }
+.login-card{
+  background:rgba(255,255,255,0.065);
+  backdrop-filter:blur(22px);
+  border:1px solid rgba(255,160,180,0.18);
+  border-radius:22px;padding:36px 32px;
+  box-shadow:0 32px 64px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.08);
+  animation:lCardIn .75s cubic-bezier(.16,1,.3,1);
+}
+@keyframes lCardIn{from{opacity:0;transform:translateY(24px)scale(.97)}to{opacity:1;transform:none}}
 
-        /* ─── LOGIN PAGE ─── */
-        #loginPage {
-            background: linear-gradient(145deg, var(--rose-deep) 0%, var(--rose-mid) 55%, #1f0d18 100%);
-        }
+.lbl{display:block;font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--txt3);margin-bottom:7px;}
+.inp-wrap{position:relative;margin-bottom:14px;}
+.inp-wrap i.lico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:rgba(255,160,180,0.42);font-size:13px;}
+.inp-wrap input{
+  width:100%;padding:11px 40px 11px 37px;
+  background:rgba(255,255,255,0.055);
+  border:1px solid rgba(255,160,180,0.18);border-radius:11px;
+  color:#ffe0e8;font-size:13.5px;font-family:'DM Sans',sans-serif;outline:none;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+.inp-wrap input::placeholder{color:rgba(255,160,180,.3);}
+.inp-wrap input:focus{border-color:rgba(255,110,140,.6);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(196,65,90,.18);}
+.eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,160,180,.35);font-size:13px;}
 
-        .login-card {
-            background: rgba(255,255,255,0.07);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255,160,180,0.2);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 32px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-        }
-        .login-card h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px; font-weight: 600;
-            color: #ffd6df; margin-bottom: 28px;
-        }
+.lerr{
+  display:none;margin-bottom:14px;padding:11px 14px;border-radius:11px;
+  background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.25);
+  color:#fca5a5;font-size:12.5px;align-items:center;gap:8px;
+}
+.lerr.show{display:flex;}
 
-        .login-input-wrap { position: relative; margin-bottom: 16px; }
-        .login-input-wrap i.icon {
-            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-            color: rgba(255,160,180,0.5); font-size: 13px;
-        }
-        .login-input {
-            width: 100%; padding: 11px 14px 11px 38px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,160,180,0.2);
-            border-radius: 12px;
-            color: #ffe0e8;
-            font-size: 13.5px; font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border-color .2s, box-shadow .2s, background .2s;
-        }
-        .login-input::placeholder { color: rgba(255,160,180,0.35); }
-        .login-input:focus {
-            border-color: rgba(255,120,150,0.6);
-            background: rgba(255,255,255,0.1);
-            box-shadow: 0 0 0 3px rgba(196,65,90,0.2);
-        }
+.btn-login{
+  width:100%;padding:12.5px;border:none;border-radius:11px;cursor:pointer;
+  background:linear-gradient(135deg,#c4415a,#8d1f33);
+  color:#fff;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;
+  box-shadow:0 4px 20px rgba(196,65,90,.4);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .15s,box-shadow .2s;
+}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(196,65,90,.5);}
+.btn-login:disabled{opacity:.7;transform:none;}
 
-        .login-btn {
-            width: 100%; padding: 12px;
-            background: linear-gradient(135deg, #c4415a, #8d1f33);
-            border: none; border-radius: 12px;
-            color: #fff; font-weight: 600; font-size: 14px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(196,65,90,0.45);
-            transition: transform .15s, box-shadow .2s, background .2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .login-btn:hover {
-            background: linear-gradient(135deg, #d4516a, #9d2e43);
-            box-shadow: 0 6px 28px rgba(196,65,90,0.55);
-            transform: translateY(-1px);
-        }
-        .login-btn:active { transform: translateY(0); }
+/* ════════════════════════════════════
+   APP LAYOUT
+════════════════════════════════════ */
+#app{display:none;position:relative;z-index:1;min-height:100vh;}
 
-        /* ─── FADE ANIMATION ─── */
-        .fade-enter { animation: fadeIn .25s ease forwards; }
-        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:var(--sw);
+  background:linear-gradient(180deg,var(--d8) 0%,var(--d9) 100%);
+  border-right:1px solid var(--gb);
+  display:flex;flex-direction:column;z-index:100;
+  overflow-y:auto;scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none;}
 
-        /* ─── SIDEBAR ─── */
-        #sidebar {
-            background: linear-gradient(180deg, var(--rose-deep) 0%, var(--rose-mid) 100%);
-            border-right: 1px solid rgba(255,160,180,0.12);
-        }
-        .nav-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 9px 12px; border-radius: 10px;
-            font-size: 13px; color: rgba(255,200,215,0.65);
-            cursor: pointer; border: 1px solid transparent;
-            transition: all .2s; width: 100%; text-align: left;
-        }
-        .nav-item:hover { background: rgba(255,160,180,0.1); color: #ffccd5; }
-        .nav-item.active {
-            background: rgba(196,65,90,0.2);
-            border-color: rgba(196,65,90,0.3);
-            color: #ff8fab; font-weight: 600;
-        }
-        .nav-item.active i { color: #ff8fab; }
-        .nav-item i { color: rgba(255,160,180,0.5); font-size: 14px; width: 16px; text-align: center; }
-        .nav-section-label {
-            font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px;
-            color: rgba(255,200,215,0.3); padding: 12px 12px 4px;
-            text-transform: uppercase;
-        }
+.sb-brand{padding:22px 20px 18px;border-bottom:1px solid var(--gb);}
+.sb-brand .logo{display:flex;align-items:center;gap:10px;}
+.sb-brand .logo-icon{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--rose),#7a2035);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  box-shadow:0 4px 12px rgba(196,65,90,.35);
+}
+.sb-brand h2{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#ffd6df;}
+.sb-brand h2 em{font-style:normal;color:var(--rose-lt);}
+.sb-brand p{font-size:10px;color:var(--txt3);letter-spacing:1.2px;text-transform:uppercase;margin-top:1px;}
 
-        /* ─── MAIN AREA ─── */
-        #mainArea {
-            background:
-                linear-gradient(rgba(253,240,243,0.9), rgba(255,248,249,0.9)),
-                url('assets/bg-dashboard.jpg') center/cover fixed;
-        }
+.sb-section{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;padding:14px 20px 4px;}
 
-        /* ─── TOPBAR ─── */
-        #topbar {
-            background: rgba(255,255,255,0.82);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(196,65,90,0.1);
-        }
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9.5px 12px;margin:1.5px 8px;border-radius:10px;
+  font-size:13px;color:var(--txt2);cursor:pointer;
+  border:1px solid transparent;transition:all .18s;
+  background:none;width:calc(100% - 16px);text-align:left;font-family:'DM Sans',sans-serif;
+}
+.nav-item i{font-size:13.5px;width:17px;text-align:center;color:rgba(255,160,180,.42);flex-shrink:0;}
+.nav-item:hover{background:rgba(255,160,180,.08);color:var(--txt);}
+.nav-item.active{
+  background:linear-gradient(135deg,rgba(196,65,90,.22),rgba(255,107,138,.1));
+  border-color:rgba(196,65,90,.28);color:#ff8fab;font-weight:600;
+}
+.nav-item.active i{color:#ff8fab;}
+.nav-badge{
+  margin-left:auto;background:var(--rose);color:#fff;
+  font-size:10px;font-weight:700;padding:1.5px 7px;border-radius:20px;
+}
 
-        /* ─── STAT CARDS ─── */
-        .stat-card {
-            background: #fff;
-            border: 1px solid #f3e8eb;
-            border-radius: 16px;
-            padding: 18px 20px;
-            position: relative;
-            overflow: hidden;
-            transition: transform .2s, box-shadow .2s;
-        }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,65,90,0.1); }
-        .stat-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            border-radius: 16px 16px 0 0;
-        }
-        .stat-card.c-rose::before   { background: linear-gradient(90deg,#C4415A,#e8879f); }
-        .stat-card.c-green::before  { background: linear-gradient(90deg,#059669,#34d399); }
-        .stat-card.c-amber::before  { background: linear-gradient(90deg,#d97706,#fbbf24); }
-        .stat-card.c-red::before    { background: linear-gradient(90deg,#dc2626,#f87171); }
-        .stat-value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 32px; font-weight: 600; line-height: 1;
-        }
-        .stat-icon {
-            position: absolute; right: 16px; top: 20px;
-            width: 38px; height: 38px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px;
-        }
+.sb-user{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;margin:8px;border-radius:12px;
+  background:rgba(255,255,255,.045);border:1px solid var(--gb);
+}
+.sb-avatar{
+  width:33px;height:33px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--rose),#7a2035);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;color:#fff;
+}
+.sb-user-name{font-size:13px;font-weight:600;color:#ffd6df;}
+.sb-user-sub{font-size:10.5px;color:var(--txt3);}
 
-        /* ─── DATA TABLE ─── */
-        .data-table-wrap {
-            background: #fff;
-            border: 1px solid #f3e8eb;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(196,65,90,0.06);
-        }
-        .data-table-wrap table { width: 100%; font-size: 13.5px; }
-        .data-table-wrap thead tr {
-            background: linear-gradient(135deg, #FFF8F9, #FDF0F3);
-            border-bottom: 1px solid #f3e8eb;
-        }
-        .data-table-wrap thead th {
-            padding: 12px 16px; text-align: left;
-            font-size: 10.5px; font-weight: 700;
-            color: #9D2E45; letter-spacing: 0.8px; text-transform: uppercase;
-        }
-        .data-table-wrap tbody tr {
-            border-bottom: 1px solid #fdf0f3;
-            transition: background .15s;
-        }
-        .data-table-wrap tbody tr:hover { background: #FFF8F9; }
-        .data-table-wrap tbody tr:last-child { border-bottom: none; }
-        .data-table-wrap tbody td { padding: 12px 16px; color: #374151; vertical-align: middle; }
-        .table-wrap { overflow-x: auto; }
+/* ── MAIN ── */
+.main{margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh;}
 
-        /* ─── MODAL ─── */
-        .modal-backdrop {
-            position: fixed; inset: 0; z-index: 50;
-            background: rgba(30,5,15,0.65);
-            backdrop-filter: blur(4px);
-            display: flex; align-items: center; justify-content: center; padding: 16px;
-        }
-        .modal-box {
-            background: #fff;
-            border-radius: 20px;
-            width: 100%; max-width: 480px;
-            max-height: 90vh; overflow-y: auto;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.3), 0 0 0 1px rgba(196,65,90,0.1);
-        }
-        .modal-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 24px 16px;
-            border-bottom: 1px solid #f3e8eb;
-            position: sticky; top: 0; background: #fff; z-index: 5;
-        }
-        .modal-header h3 {
-            font-size: 16px; font-weight: 600; color: #3D0D18;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .modal-header h3 i { color: #C4415A; }
-        .modal-close {
-            width: 30px; height: 30px; border-radius: 50%;
-            border: 1px solid #f3e8eb; background: none;
-            color: #9ca3af; font-size: 18px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all .15s;
-        }
-        .modal-close:hover { background: #fee2e8; color: #C4415A; }
-        .modal-body { padding: 20px 24px 24px; }
+/* ── TOPBAR ── */
+.topbar{
+  height:var(--hh);background:rgba(26,7,16,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--gb);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;position:sticky;top:0;z-index:50;
+}
+.topbar-left h2{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;}
+.topbar-left p{font-size:11.5px;color:var(--txt3);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.topbar-time{font-size:11.5px;color:var(--txt3);}
 
-        /* ─── FORM CONTROLS ─── */
-        .input-ctrl {
-            width: 100%; padding: 10px 14px;
-            border: 1.5px solid #e5e7eb; border-radius: 10px;
-            font-size: 13.5px; font-family: 'DM Sans', sans-serif; color: #1f2937;
-            outline: none; background: #fafafa;
-            transition: border-color .2s, box-shadow .2s, background .2s;
-        }
-        .input-ctrl:focus {
-            border-color: #C4415A; background: #fff;
-            box-shadow: 0 0 0 3px rgba(196,65,90,0.1);
-        }
-        .input-ctrl::placeholder { color: #9ca3af; }
+/* ── PAGE ── */
+.page{display:none;padding:26px 28px;animation:fadeUp .35s ease;}
+.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-        .upload-zone {
-            cursor: pointer; border: 2px dashed #e8d0d6; border-radius: 14px;
-            padding: 24px; text-align: center; background: #fff8f9;
-            transition: border-color .2s, background .2s;
-        }
-        .upload-zone:hover { border-color: #C4415A; background: #fdf0f3; }
+/* ════════════════════════════════════
+   STAT CARDS
+════════════════════════════════════ */
+.stats-row{display:grid;gap:16px;margin-bottom:22px;}
+.stats-row.c3{grid-template-columns:repeat(3,1fr);}
+.stats-row.c2{grid-template-columns:repeat(2,1fr);}
 
-        /* ─── BADGE ─── */
-        .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
-        .badge-aktif   { background: #dcfce7; color: #15803d; }
-        .badge-nonaktif{ background: #fee2e2; color: #b91c1c; }
-        .badge-tampil  { background: #dcfce7; color: #15803d; }
-        .badge-pending { background: #fef3c7; color: #92400e; }
+.scard{
+  background:var(--glass);border:1px solid var(--gb);border-radius:15px;
+  padding:18px 20px;position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+}
+.scard::after{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;border-radius:15px 15px 0 0;}
+.scard.r::after{background:linear-gradient(90deg,var(--rose),var(--rose-lt));}
+.scard.g::after{background:linear-gradient(90deg,#059669,#34d399);}
+.scard.a::after{background:linear-gradient(90deg,#d97706,#fbbf24);}
+.scard.b::after{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.scard:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(196,65,90,.1);}
 
-        /* ─── ACTION BUTTONS ─── */
-        .btn-icon {
-            padding: 6px 10px; border-radius: 8px;
-            font-size: 12px; font-weight: 500;
-            border: 1px solid; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 5px;
-            transition: all .15s;
-        }
-        .btn-toggle-on  { border-color: #bbf7d0; color: #15803d; background: #f0fdf4; }
-        .btn-toggle-on:hover  { background: #dcfce7; }
-        .btn-toggle-off { border-color: #fecaca; color: #b91c1c; background: #fef2f2; }
-        .btn-toggle-off:hover { background: #fee2e2; }
-        .btn-delete { border-color: #fecaca; color: #ef4444; background: #fff5f5; }
-        .btn-delete:hover { background: #fee2e2; border-color: #fca5a5; }
-        .btn-show   { border-color: #bbf7d0; color: #059669; background: #f0fdf4; }
-        .btn-show:hover   { background: #dcfce7; }
-        .btn-hide   { border-color: #e5e7eb; color: #6b7280; background: #f9fafb; }
-        .btn-hide:hover   { background: #f3f4f6; }
+.scard-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;margin-bottom:13px;
+}
+.scard.r .scard-icon{background:rgba(196,65,90,.15);color:var(--rose-lt);}
+.scard.g .scard-icon{background:rgba(5,150,105,.15);color:#34d399;}
+.scard.a .scard-icon{background:rgba(217,119,6,.15);color:#fbbf24;}
+.scard.b .scard-icon{background:rgba(37,99,235,.15);color:#60a5fa;}
 
-        /* ─── TOAST ─── */
-        #toast {
-            position: fixed; bottom: 24px; right: 24px; z-index: 100;
-            display: flex; align-items: center; gap: 10px;
-            background: #fff;
-            border-radius: 14px;
-            padding: 12px 18px;
-            font-size: 13.5px; font-weight: 500;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.06);
-            opacity: 0; pointer-events: none; transform: translateY(8px);
-            transition: opacity .3s, transform .3s;
-            max-width: 320px;
-        }
-        #toast.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.scard-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;line-height:1;}
+.scard-lbl{font-size:11.5px;color:var(--txt2);margin-top:4px;}
 
-        /* ─── SKELETON ─── */
-        .skeleton {
-            background: linear-gradient(90deg,#f9f0f2 25%,#f3e6ea 50%,#f9f0f2 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.4s infinite;
-            border-radius: 12px;
-        }
-        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+/* ════════════════════════════════════
+   DATA TABLE (DARK)
+════════════════════════════════════ */
+.tcard{background:var(--glass);border:1px solid var(--gb);border-radius:15px;overflow:hidden;}
+.tcard-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 22px;border-bottom:1px solid var(--gb);
+}
+.tcard-hd h3{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;}
+.t-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:rgba(196,65,90,.07);border-bottom:1px solid var(--gb);}
+th{
+  padding:11px 16px;text-align:left;
+  font-size:10px;font-weight:700;letter-spacing:1.2px;
+  color:var(--rose-lt);text-transform:uppercase;
+}
+td{padding:13px 16px;font-size:13px;border-bottom:1px solid rgba(255,160,180,.05);vertical-align:middle;color:var(--txt);}
+tr:hover td{background:rgba(255,160,180,.03);}
+tr:last-child td{border-bottom:none;}
 
-        /* ─── SCROLLBAR ─── */
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #e8879f; border-radius: 10px; }
+.timg{width:46px;height:40px;object-fit:cover;border-radius:8px;border:1px solid var(--gb);}
+.timg-empty{
+  width:46px;height:40px;border-radius:8px;
+  background:rgba(255,255,255,.04);border:1px solid var(--gb);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--txt3);
+}
 
-        /* ─── REVIEW BADGE ─── */
-        .review-badge {
-            background: linear-gradient(135deg,#c4415a,#9d2e45);
-            color: #fff; font-size: 10px; font-weight: 700;
-            padding: 1px 7px; border-radius: 20px; margin-left: auto;
-        }
+/* ════════════════════════════════════
+   BADGES
+════════════════════════════════════ */
+.badge{display:inline-flex;align-items:center;padding:3.5px 10px;border-radius:20px;font-size:11px;font-weight:600;gap:5px;}
+.badge-ok  {background:rgba(5,150,105,.15);color:#34d399;border:1px solid rgba(5,150,105,.2);}
+.badge-off {background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);}
+.badge-pend{background:rgba(217,119,6,.15);color:#fbbf24;border:1px solid rgba(217,119,6,.2);}
 
-        /* ─── GALERI CARD HOVER ─── */
-        .galeri-card { position: relative; border-radius: 14px; overflow: hidden; }
-        .galeri-card .overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(30,5,15,0.7), transparent 50%);
-            opacity: 0; transition: opacity .25s;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 12px;
-        }
-        .galeri-card:hover .overlay { opacity: 1; }
-        .galeri-card .del-btn {
-            position: absolute; top: 8px; right: 8px;
-            width: 28px; height: 28px; border-radius: 50%;
-            background: rgba(220,38,38,0.9); color: #fff;
-            font-size: 11px; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity .2s;
-        }
-        .galeri-card:hover .del-btn { opacity: 1; }
+/* ════════════════════════════════════
+   ACTION BUTTONS
+════════════════════════════════════ */
+.acts{display:flex;align-items:center;justify-content:flex-end;gap:5px;}
+.abt{
+  padding:5.5px 9px;border-radius:8px;font-size:11.5px;font-weight:500;
+  border:1px solid;cursor:pointer;display:inline-flex;align-items:center;gap:5px;
+  font-family:'DM Sans',sans-serif;transition:all .15s;background:none;
+}
+.abt-edit  {border-color:rgba(196,65,90,.3); color:var(--rose-lt);background:rgba(196,65,90,.08);}
+.abt-edit:hover  {background:rgba(196,65,90,.18);}
+.abt-on    {border-color:rgba(5,150,105,.3); color:#34d399;background:rgba(5,150,105,.08);}
+.abt-on:hover    {background:rgba(5,150,105,.18);}
+.abt-off   {border-color:rgba(239,68,68,.3);  color:#f87171;background:rgba(239,68,68,.08);}
+.abt-off:hover   {background:rgba(239,68,68,.18);}
+.abt-del   {border-color:rgba(239,68,68,.3);  color:#f87171;background:rgba(239,68,68,.06);}
+.abt-del:hover   {background:rgba(239,68,68,.16);}
+.abt-show  {border-color:rgba(5,150,105,.3);  color:#34d399;background:rgba(5,150,105,.08);}
+.abt-show:hover  {background:rgba(5,150,105,.18);}
+.abt-hide  {border-color:rgba(255,255,255,.1);color:var(--txt2);background:rgba(255,255,255,.04);}
+.abt-hide:hover  {background:rgba(255,255,255,.09);}
 
-        /* ─── Info banner ─── */
-        .info-banner { display: flex; align-items: center; gap: 10px; border-radius: 12px; padding: 12px 16px; font-size: 13px; }
-        .info-banner.blue  { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
-        .info-banner.amber { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+/* ════════════════════════════════════
+   MAIN BUTTON
+════════════════════════════════════ */
+.btn-main{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 18px;border:none;border-radius:11px;cursor:pointer;
+  background:linear-gradient(135deg,var(--rose),#8d1f33);
+  color:#fff;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;
+  box-shadow:0 4px 14px rgba(196,65,90,.35);
+  transition:transform .15s,box-shadow .2s;
+}
+.btn-main:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(196,65,90,.45);}
+.btn-sec{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 18px;border-radius:11px;cursor:pointer;
+  background:var(--glass);border:1px solid var(--gb);
+  color:var(--txt2);font-size:13px;font-family:'DM Sans',sans-serif;
+  transition:all .15s;
+}
+.btn-sec:hover{background:rgba(255,255,255,.08);color:var(--txt);border-color:rgba(255,160,180,.28);}
 
-        /* ─── User info card ─── */
-        .user-card {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px 12px; border-radius: 12px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,160,180,0.12);
-            margin: 12px;
-        }
-        .user-avatar {
-            width: 34px; height: 34px; border-radius: 50%;
-            background: linear-gradient(135deg,#C4415A,#7A2035);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-weight: 700; font-size: 14px; flex-shrink: 0;
-        }
+/* ════════════════════════════════════
+   MODAL
+════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(5,0,3,.72);backdrop-filter:blur(5px);
+  display:none;align-items:center;justify-content:center;padding:16px;
+}
+.modal-overlay.open{display:flex;}
 
-        /* ─── Section: Quick stats ─── */
-        .quick-stats { display: grid; gap: 12px; }
-        @media (min-width: 640px) { .quick-stats.cols-3 { grid-template-columns: repeat(3,1fr); } }
-        @media (min-width: 640px) { .quick-stats.cols-2 { grid-template-columns: repeat(2,1fr); } }
+.modal{
+  background:var(--d7);border:1px solid var(--gb);
+  border-radius:20px;width:100%;max-width:500px;
+  max-height:92vh;overflow-y:auto;scrollbar-width:thin;
+  scrollbar-color:var(--rose) transparent;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  animation:mIn .3s cubic-bezier(.16,1,.3,1);
+}
+@keyframes mIn{from{opacity:0;transform:scale(.95)translateY(12px)}to{opacity:1;transform:none}}
 
-        /* ─── Main btn ─── */
-        .main-btn {
-            display: inline-flex; align-items: center; gap: 7px;
-            padding: 9px 18px; border-radius: 12px;
-            background: linear-gradient(135deg,#C4415A,#9D2E45);
-            color: #fff; font-weight: 600; font-size: 13.5px;
-            border: none; cursor: pointer;
-            box-shadow: 0 4px 12px rgba(196,65,90,0.3);
-            transition: transform .15s, box-shadow .2s;
-        }
-        .main-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(196,65,90,0.4);
-        }
+.modal-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 24px 16px;border-bottom:1px solid var(--gb);
+  position:sticky;top:0;background:var(--d7);z-index:5;
+}
+.modal-head h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;}
+.modal-head h3 i{color:var(--rose);}
+.modal-close{
+  width:30px;height:30px;border-radius:50%;border:1px solid var(--gb);
+  background:none;color:var(--txt2);font-size:17px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.modal-close:hover{background:rgba(255,160,180,.1);color:var(--rose-lt);}
+.modal-body{padding:20px 24px 24px;}
+.modal-foot{padding:14px 24px;border-top:1px solid var(--gb);display:flex;justify-content:flex-end;gap:9px;}
 
-        .btn-secondary {
-            display: inline-flex; align-items: center; gap: 7px;
-            padding: 9px 18px; border-radius: 12px;
-            background: #fff; color: #4b5563;
-            border: 1.5px solid #e5e7eb; font-size: 13.5px; font-weight: 500;
-            cursor: pointer; transition: all .15s;
-        }
-        .btn-secondary:hover { border-color: #C4415A; color: #C4415A; background: #fff8f9; }
-    </style>
+/* ── FORM CONTROLS ── */
+.flbl{display:block;font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--txt2);margin-bottom:7px;}
+.finp{
+  width:100%;padding:10px 13px;
+  background:rgba(255,255,255,.05);border:1.5px solid rgba(255,160,180,.16);
+  border-radius:10px;color:var(--txt);font-size:13.5px;font-family:'DM Sans',sans-serif;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.finp:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(196,65,90,.14);}
+.finp::placeholder{color:var(--txt3);}
+textarea.finp{resize:vertical;min-height:82px;}
+
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{margin-bottom:16px;}
+
+.upload-zone{
+  cursor:pointer;border:2px dashed rgba(255,160,180,.2);border-radius:13px;
+  padding:22px;text-align:center;background:rgba(255,160,180,.025);
+  transition:border-color .2s,background .2s;
+}
+.upload-zone:hover{border-color:var(--rose);background:rgba(196,65,90,.05);}
+.upload-zone i{font-size:26px;color:var(--rose-lt);margin-bottom:7px;display:block;}
+.upload-zone p{font-size:12px;color:var(--txt3);}
+.prev-img{max-width:100%;max-height:130px;object-fit:contain;border-radius:9px;margin-top:10px;border:1px solid var(--gb);}
+
+/* ── GALERI GRID ── */
+.galeri-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.g-card{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--gb);aspect-ratio:1;}
+.g-card img{width:100%;height:100%;object-fit:cover;transition:transform .3s;}
+.g-card:hover img{transform:scale(1.05);}
+.g-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(13,3,7,.8) 0%,transparent 55%);
+  opacity:0;transition:opacity .25s;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:10px;
+}
+.g-card:hover .g-overlay{opacity:1;}
+.g-del{
+  position:absolute;top:7px;right:7px;
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(220,38,38,.85);color:#fff;border:none;cursor:pointer;
+  font-size:10.5px;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.g-card:hover .g-del{opacity:1;}
+.g-edit{
+  position:absolute;top:7px;left:7px;
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(196,65,90,.85);color:#fff;border:none;cursor:pointer;
+  font-size:10.5px;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.g-card:hover .g-edit{opacity:1;}
+
+/* ── INFO BANNER ── */
+.ibanner{
+  display:flex;align-items:center;gap:10px;
+  border-radius:11px;padding:11px 15px;font-size:12.5px;margin-bottom:18px;
+}
+.ibanner.amber{background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.22);color:#fbbf24;}
+.ibanner.blue {background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.22);color:#60a5fa;}
+
+/* ── STARS ── */
+.stars-gold{color:#d97706;font-size:13px;}
+.stars-empty{color:rgba(255,255,255,.12);}
+
+/* ── LOADING/EMPTY ── */
+.tload td,.tempty td,.terr td{
+  text-align:center;padding:44px 16px;color:var(--txt3);
+}
+.spinner{
+  display:inline-block;width:22px;height:22px;
+  border:2px solid rgba(255,160,180,.2);border-top-color:var(--rose-lt);
+  border-radius:50%;animation:spin .75s linear infinite;margin-bottom:8px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:22px;right:22px;z-index:9999;
+  display:flex;align-items:center;gap:10px;
+  background:var(--d6);border:1px solid var(--gb);
+  border-radius:13px;padding:12px 18px;
+  font-size:13px;font-weight:500;
+  box-shadow:0 8px 32px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:opacity .28s,transform .28s;max-width:300px;
+}
+#toast.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+
+/* ── SKELETON ── */
+.skel{
+  background:linear-gradient(90deg,rgba(255,160,180,.06) 25%,rgba(255,160,180,.12) 50%,rgba(255,160,180,.06) 75%);
+  background-size:200% 100%;animation:shim 1.3s infinite;border-radius:10px;
+}
+@keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--rose);border-radius:10px;}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}
+}
+
+@media(max-width:900px){
+  :root{--sw:0px;}
+  .sidebar{transform:translateX(-240px);width:240px;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .stats-row.c3,.stats-row.c2{grid-template-columns:1fr 1fr;}
+  .galeri-grid{grid-template-columns:repeat(3,1fr);}
+  .page{padding:16px;}
+}
+@media(max-width:560px){
+  .stats-row.c3,.stats-row.c2{grid-template-columns:1fr;}
+  .frow{grid-template-columns:1fr;}
+  .galeri-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
 </head>
+<body>
 
-<body class="antialiased">
+<!-- BG -->
+<div class="bg-mesh"></div>
+<div id="ptcl"></div>
 
-<!-- ═══════════════════════════════════════════
-     HALAMAN LOGIN
-═══════════════════════════════════════════ -->
-<div id="loginPage" class="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
-
-    <!-- Background video -->
-    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0 opacity-30">
-        <source src="assets/background.mp4" type="video/mp4">
-    </video>
-
-    <!-- Overlay gradient -->
-    <div class="absolute inset-0 z-0" style="background: linear-gradient(145deg, rgba(26,7,16,0.92) 0%, rgba(45,16,32,0.85) 55%, rgba(31,13,24,0.95) 100%);"></div>
-
-    <!-- Particles container -->
-    <div id="loginParticles"></div>
-
-    <!-- Dekoratif lingkaran blur -->
-    <div class="absolute top-[-80px] right-[-80px] w-80 h-80 rounded-full pointer-events-none z-1"
-         style="background: radial-gradient(circle, rgba(196,65,90,0.15), transparent 70%);"></div>
-    <div class="absolute bottom-[-60px] left-[-60px] w-64 h-64 rounded-full pointer-events-none z-1"
-         style="background: radial-gradient(circle, rgba(196,65,90,0.1), transparent 70%);"></div>
-
-    <div class="relative z-10 max-w-sm w-full">
-        <!-- Logo -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4"
-                 style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,160,180,0.25); backdrop-filter: blur(12px);">
-                <span class="text-3xl">🌹</span>
-            </div>
-            <h1 class="font-display text-3xl font-semibold drop-shadow-md" style="color:#ffd6df;">Rose Dental Care</h1>
-            <p class="text-sm mt-1" style="color: rgba(255,180,200,0.6);">Dashboard Admin</p>
-        </div>
-
-        <!-- Card Login -->
-        <div class="login-card">
-            <h2>Masuk ke Dashboard</h2>
-
-            <!-- Username -->
-            <div class="mb-4">
-                <label class="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style="color:rgba(255,180,200,0.6);">Username</label>
-                <div class="login-input-wrap" style="margin-bottom:0;">
-                    <i class="fas fa-user icon"></i>
-                    <input type="text" id="loginUser" class="login-input" placeholder="Masukkan username" required autocomplete="username">
-                </div>
-            </div>
-
-            <!-- Password -->
-            <div class="mb-6">
-                <label class="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style="color:rgba(255,180,200,0.6);">Password</label>
-                <div class="login-input-wrap" style="margin-bottom:0; position:relative;">
-                    <i class="fas fa-lock icon"></i>
-                    <input type="password" id="loginPass" class="login-input" style="padding-right:40px;" placeholder="Masukkan password" required autocomplete="current-password">
-                    <button type="button" onclick="togglePass()"
-                            style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,160,180,0.45);font-size:13px;"
-                            id="eyeBtn">
-                        <i class="fas fa-eye" id="eyeIcon"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Error -->
-            <div id="loginErr" class="hidden mb-4 px-4 py-3 rounded-xl flex items-center gap-2 text-sm"
-                 style="background:rgba(220,38,38,0.15); border:1px solid rgba(220,38,38,0.3); color:#fca5a5;">
-                <i class="fas fa-exclamation-circle"></i>
-                <span>Username atau password salah!</span>
-            </div>
-
-            <!-- Submit -->
-            <button onclick="handleLogin()" id="loginBtn" class="login-btn">
-                <i class="fas fa-sign-in-alt"></i>
-                Masuk Dashboard
-            </button>
-        </div>
-
-        <p class="text-center mt-5 text-sm" style="color:rgba(255,180,200,0.45);">
-            <a href="index.html" style="color:rgba(255,180,200,0.5); text-decoration:none; transition: color .2s;"
-               onmouseover="this.style.color='rgba(255,180,200,0.85)'" onmouseout="this.style.color='rgba(255,180,200,0.5)'">
-                ← Kembali ke Website Utama
-            </a>
-        </p>
+<!-- ══════════════════════════════════════
+     LOGIN
+══════════════════════════════════════ -->
+<div id="loginPage">
+  <video autoplay loop muted playsinline src="assets/background.mp4"></video>
+  <div class="inner">
+    <div class="login-logo">
+      <div class="icon-wrap">🌹</div>
+      <h1>Rose Dental Care</h1>
+      <p>Dashboard Admin</p>
     </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════
-     DASHBOARD UTAMA
-═══════════════════════════════════════════ -->
-<div id="dashboardPage" class="hidden min-h-screen flex">
-
-    <!-- ─── SIDEBAR ─── -->
-    <aside id="sidebar" class="w-60 flex-shrink-0 flex flex-col min-h-screen sticky top-0">
-
-        <!-- Logo -->
-        <div class="px-5 py-5 border-b" style="border-color:rgba(255,160,180,0.12);">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
-                     style="background: linear-gradient(135deg,#C4415A,#7A2035); box-shadow: 0 4px 12px rgba(196,65,90,0.4);">
-                    🌹
-                </div>
-                <div>
-                    <div class="font-display text-sm font-semibold" style="color:#ffd6df;">
-                        <em class="not-italic" style="color:#ff8fab;">Rose</em> Admin
-                    </div>
-                    <div class="text-xs" style="color:rgba(255,180,200,0.45);">Klinik Gigi Gresik</div>
-                </div>
-            </div>
+    <div class="login-card">
+      <div>
+        <label class="lbl">Username</label>
+        <div class="inp-wrap">
+          <i class="fas fa-user lico"></i>
+          <input type="text" id="loginUser" placeholder="Masukkan username" autocomplete="username">
         </div>
-
-        <!-- Nav -->
-        <nav class="flex-1 px-3 py-4 space-y-0.5">
-            <p class="nav-section-label">Konten Website</p>
-
-            <button onclick="switchTab('layanan')" id="nav-layanan" class="nav-item active w-full">
-                <i class="fas fa-tooth"></i>
-                Layanan Gigi
-            </button>
-            <button onclick="switchTab('promo')" id="nav-promo" class="nav-item w-full">
-                <i class="fas fa-tags"></i>
-                Promo & Penawaran
-            </button>
-            <button onclick="switchTab('galeri')" id="nav-galeri" class="nav-item w-full">
-                <i class="fas fa-images"></i>
-                Rose Family (Galeri)
-            </button>
-
-            <p class="nav-section-label">Interaksi Pasien</p>
-
-            <button onclick="switchTab('review')" id="nav-review" class="nav-item w-full">
-                <i class="fas fa-star"></i>
-                Ulasan Pasien
-                <span id="reviewBadge" class="review-badge hidden">0</span>
-            </button>
-
-            <div class="pt-3 mt-2" style="border-top:1px solid rgba(255,160,180,0.1);">
-                <a href="index.html" target="_blank" class="nav-item block" style="text-decoration:none;">
-                    <i class="fas fa-external-link-alt"></i>
-                    Lihat Website Publik
-                </a>
-                <button onclick="logout()" class="nav-item w-full mt-0.5" style="color:rgba(252,165,165,0.7);">
-                    <i class="fas fa-sign-out-alt" style="color:rgba(252,165,165,0.5);"></i>
-                    Keluar
-                </button>
-            </div>
-        </nav>
-
-        <!-- User info -->
-        <div class="user-card">
-            <div class="user-avatar">A</div>
-            <div>
-                <div class="text-sm font-semibold" style="color:#ffd6df;">Admin</div>
-                <div class="text-xs" style="color:rgba(255,180,200,0.4);">Rose Dental Care</div>
-            </div>
+      </div>
+      <div>
+        <label class="lbl" style="margin-top:4px">Password</label>
+        <div class="inp-wrap">
+          <i class="fas fa-lock lico"></i>
+          <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password" style="padding-right:40px;">
+          <button class="eye-btn" onclick="togglePass()" type="button"><i class="fas fa-eye" id="eyeIcon"></i></button>
         </div>
-    </aside>
-
-    <!-- ─── MAIN AREA ─── -->
-    <main id="mainArea" class="flex-1 flex flex-col min-w-0">
-
-        <!-- Topbar -->
-        <div id="topbar" class="px-6 py-4 sticky top-0 z-20 flex items-center justify-between">
-            <div>
-                <h2 class="text-base font-semibold text-gray-800" id="pageTitle">Kelola Layanan</h2>
-                <p class="text-xs text-gray-500 mt-0.5" id="pageSubtitle">Tambah, ubah, atau nonaktifkan layanan klinik</p>
-            </div>
-            <button onclick="openModal()" id="btnTambah" class="main-btn">
-                <i class="fas fa-plus text-xs"></i>
-                <span id="btnTambahLabel">Tambah Layanan</span>
-            </button>
-        </div>
-
-        <div class="p-6 flex-1">
-
-            <!-- ══════════════════════
-                 TAB: LAYANAN
-            ══════════════════════ -->
-            <div id="tab-layanan" class="tab-content fade-enter">
-                <div class="quick-stats cols-3 mb-6">
-                    <div class="stat-card c-rose">
-                        <div class="stat-icon" style="background:#fff0f3; color:#C4415A;"><i class="fas fa-th-list"></i></div>
-                        <div class="stat-value text-gray-800" id="statTotalLayanan">—</div>
-                        <div class="text-xs text-gray-400 mt-1">Total Layanan</div>
-                    </div>
-                    <div class="stat-card c-green">
-                        <div class="stat-icon" style="background:#f0fdf4; color:#15803d;"><i class="fas fa-check-circle"></i></div>
-                        <div class="stat-value text-green-600" id="statAktifLayanan">—</div>
-                        <div class="text-xs text-gray-400 mt-1">Layanan Aktif</div>
-                    </div>
-                    <div class="stat-card c-red">
-                        <div class="stat-icon" style="background:#fff5f5; color:#ef4444;"><i class="fas fa-times-circle"></i></div>
-                        <div class="stat-value text-red-400" id="statNonAktifLayanan">—</div>
-                        <div class="text-xs text-gray-400 mt-1">Non-Aktif</div>
-                    </div>
-                </div>
-                <div class="data-table-wrap">
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Foto</th>
-                                    <th>Nama Layanan</th>
-                                    <th>Harga</th>
-                                    <th class="hidden md:table-cell">Deskripsi</th>
-                                    <th>Status</th>
-                                    <th style="text-align:right;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelLayanan">
-                                <tr><td colspan="6" class="text-center py-10 text-gray-300">
-                                    <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2"></i>
-                                    Memuat data...
-                                </td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ══════════════════════
-                 TAB: PROMO
-            ══════════════════════ -->
-            <div id="tab-promo" class="tab-content hidden fade-enter">
-                <div class="quick-stats cols-2 mb-6">
-                    <div class="stat-card c-rose">
-                        <div class="stat-icon" style="background:#fff0f3; color:#C4415A;"><i class="fas fa-tags"></i></div>
-                        <div class="stat-value text-gray-800" id="statTotalPromo">—</div>
-                        <div class="text-xs text-gray-400 mt-1">Total Promo</div>
-                    </div>
-                    <div class="stat-card" style="border-color:#f3e8eb;">
-                        <div class="text-xs text-gray-400 mt-1 leading-relaxed">
-                            <i class="fas fa-info-circle text-rose-300 mr-1"></i>
-                            Promo aktif tampil otomatis di website publik
-                        </div>
-                    </div>
-                </div>
-                <div class="data-table-wrap">
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Gambar</th>
-                                    <th>Judul Promo</th>
-                                    <th class="hidden md:table-cell">Deskripsi</th>
-                                    <th>Berlaku Hingga</th>
-                                    <th style="text-align:right;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelPromo">
-                                <tr><td colspan="5" class="text-center py-10 text-gray-300">
-                                    <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2"></i>
-                                    Memuat data...
-                                </td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ══════════════════════
-                 TAB: GALERI
-            ══════════════════════ -->
-            <div id="tab-galeri" class="tab-content hidden fade-enter">
-                <div class="info-banner blue mb-5">
-                    <i class="fas fa-info-circle flex-shrink-0"></i>
-                    <span>Foto galeri ditampilkan di section "Rose Family" pada halaman utama website.</span>
-                </div>
-                <div id="galeriGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    <div class="skeleton h-40"></div>
-                    <div class="skeleton h-40"></div>
-                    <div class="skeleton h-40"></div>
-                    <div class="skeleton h-40"></div>
-                </div>
-            </div>
-
-            <!-- ══════════════════════
-                 TAB: REVIEW
-            ══════════════════════ -->
-            <div id="tab-review" class="tab-content hidden fade-enter">
-                <div class="info-banner amber mb-5">
-                    <i class="fas fa-exclamation-triangle flex-shrink-0"></i>
-                    <span>Review baru dari pasien perlu diverifikasi sebelum tampil di website publik.</span>
-                </div>
-                <div class="quick-stats cols-3 mb-6">
-                    <div class="stat-card c-rose">
-                        <div class="stat-icon" style="background:#fff0f3; color:#C4415A;"><i class="fas fa-comment-dots"></i></div>
-                        <div class="stat-value text-gray-800" id="statTotalReview">—</div>
-                        <div class="text-xs text-gray-400 mt-1">Total Review</div>
-                    </div>
-                    <div class="stat-card c-green">
-                        <div class="stat-icon" style="background:#f0fdf4; color:#15803d;"><i class="fas fa-eye"></i></div>
-                        <div class="stat-value text-green-600" id="statTampilReview">—</div>
-                        <div class="text-xs text-gray-400 mt-1">Tampil di Website</div>
-                    </div>
-                    <div class="stat-card c-amber">
-                        <div class="stat-icon" style="background:#fffbeb; color:#d97706;"><i class="fas fa-clock"></i></div>
-                        <div class="stat-value text-amber-500" id="statPendingReview">—</div>
-                        <div class="text-xs text-gray-400 mt-1">Menunggu Verifikasi</div>
-                    </div>
-                </div>
-                <div class="data-table-wrap">
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Pasien</th>
-                                    <th>Rating</th>
-                                    <th>Komentar</th>
-                                    <th>Tanggal</th>
-                                    <th>Status</th>
-                                    <th style="text-align:right;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelReview">
-                                <tr><td colspan="6" class="text-center py-10 text-gray-300">
-                                    <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2"></i>
-                                    Memuat data...
-                                </td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        </div><!-- /.p-6 -->
-    </main>
-</div>
-
-
-<!-- ═══════════════════════════════════════════
-     MODAL: TAMBAH LAYANAN
-═══════════════════════════════════════════ -->
-<div id="modalLayanan" class="modal-backdrop hidden">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3><i class="fas fa-tooth"></i> Tambah Layanan Baru</h3>
-            <button onclick="closeModal('modalLayanan')" class="modal-close">×</button>
-        </div>
-        <div class="modal-body">
-            <form onsubmit="submitLayanan(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Nama Layanan <span class="text-red-400">*</span></label>
-                    <input type="text" id="inpNama" class="input-ctrl" placeholder="Contoh: Scaling Gigi" maxlength="60" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Estimasi Harga <span class="text-red-400">*</span></label>
-                    <input type="text" id="inpHarga" class="input-ctrl" placeholder="Contoh: Mulai Rp 150.000" maxlength="50" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Deskripsi Singkat <span class="text-red-400">*</span></label>
-                    <textarea id="inpDeskripsi" rows="3" class="input-ctrl resize-none" placeholder="Penjelasan singkat tentang layanan ini..." maxlength="200" required></textarea>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Foto Layanan <span class="text-red-400">*</span></label>
-                    <label for="inpFotoLayanan" class="upload-zone block">
-                        <div id="imgPreview" class="hidden">
-                            <img id="imgPreviewEl" src="" alt="" class="w-full max-h-36 object-contain rounded-lg mb-2">
-                            <p class="text-xs text-gray-400" id="imgFileName"></p>
-                        </div>
-                        <div id="imgPlaceholder">
-                            <i class="fas fa-cloud-upload-alt text-3xl mb-2 block" style="color:#e8879f;"></i>
-                            <p class="text-sm font-medium text-gray-400">Klik untuk upload foto</p>
-                            <p class="text-xs text-gray-300 mt-1">JPG / PNG, maks. 2MB</p>
-                        </div>
-                    </label>
-                    <input type="file" id="inpFotoLayanan" accept="image/jpeg,image/png,image/webp" class="hidden"
-                           onchange="previewImage(this,'imgPreview','imgPreviewEl','imgFileName','imgPlaceholder')" required>
-                </div>
-                <div class="flex gap-3 pt-1">
-                    <button type="button" onclick="closeModal('modalLayanan')" class="btn-secondary flex-1 justify-center">Batal</button>
-                    <button type="submit" id="btnSimpanLayanan" class="main-btn flex-1 justify-center">
-                        <i class="fas fa-save"></i> Simpan Layanan
-                    </button>
-                </div>
-            </form>
-        </div>
+      </div>
+      <div class="lerr" id="lerr">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Username atau password salah!</span>
+      </div>
+      <button class="btn-login" id="loginBtn" onclick="handleLogin()">
+        <i class="fas fa-sign-in-alt"></i> Masuk Dashboard
+      </button>
     </div>
+    <p style="text-align:center;margin-top:18px;font-size:12px;color:var(--txt3);">
+      <a href="index.html" style="color:rgba(255,180,200,.45);text-decoration:none;" onmouseover="this.style.color='rgba(255,180,200,.75)'" onmouseout="this.style.color='rgba(255,180,200,.45)'">← Kembali ke Website</a>
+    </p>
+  </div>
 </div>
 
 
-<!-- ═══════════════════════════════════════════
-     MODAL: TAMBAH PROMO
-═══════════════════════════════════════════ -->
-<div id="modalPromo" class="modal-backdrop hidden">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3><i class="fas fa-tag"></i> Tambah Promo Baru</h3>
-            <button onclick="closeModal('modalPromo')" class="modal-close">×</button>
+<!-- ══════════════════════════════════════
+     APP
+══════════════════════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="logo">
+        <div class="logo-icon">🌹</div>
+        <div>
+          <h2><em>Rose</em> Admin</h2>
+          <p>Klinik Gigi</p>
         </div>
-        <div class="modal-body">
-            <form onsubmit="submitPromo(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Judul Promo <span class="text-red-400">*</span></label>
-                    <input type="text" id="inpJudulPromo" class="input-ctrl" placeholder="Contoh: Scaling Gratis Konsultasi" maxlength="80" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Deskripsi Promo <span class="text-red-400">*</span></label>
-                    <textarea id="inpDeskripsiPromo" rows="3" class="input-ctrl resize-none" placeholder="Jelaskan detail keuntungan promo ini..." maxlength="300" required></textarea>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Berlaku Hingga <span class="text-red-400">*</span></label>
-                    <input type="text" id="inpTglPromo" class="input-ctrl" placeholder="Contoh: 31 Desember 2025" maxlength="30" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Foto Promo <span class="text-red-400">*</span></label>
-                    <label for="inpFotoPromo" class="upload-zone block">
-                        <div id="imgPreviewPromo" class="hidden">
-                            <img id="imgPreviewElPromo" src="" alt="" class="w-full max-h-36 object-contain rounded-lg mb-2">
-                            <p class="text-xs text-gray-400" id="imgFileNamePromo"></p>
-                        </div>
-                        <div id="imgPlaceholderPromo">
-                            <i class="fas fa-cloud-upload-alt text-3xl mb-2 block" style="color:#e8879f;"></i>
-                            <p class="text-sm font-medium text-gray-400">Klik untuk upload foto</p>
-                            <p class="text-xs text-gray-300 mt-1">JPG / PNG, maks. 2MB</p>
-                        </div>
-                    </label>
-                    <input type="file" id="inpFotoPromo" accept="image/jpeg,image/png,image/webp" class="hidden"
-                           onchange="previewImage(this,'imgPreviewPromo','imgPreviewElPromo','imgFileNamePromo','imgPlaceholderPromo')" required>
-                </div>
-                <div class="flex gap-3 pt-1">
-                    <button type="button" onclick="closeModal('modalPromo')" class="btn-secondary flex-1 justify-center">Batal</button>
-                    <button type="submit" id="btnSimpanPromo" class="main-btn flex-1 justify-center">
-                        <i class="fas fa-save"></i> Simpan Promo
-                    </button>
-                </div>
-            </form>
-        </div>
+      </div>
     </div>
-</div>
 
+    <p class="sb-section">Konten Website</p>
+    <button class="nav-item active" id="nav-layanan" onclick="switchTab('layanan')"><i class="fas fa-tooth"></i>Layanan Gigi</button>
+    <button class="nav-item" id="nav-promo"   onclick="switchTab('promo')">  <i class="fas fa-tags"></i>Promo &amp; Penawaran</button>
+    <button class="nav-item" id="nav-galeri"  onclick="switchTab('galeri')"> <i class="fas fa-images"></i>Rose Family (Galeri)</button>
 
-<!-- ═══════════════════════════════════════════
-     MODAL: TAMBAH GALERI
-═══════════════════════════════════════════ -->
-<div id="modalGaleri" class="modal-backdrop hidden">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3><i class="fas fa-image"></i> Upload Foto Galeri</h3>
-            <button onclick="closeModal('modalGaleri')" class="modal-close">×</button>
-        </div>
-        <div class="modal-body">
-            <form onsubmit="submitGaleri(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Caption Foto <span class="text-red-400">*</span></label>
-                    <input type="text" id="inpCaption" class="input-ctrl" placeholder="Contoh: Senyum indah pasien kami 😊" maxlength="80" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Foto <span class="text-red-400">*</span></label>
-                    <label for="inpFotoGaleri" class="upload-zone block">
-                        <div id="imgPreviewGaleri" class="hidden">
-                            <img id="imgPreviewElGaleri" src="" alt="" class="w-full max-h-36 object-contain rounded-lg mb-2">
-                            <p class="text-xs text-gray-400" id="imgFileNameGaleri"></p>
-                        </div>
-                        <div id="imgPlaceholderGaleri">
-                            <i class="fas fa-camera text-3xl mb-2 block" style="color:#e8879f;"></i>
-                            <p class="text-sm font-medium text-gray-400">Upload foto momen pasien</p>
-                            <p class="text-xs text-gray-300 mt-1">JPG / PNG, maks. 2MB</p>
-                        </div>
-                    </label>
-                    <input type="file" id="inpFotoGaleri" accept="image/jpeg,image/png,image/webp" class="hidden"
-                           onchange="previewImage(this,'imgPreviewGaleri','imgPreviewElGaleri','imgFileNameGaleri','imgPlaceholderGaleri')" required>
-                </div>
-                <div class="flex gap-3 pt-1">
-                    <button type="button" onclick="closeModal('modalGaleri')" class="btn-secondary flex-1 justify-center">Batal</button>
-                    <button type="submit" id="btnSimpanGaleri" class="main-btn flex-1 justify-center">
-                        <i class="fas fa-upload"></i> Upload Foto
-                    </button>
-                </div>
-            </form>
-        </div>
+    <p class="sb-section">Interaksi Pasien</p>
+    <button class="nav-item" id="nav-review" onclick="switchTab('review')">
+      <i class="fas fa-star"></i>Ulasan Pasien
+      <span class="nav-badge" id="reviewBadge" style="display:none">0</span>
+    </button>
+
+    <div style="padding:12px 8px;margin-top:4px;border-top:1px solid var(--gb);">
+      <a href="index.html" target="_blank" class="nav-item" style="text-decoration:none;display:flex;"><i class="fas fa-external-link-alt"></i>Lihat Website</a>
+      <button class="nav-item" onclick="logout()" style="color:rgba(252,165,165,.7);margin-top:2px;"><i class="fas fa-sign-out-alt" style="color:rgba(252,165,165,.4);"></i>Keluar</button>
     </div>
+
+    <div style="margin-top:auto;padding-bottom:8px;">
+      <div class="sb-user">
+        <div class="sb-avatar">A</div>
+        <div>
+          <div class="sb-user-name">Admin</div>
+          <div class="sb-user-sub">Rose Dental Care</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2 id="pgTitle">Kelola Layanan</h2>
+        <p id="pgSub">Tambah, edit, atau nonaktifkan layanan klinik</p>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-time" id="clk"></span>
+        <button class="btn-main" id="btnAdd" onclick="openAddModal()"><i class="fas fa-plus" style="font-size:11px;"></i><span id="btnAddLbl">Tambah Layanan</span></button>
+      </div>
+    </div>
+
+    <!-- ── TAB LAYANAN ── -->
+    <div class="page active" id="tab-layanan">
+      <div class="stats-row c3">
+        <div class="scard r"><div class="scard-icon"><i class="fas fa-list"></i></div><div class="scard-val" id="sL-total">—</div><div class="scard-lbl">Total Layanan</div></div>
+        <div class="scard g"><div class="scard-icon"><i class="fas fa-check-circle"></i></div><div class="scard-val" id="sL-aktif">—</div><div class="scard-lbl">Aktif</div></div>
+        <div class="scard b"><div class="scard-icon"><i class="fas fa-times-circle"></i></div><div class="scard-val" id="sL-off">—</div><div class="scard-lbl">Non-Aktif</div></div>
+      </div>
+      <div class="tcard">
+        <div class="t-wrap">
+          <table>
+            <thead><tr><th>Foto</th><th>Nama Layanan</th><th>Harga</th><th>Deskripsi</th><th>Status</th><th style="text-align:right">Aksi</th></tr></thead>
+            <tbody id="tbLayanan"><tr class="tload"><td colspan="6"><div class="spinner"></div><br>Memuat data...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB PROMO ── -->
+    <div class="page" id="tab-promo">
+      <div class="stats-row c2">
+        <div class="scard r"><div class="scard-icon"><i class="fas fa-tags"></i></div><div class="scard-val" id="sP-total">—</div><div class="scard-lbl">Total Promo</div></div>
+        <div class="scard g"><div class="scard-icon"><i class="fas fa-info-circle"></i></div><div class="scard-lbl" style="margin-top:0;font-size:12px;line-height:1.5;padding-top:4px;">Promo aktif tampil otomatis di website publik</div></div>
+      </div>
+      <div class="tcard">
+        <div class="t-wrap">
+          <table>
+            <thead><tr><th>Gambar</th><th>Judul Promo</th><th>Deskripsi</th><th>Berlaku Hingga</th><th style="text-align:right">Aksi</th></tr></thead>
+            <tbody id="tbPromo"><tr class="tload"><td colspan="5"><div class="spinner"></div><br>Memuat data...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB GALERI ── -->
+    <div class="page" id="tab-galeri">
+      <div class="ibanner blue"><i class="fas fa-info-circle"></i><span>Foto galeri ditampilkan di section "Rose Family" pada halaman utama website.</span></div>
+      <div class="galeri-grid" id="galeriGrid">
+        <div class="skel" style="height:140px;"></div>
+        <div class="skel" style="height:140px;"></div>
+        <div class="skel" style="height:140px;"></div>
+        <div class="skel" style="height:140px;"></div>
+      </div>
+    </div>
+
+    <!-- ── TAB REVIEW ── -->
+    <div class="page" id="tab-review">
+      <div class="ibanner amber"><i class="fas fa-exclamation-triangle"></i><span>Review baru perlu diverifikasi sebelum tampil di website publik.</span></div>
+      <div class="stats-row c3">
+        <div class="scard r"><div class="scard-icon"><i class="fas fa-comment-dots"></i></div><div class="scard-val" id="sR-total">—</div><div class="scard-lbl">Total Review</div></div>
+        <div class="scard g"><div class="scard-icon"><i class="fas fa-eye"></i></div><div class="scard-val" id="sR-tampil">—</div><div class="scard-lbl">Tampil di Website</div></div>
+        <div class="scard a"><div class="scard-icon"><i class="fas fa-clock"></i></div><div class="scard-val" id="sR-pend">—</div><div class="scard-lbl">Menunggu Verifikasi</div></div>
+      </div>
+      <div class="tcard">
+        <div class="t-wrap">
+          <table>
+            <thead><tr><th>Pasien</th><th>Rating</th><th>Komentar</th><th>Tanggal</th><th>Status</th><th style="text-align:right">Aksi</th></tr></thead>
+            <tbody id="tbReview"><tr class="tload"><td colspan="6"><div class="spinner"></div><br>Memuat data...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- .main -->
+</div><!-- #app -->
+
+
+<!-- ══════════════════════════════════════
+     MODAL LAYANAN (Tambah / Edit)
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="mLayanan" onclick="if(event.target===this)closeModal('mLayanan')">
+  <div class="modal">
+    <div class="modal-head">
+      <h3><i class="fas fa-tooth"></i><span id="mLTitle">Tambah Layanan</span></h3>
+      <button class="modal-close" onclick="closeModal('mLayanan')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="mL-id">
+      <div class="fg"><label class="flbl">Nama Layanan *</label><input type="text" id="mL-nama" class="finp" placeholder="Contoh: Scaling Gigi" maxlength="60"></div>
+      <div class="fg"><label class="flbl">Estimasi Harga *</label><input type="text" id="mL-harga" class="finp" placeholder="Contoh: Mulai Rp 150.000" maxlength="50"></div>
+      <div class="fg"><label class="flbl">Deskripsi Singkat *</label><textarea id="mL-desk" class="finp" rows="3" placeholder="Penjelasan singkat tentang layanan ini..." maxlength="200"></textarea></div>
+      <div class="fg">
+        <label class="flbl">Foto Layanan</label>
+        <label for="mL-file" class="upload-zone">
+          <div id="mL-ph"><i class="fas fa-cloud-upload-alt"></i><p>Klik untuk upload foto (JPG/PNG, maks. 2MB)</p></div>
+          <div id="mL-pv" style="display:none;"><img id="mL-pvImg" class="prev-img"><p id="mL-pvName" style="font-size:11px;color:var(--txt3);margin-top:6px;"></p></div>
+        </label>
+        <input type="file" id="mL-file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleImgPick(this,'mL')">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('mLayanan')">Batal</button>
+      <button class="btn-main" id="mL-save" onclick="saveLayanan()"><i class="fas fa-save"></i>Simpan</button>
+    </div>
+  </div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════
-     TOAST NOTIFIKASI
-═══════════════════════════════════════════ -->
-<div id="toast">
-    <i id="toastIcon" class="fas fa-check-circle" style="font-size:16px;"></i>
-    <span id="toastMsg">Berhasil!</span>
+<!-- ══════════════════════════════════════
+     MODAL PROMO (Tambah / Edit)
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="mPromo" onclick="if(event.target===this)closeModal('mPromo')">
+  <div class="modal">
+    <div class="modal-head">
+      <h3><i class="fas fa-tag"></i><span id="mPTitle">Tambah Promo</span></h3>
+      <button class="modal-close" onclick="closeModal('mPromo')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="mP-id">
+      <div class="fg"><label class="flbl">Judul Promo *</label><input type="text" id="mP-judul" class="finp" placeholder="Contoh: Scaling + Konsultasi Gratis" maxlength="80"></div>
+      <div class="fg"><label class="flbl">Deskripsi *</label><textarea id="mP-desk" class="finp" rows="3" placeholder="Detail keuntungan promo ini..." maxlength="300"></textarea></div>
+      <div class="fg"><label class="flbl">Berlaku Hingga *</label><input type="text" id="mP-tgl" class="finp" placeholder="Contoh: 31 Desember 2025" maxlength="30"></div>
+      <div class="fg">
+        <label class="flbl">Foto Promo</label>
+        <label for="mP-file" class="upload-zone">
+          <div id="mP-ph"><i class="fas fa-cloud-upload-alt"></i><p>Klik untuk upload foto</p></div>
+          <div id="mP-pv" style="display:none;"><img id="mP-pvImg" class="prev-img"><p id="mP-pvName" style="font-size:11px;color:var(--txt3);margin-top:6px;"></p></div>
+        </label>
+        <input type="file" id="mP-file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleImgPick(this,'mP')">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('mPromo')">Batal</button>
+      <button class="btn-main" id="mP-save" onclick="savePromo()"><i class="fas fa-save"></i>Simpan</button>
+    </div>
+  </div>
 </div>
 
+<!-- ══════════════════════════════════════
+     MODAL GALERI (Tambah / Edit)
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="mGaleri" onclick="if(event.target===this)closeModal('mGaleri')">
+  <div class="modal">
+    <div class="modal-head">
+      <h3><i class="fas fa-image"></i><span id="mGTitle">Upload Foto Galeri</span></h3>
+      <button class="modal-close" onclick="closeModal('mGaleri')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="mG-id">
+      <div class="fg"><label class="flbl">Caption Foto *</label><input type="text" id="mG-cap" class="finp" placeholder="Contoh: Senyum indah pasien kami 😊" maxlength="80"></div>
+      <div class="fg">
+        <label class="flbl">Foto</label>
+        <label for="mG-file" class="upload-zone">
+          <div id="mG-ph"><i class="fas fa-camera"></i><p>Upload foto momen pasien (JPG/PNG, maks. 2MB)</p></div>
+          <div id="mG-pv" style="display:none;"><img id="mG-pvImg" class="prev-img"><p id="mG-pvName" style="font-size:11px;color:var(--txt3);margin-top:6px;"></p></div>
+        </label>
+        <input type="file" id="mG-file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleImgPick(this,'mG')">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('mGaleri')">Batal</button>
+      <button class="btn-main" id="mG-save" onclick="saveGaleri()"><i class="fas fa-upload"></i>Upload / Simpan</button>
+    </div>
+  </div>
+</div>
 
-<!-- ═══════════════════════════════════════════
-     JAVASCRIPT — semua logika asli dipertahankan
-═══════════════════════════════════════════ -->
+<!-- TOAST -->
+<div id="toast"><i id="toastIco" class="fas fa-check-circle"></i><span id="toastMsg">Berhasil!</span></div>
+
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
 <script>
-// ─────────────────────────────────────────────
-//  KONFIGURASI GAS
-// ─────────────────────────────────────────────
+// ──────────────────────────────────────
+//  CONFIG — ASLI dari kode kamu
+// ──────────────────────────────────────
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyKNPR5Es1sYYL4jXIDGTkCYSpwRT6pQ4wrJLzFbxJprW4fXH3wIwPpPfrB00fz1IkD/exec";
 
-let activeTab = "layanan";
+let activeTab = 'layanan';
 
-// ─────────────────────────────────────────────
-//  PARTICLES (Login page)
-// ─────────────────────────────────────────────
-(function initParticles() {
-    const container = document.getElementById('loginParticles');
-    if (!container) return;
-    const positions = [
-        {left:'8%', top:'75%', dur:7, delay:0},
-        {left:'20%', top:'88%', dur:9, delay:1.2},
-        {left:'35%', top:'80%', dur:8, delay:2.8},
-        {left:'50%', top:'92%', dur:10, delay:0.5},
-        {left:'65%', top:'78%', dur:7.5, delay:3.5},
-        {left:'80%', top:'85%', dur:9.5, delay:1.8},
-        {left:'92%', top:'90%', dur:8.5, delay:4.2},
-        {left:'12%', top:'60%', dur:11, delay:5},
-        {left:'55%', top:'70%', dur:6.5, delay:2},
-        {left:'75%', top:'65%', dur:9, delay:3},
-    ];
-    positions.forEach(p => {
-        const el = document.createElement('div');
-        el.className = 'particle';
-        el.style.cssText = `left:${p.left};top:${p.top};animation-duration:${p.dur}s;animation-delay:${p.delay}s;`;
-        container.appendChild(el);
-    });
+// ──────────────────────────────────────
+//  PARTICLES
+// ──────────────────────────────────────
+(function(){
+  const c = document.getElementById('ptcl');
+  for(let i=0;i<16;i++){
+    const el = document.createElement('div'); el.className='p';
+    const sz = Math.random()*7+3;
+    el.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;animation-duration:${Math.random()*18+12}s;animation-delay:${Math.random()*14}s;opacity:${Math.random()*.4+.1};`;
+    c.appendChild(el);
+  }
 })();
 
-// ─────────────────────────────────────────────
-//  LOGIN & LOGOUT
-// ─────────────────────────────────────────────
-function handleLogin() {
-    const user = document.getElementById('loginUser').value.trim();
-    const pass = document.getElementById('loginPass').value;
-    const btn  = document.getElementById('loginBtn');
-    const err  = document.getElementById('loginErr');
+// ──────────────────────────────────────
+//  CLOCK
+// ──────────────────────────────────────
+(function tick(){
+  document.getElementById('clk').textContent =
+    new Date().toLocaleString('id-ID',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  setTimeout(tick, 15000);
+})();
 
-    if (user === 'admin' && pass === 'rose2026') {
-        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Masuk...';
-        btn.disabled  = true;
-        setTimeout(() => {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('dashboardPage').classList.remove('hidden');
-            err.classList.add('hidden');
-            loadLayanan();
-        }, 500);
-    } else {
-        err.classList.remove('hidden');
-        document.getElementById('loginPass').value = '';
-        document.getElementById('loginPass').focus();
-        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
-        btn.disabled  = false;
-        // Shake animation
-        err.style.animation = 'none';
-        err.offsetHeight;
-        err.style.animation = 'shake .3s ease';
-    }
+// ──────────────────────────────────────
+//  LOGIN — logika asli kamu
+// ──────────────────────────────────────
+function handleLogin(){
+  const u   = document.getElementById('loginUser').value.trim();
+  const p   = document.getElementById('loginPass').value;
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('lerr');
+  if(u==='admin' && p==='rose2026'){
+    btn.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> Masuk...';
+    btn.disabled=true;
+    setTimeout(()=>{
+      document.getElementById('loginPage').style.opacity='0';
+      setTimeout(()=>{
+        document.getElementById('loginPage').style.display='none';
+        document.getElementById('app').style.display='block';
+        err.classList.remove('show');
+        loadLayanan();
+      },480);
+    },400);
+  } else {
+    err.classList.add('show');
+    err.style.animation='none'; void err.offsetHeight; err.style.animation='shake .3s ease';
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginPass').focus();
+    btn.innerHTML='<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
+    btn.disabled=false;
+  }
 }
-
-// Enter key on login inputs
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && !document.getElementById('loginPage').classList.contains('hidden')) {
-        handleLogin();
-    }
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && document.getElementById('loginPage').style.display!=='none') handleLogin();
 });
-
-function logout() {
-    if (!confirm('Yakin ingin keluar dari dashboard?')) return;
-    document.getElementById('dashboardPage').classList.add('hidden');
-    document.getElementById('loginPage').classList.remove('hidden');
-    document.getElementById('loginUser').value = '';
-    document.getElementById('loginPass').value = '';
-    const btn = document.getElementById('loginBtn');
-    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
-    btn.disabled  = false;
+function logout(){
+  if(!confirm('Yakin ingin keluar?')) return;
+  document.getElementById('app').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('loginPage').style.opacity='1';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginBtn').innerHTML='<i class="fas fa-sign-in-alt"></i> Masuk Dashboard';
+  document.getElementById('loginBtn').disabled=false;
+}
+function togglePass(){
+  const i=document.getElementById('loginPass');
+  const ic=document.getElementById('eyeIcon');
+  i.type=i.type==='password'?'text':'password';
+  ic.className=i.type==='password'?'fas fa-eye':'fas fa-eye-slash';
 }
 
-function togglePass() {
-    const inp  = document.getElementById('loginPass');
-    const icon = document.getElementById('eyeIcon');
-    if (inp.type === 'password') {
-        inp.type = 'text';
-        icon.className = 'fas fa-eye-slash';
-    } else {
-        inp.type = 'password';
-        icon.className = 'fas fa-eye';
-    }
-}
-
-// ─────────────────────────────────────────────
+// ──────────────────────────────────────
 //  TAB NAVIGATION
-// ─────────────────────────────────────────────
-const TAB_CONFIG = {
-    layanan: { title:'Kelola Layanan',         subtitle:'Tambah, ubah, atau nonaktifkan layanan klinik',  btnLabel:'Tambah Layanan', loader:loadLayanan },
-    promo  : { title:'Promo & Penawaran',       subtitle:'Kelola promo yang tampil di halaman utama',       btnLabel:'Tambah Promo',   loader:loadPromo   },
-    galeri : { title:'Rose Family (Galeri)',    subtitle:'Upload foto momen bersama pasien',                btnLabel:'Upload Foto',    loader:loadGaleri  },
-    review : { title:'Ulasan Pasien',           subtitle:'Verifikasi dan kelola ulasan dari pasien',        btnLabel:null,             loader:loadReview  }
+// ──────────────────────────────────────
+const TAB_CFG = {
+  layanan:{title:'Kelola Layanan',    sub:'Tambah, edit, atau nonaktifkan layanan klinik', btn:'Tambah Layanan', loader:loadLayanan},
+  promo  :{title:'Promo & Penawaran', sub:'Kelola promo yang tampil di halaman utama',     btn:'Tambah Promo',   loader:loadPromo},
+  galeri :{title:'Rose Family (Galeri)', sub:'Upload dan kelola foto momen pasien',         btn:'Upload Foto',    loader:loadGaleri},
+  review :{title:'Ulasan Pasien',     sub:'Verifikasi dan kelola ulasan dari pasien',       btn:null,             loader:loadReview},
 };
-
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    document.getElementById('tab-' + tabName).classList.remove('hidden');
-    document.getElementById('nav-' + tabName).classList.add('active');
-
-    const cfg = TAB_CONFIG[tabName];
-    document.getElementById('pageTitle').textContent    = cfg.title;
-    document.getElementById('pageSubtitle').textContent = cfg.subtitle;
-
-    const btnTambah = document.getElementById('btnTambah');
-    if (cfg.btnLabel) {
-        btnTambah.style.display = '';
-        document.getElementById('btnTambahLabel').textContent = cfg.btnLabel;
-    } else {
-        btnTambah.style.display = 'none';
-    }
-
-    activeTab = tabName;
-    if (cfg.loader) cfg.loader();
+function switchTab(t){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('nav-'+t).classList.add('active');
+  const c=TAB_CFG[t];
+  document.getElementById('pgTitle').textContent=c.title;
+  document.getElementById('pgSub').textContent=c.sub;
+  const ba=document.getElementById('btnAdd');
+  if(c.btn){ba.style.display='';document.getElementById('btnAddLbl').textContent=c.btn;}
+  else ba.style.display='none';
+  activeTab=t;
+  if(c.loader) c.loader();
+}
+function openAddModal(){
+  if(activeTab==='layanan') openModal('mLayanan','add');
+  else if(activeTab==='promo') openModal('mPromo','add');
+  else if(activeTab==='galeri') openModal('mGaleri','add');
 }
 
-function openModal() {
-    const map = { layanan:'modalLayanan', promo:'modalPromo', galeri:'modalGaleri' };
-    const id  = map[activeTab];
-    if (id) {
-        document.getElementById(id).classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+// ──────────────────────────────────────
+//  MODAL HELPERS
+// ──────────────────────────────────────
+function openModal(id, mode='add', data={}){
+  const overlay=document.getElementById(id);
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  if(mode==='add') resetModal(id);
+  if(mode==='edit') fillModal(id, data);
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') ['mLayanan','mPromo','mGaleri'].forEach(closeModal); });
+
+function resetModal(id){
+  const p = id.replace('m','');
+  if(id==='mLayanan'){
+    document.getElementById('mLTitle').textContent='Tambah Layanan';
+    document.getElementById('mL-id').value='';
+    ['mL-nama','mL-harga','mL-desk'].forEach(i=>document.getElementById(i).value='');
+    resetPv('mL');
+  } else if(id==='mPromo'){
+    document.getElementById('mPTitle').textContent='Tambah Promo';
+    document.getElementById('mP-id').value='';
+    ['mP-judul','mP-desk','mP-tgl'].forEach(i=>document.getElementById(i).value='');
+    resetPv('mP');
+  } else if(id==='mGaleri'){
+    document.getElementById('mGTitle').textContent='Upload Foto Galeri';
+    document.getElementById('mG-id').value='';
+    document.getElementById('mG-cap').value='';
+    resetPv('mG');
+  }
 }
 
-function closeModal(id) {
-    document.getElementById(id).classList.add('hidden');
-    document.body.style.overflow = '';
+function fillModal(id, d){
+  if(id==='mLayanan'){
+    document.getElementById('mLTitle').textContent='Edit Layanan';
+    document.getElementById('mL-id').value  = d.id||'';
+    document.getElementById('mL-nama').value= d.nama||'';
+    document.getElementById('mL-harga').value=d.harga||'';
+    document.getElementById('mL-desk').value= d.deskripsi||'';
+    if(d.ikon && String(d.ikon).startsWith('http')){
+      showExistingPv('mL', toDriveUrl(d.ikon), 'Foto saat ini');
+    } else resetPv('mL');
+  } else if(id==='mPromo'){
+    document.getElementById('mPTitle').textContent='Edit Promo';
+    document.getElementById('mP-id').value  = d.id||'';
+    document.getElementById('mP-judul').value=d.judul||'';
+    document.getElementById('mP-desk').value= d.deskripsi||'';
+    document.getElementById('mP-tgl').value = d.tgl_berlaku||'';
+    if(d.url_gambar){
+      showExistingPv('mP', toDriveUrl(d.url_gambar), 'Foto saat ini');
+    } else resetPv('mP');
+  } else if(id==='mGaleri'){
+    document.getElementById('mGTitle').textContent='Edit Caption';
+    document.getElementById('mG-id').value  = d.id||'';
+    document.getElementById('mG-cap').value = d.caption||'';
+    if(d.url){
+      showExistingPv('mG', toDriveUrl(d.url), 'Foto saat ini');
+    } else resetPv('mG');
+  }
 }
 
-// Close on backdrop click
-document.addEventListener('click', function(e) {
-    ['modalLayanan','modalPromo','modalGaleri'].forEach(id => {
-        const modal = document.getElementById(id);
-        if (e.target === modal) closeModal(id);
-    });
-});
-
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') ['modalLayanan','modalPromo','modalGaleri'].forEach(id => closeModal(id));
-});
-
-// ─────────────────────────────────────────────
-//  IMAGE PREVIEW
-// ─────────────────────────────────────────────
-function previewImage(input, previewWrapId, previewImgId, fileNameId, placeholderId) {
-    const file = input.files[0];
-    if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-        showToast('Ukuran file maksimal 2MB!', 'err');
-        input.value = '';
-        return;
-    }
-    const reader = new FileReader();
-    reader.onload = ev => {
-        document.getElementById(previewImgId).src = ev.target.result;
-        document.getElementById(fileNameId).textContent = file.name + ' (' + (file.size/1024).toFixed(0) + ' KB)';
-        document.getElementById(previewWrapId).classList.remove('hidden');
-        document.getElementById(placeholderId).classList.add('hidden');
-    };
-    reader.readAsDataURL(file);
+function resetPv(pfx){
+  document.getElementById(pfx+'-ph').style.display='';
+  document.getElementById(pfx+'-pv').style.display='none';
+  document.getElementById(pfx+'-file').value='';
+}
+function showExistingPv(pfx, src, name){
+  const pvImg=document.getElementById(pfx+'-pvImg');
+  pvImg.src=src; pvImg.onerror=()=>pvImg.src='';
+  document.getElementById(pfx+'-pvName').textContent=name;
+  document.getElementById(pfx+'-ph').style.display='none';
+  document.getElementById(pfx+'-pv').style.display='';
+}
+function handleImgPick(input, pfx){
+  const f=input.files[0]; if(!f) return;
+  if(f.size>2*1024*1024){showToast('Ukuran file maksimal 2MB!','err');input.value='';return;}
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById(pfx+'-pvImg').src=ev.target.result;
+    document.getElementById(pfx+'-pvName').textContent=f.name+' ('+Math.round(f.size/1024)+' KB)';
+    document.getElementById(pfx+'-ph').style.display='none';
+    document.getElementById(pfx+'-pv').style.display='';
+  };
+  r.readAsDataURL(f);
 }
 
-function fileToBase64(file) {
-    return new Promise((res, rej) => {
-        const reader = new FileReader();
-        reader.onload  = () => res(reader.result);
-        reader.onerror = () => rej(new Error('Gagal membaca file'));
-        reader.readAsDataURL(file);
-    });
+// ──────────────────────────────────────
+//  GAS HELPERS — asli dari kode kamu
+// ──────────────────────────────────────
+async function gasPost(payload){
+  try{
+    const r = await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)});
+    return await r.json();
+  } catch(e){
+    console.warn('[RDC] POST CORS bypass:',e.message);
+    return {success:true,_note:'cors_bypass'};
+  }
+}
+async function gasGet(sheet){
+  const r = await fetch(`${GAS_URL}?sheet=${sheet}`);
+  const j = await r.json();
+  if(!j.success) throw new Error(j.error||'Gagal ambil data');
+  return j.data;
+}
+function fileToBase64(f){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=()=>rej(new Error('Gagal baca file'));
+    r.readAsDataURL(f);
+  });
+}
+function toDriveUrl(url){
+  if(!url) return '';
+  if(url.includes('lh3.googleusercontent.com')) return url;
+  const m1=url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(m1) return 'https://lh3.googleusercontent.com/d/'+m1[1];
+  const m2=url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if(m2) return 'https://lh3.googleusercontent.com/d/'+m2[1];
+  return url;
 }
 
-// ─────────────────────────────────────────────
-//  GAS POST / GET
-// ─────────────────────────────────────────────
-async function gasPost(payload) {
-    try {
-        const res  = await fetch(GAS_URL, {
-            method : 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body   : JSON.stringify(payload)
-        });
-        return await res.json();
-    } catch (err) {
-        console.warn('[RDC Admin] POST CORS bypass:', err.message);
-        return { success:true, _note:'cors_bypass' };
-    }
-}
-
-async function gasGet(sheetName) {
-    const res  = await fetch(`${GAS_URL}?sheet=${sheetName}`);
-    const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Gagal mengambil data');
-    return json.data;
-}
-
-// ─────────────────────────────────────────────
+// ──────────────────────────────────────
 //  LAYANAN
-// ─────────────────────────────────────────────
-async function loadLayanan() {
-    const tbody = document.getElementById('tabelLayanan');
-    tbody.innerHTML = renderLoadingRow(6);
-    try {
-        const data = await gasGet('layanan');
-        if (!data || data.length === 0) {
-            tbody.innerHTML = renderEmptyRow(6, 'Belum ada data layanan. Tambahkan layanan pertamamu!');
-            return;
-        }
-        const aktif    = data.filter(d => String(d.status).toUpperCase() === 'AKTIF').length;
-        const nonAktif = data.length - aktif;
-        document.getElementById('statTotalLayanan').textContent    = data.length;
-        document.getElementById('statAktifLayanan').textContent    = aktif;
-        document.getElementById('statNonAktifLayanan').textContent = nonAktif;
+// ──────────────────────────────────────
+async function loadLayanan(){
+  const tb=document.getElementById('tbLayanan');
+  tb.innerHTML=loadRow(6);
+  try{
+    const data = await gasGet('layanan');
+    if(!data||!data.length){tb.innerHTML=emptyRow(6,'Belum ada layanan. Tambahkan yang pertama!');return;}
+    const aktif=data.filter(d=>String(d.status).toUpperCase()==='AKTIF').length;
+    document.getElementById('sL-total').textContent=data.length;
+    document.getElementById('sL-aktif').textContent=aktif;
+    document.getElementById('sL-off').textContent=data.length-aktif;
+    tb.innerHTML=data.map(d=>`
+      <tr>
+        <td>${renderThumb(d.ikon)}</td>
+        <td><strong style="font-size:13.5px;">${esc(d.nama)}</strong></td>
+        <td style="color:var(--rose-lt);font-weight:600;white-space:nowrap;">${esc(d.harga)}</td>
+        <td><span style="font-size:12px;color:var(--txt2);max-width:180px;display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="${esc(d.deskripsi)}">${esc(d.deskripsi)}</span></td>
+        <td>${badgeStatus(d.status)}</td>
+        <td>
+          <div class="acts">
+            <button class="abt abt-edit" onclick='editLayanan(${JSON.stringify(d)})'><i class="fas fa-pencil-alt"></i> Edit</button>
+            <button class="abt ${String(d.status).toUpperCase()==='AKTIF'?'abt-on':'abt-off'}"
+              onclick="toggleLayanan('${esc(d.id)}','${esc(d.status)}')">
+              <i class="fas fa-toggle-${String(d.status).toUpperCase()==='AKTIF'?'on':'off'}"></i>
+            </button>
+            <button class="abt abt-del" onclick="hapus('Layanan','${esc(d.id)}','${esc(d.nama)}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('');
+  } catch(e){tb.innerHTML=errRow(6,e.message);}
+}
 
-        tbody.innerHTML = data.map(item => `
-            <tr>
-                <td>${renderVisual(item.ikon)}</td>
-                <td><div class="font-semibold text-gray-800">${esc(item.nama)}</div></td>
-                <td><span class="font-semibold" style="color:#9D2E45;">${esc(item.harga)}</span></td>
-                <td class="hidden md:table-cell">
-                    <p class="text-gray-400 text-xs max-w-xs" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="${esc(item.deskripsi)}">${esc(item.deskripsi)}</p>
-                </td>
-                <td>${renderBadgeLayanan(item.status)}</td>
-                <td>
-                    <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;">
-                        <button onclick="toggleStatusLayanan('${esc(item.id)}','${esc(item.status)}')"
-                                class="btn-icon ${String(item.status).toUpperCase() === 'AKTIF' ? 'btn-toggle-on' : 'btn-toggle-off'}">
-                            <i class="fas fa-toggle-${String(item.status).toUpperCase() === 'AKTIF' ? 'on' : 'off'}"></i>
-                        </button>
-                        <button onclick="hapusData('Layanan','${esc(item.id)}','Yakin hapus layanan ${esc(item.nama)}?')" class="btn-icon btn-delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
-    } catch (err) {
-        tbody.innerHTML = renderErrorRow(6, err.message);
+function editLayanan(d){
+  openModal('mLayanan','edit',d);
+}
+
+async function saveLayanan(){
+  const id    = document.getElementById('mL-id').value;
+  const nama  = document.getElementById('mL-nama').value.trim();
+  const harga = document.getElementById('mL-harga').value.trim();
+  const desk  = document.getElementById('mL-desk').value.trim();
+  if(!nama||!harga||!desk){showToast('Nama, harga, dan deskripsi wajib diisi!','err');return;}
+
+  const btn=document.getElementById('mL-save');
+  setLoading(btn,true);
+  try{
+    const file=document.getElementById('mL-file').files[0];
+    const payload={
+      action: id ? 'edit_layanan' : 'tambah_layanan',
+      id, nama, harga, deskripsi:desk
+    };
+    if(file){
+      if(!id&&!file){showToast('Pilih foto dulu!','err');setLoading(btn,false,'<i class="fas fa-save"></i>Simpan');return;}
+      payload.imageName=file.name; payload.mimeType=file.type;
+      payload.imageBase64=await fileToBase64(file);
     }
+    const res=await gasPost(payload);
+    if(res.success||res._note==='cors_bypass'){
+      showToast(id?'Layanan berhasil diupdate! ✨':'Layanan berhasil ditambahkan! 🎉');
+      closeModal('mLayanan');
+      setTimeout(loadLayanan,1800);
+    } else showToast(res.message||'Gagal menyimpan','err');
+  } catch(e){showToast('Error: '+e.message,'err');}
+  finally{setLoading(btn,false,'<i class="fas fa-save"></i>Simpan');}
 }
 
-async function submitLayanan(e) {
-    e.preventDefault();
-    const btn  = document.getElementById('btnSimpanLayanan');
-    const file = document.getElementById('inpFotoLayanan').files[0];
-    if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
-    setLoading(btn, true);
-    try {
-        const base64 = await fileToBase64(file);
-        const result = await gasPost({
-            action:'tambah_layanan',
-            nama:document.getElementById('inpNama').value.trim(),
-            harga:document.getElementById('inpHarga').value.trim(),
-            deskripsi:document.getElementById('inpDeskripsi').value.trim(),
-            imageName:file.name, mimeType:file.type, imageBase64:base64
-        });
-        if (result.success || result._note === 'cors_bypass') {
-            showToast('Layanan berhasil ditambahkan! 🎉');
-            closeModal('modalLayanan');
-            ['inpNama','inpHarga','inpDeskripsi'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('inpFotoLayanan').value = '';
-            resetImgPreview('imgPreview','imgPreviewEl','imgFileName','imgPlaceholder');
-            setTimeout(loadLayanan, 2000);
-        } else { showToast(result.message || 'Gagal menyimpan', 'err'); }
-    } catch (err) { showToast('Error: ' + err.message, 'err'); }
-    finally { setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Layanan'); }
+async function toggleLayanan(id,status){
+  const baru=String(status).toUpperCase()==='AKTIF'?'NON-AKTIF':'AKTIF';
+  if(!confirm(`Ubah status ke ${baru}?`)) return;
+  try{
+    await gasPost({action:'update_status_layanan',id,status_baru:baru});
+    showToast(`Status diubah ke ${baru}`);
+    setTimeout(loadLayanan,1500);
+  } catch{showToast('Gagal update status','err');}
 }
 
-// ─────────────────────────────────────────────
+// ──────────────────────────────────────
 //  PROMO
-// ─────────────────────────────────────────────
-async function loadPromo() {
-    const tbody = document.getElementById('tabelPromo');
-    tbody.innerHTML = renderLoadingRow(5);
-    try {
-        const data = await gasGet('promo');
-        if (!data || data.length === 0) {
-            tbody.innerHTML = renderEmptyRow(5, 'Belum ada promo. Tambahkan promo pertama!');
-            return;
-        }
-        document.getElementById('statTotalPromo').textContent = data.length;
-        tbody.innerHTML = data.map(item => `
-            <tr>
-                <td>${renderVisual(item.url_gambar)}</td>
-                <td><div class="font-semibold text-gray-800">${esc(item.judul)}</div></td>
-                <td class="hidden md:table-cell"><p class="text-gray-400 text-xs max-w-xs" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${esc(item.deskripsi)}</p></td>
-                <td><span class="text-xs text-gray-500">${esc(item.tgl_berlaku)}</span></td>
-                <td>
-                    <div style="display:flex;justify-content:flex-end;">
-                        <button onclick="hapusData('Promo','${esc(item.id)}','Yakin hapus promo ${esc(item.judul)}?')" class="btn-icon btn-delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
-    } catch (err) { tbody.innerHTML = renderErrorRow(5, err.message); }
+// ──────────────────────────────────────
+async function loadPromo(){
+  const tb=document.getElementById('tbPromo');
+  tb.innerHTML=loadRow(5);
+  try{
+    const data=await gasGet('promo');
+    if(!data||!data.length){tb.innerHTML=emptyRow(5,'Belum ada promo. Tambahkan promo pertama!');return;}
+    document.getElementById('sP-total').textContent=data.length;
+    tb.innerHTML=data.map(d=>`
+      <tr>
+        <td>${renderThumb(d.url_gambar)}</td>
+        <td><strong>${esc(d.judul)}</strong></td>
+        <td><span style="font-size:12px;color:var(--txt2);max-width:170px;display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${esc(d.deskripsi)}</span></td>
+        <td><span style="font-size:12px;color:var(--txt3);white-space:nowrap;">${esc(d.tgl_berlaku)}</span></td>
+        <td>
+          <div class="acts">
+            <button class="abt abt-edit" onclick='editPromo(${JSON.stringify(d)})'><i class="fas fa-pencil-alt"></i> Edit</button>
+            <button class="abt abt-del" onclick="hapus('Promo','${esc(d.id)}','${esc(d.judul)}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('');
+  } catch(e){tb.innerHTML=errRow(5,e.message);}
 }
 
-async function submitPromo(e) {
-    e.preventDefault();
-    const btn  = document.getElementById('btnSimpanPromo');
-    const file = document.getElementById('inpFotoPromo').files[0];
-    if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
-    setLoading(btn, true);
-    try {
-        const base64 = await fileToBase64(file);
-        const result = await gasPost({
-            action:'tambah_promo',
-            judul:document.getElementById('inpJudulPromo').value.trim(),
-            deskripsi:document.getElementById('inpDeskripsiPromo').value.trim(),
-            tgl_berlaku:document.getElementById('inpTglPromo').value.trim(),
-            imageName:file.name, mimeType:file.type, imageBase64:base64
-        });
-        if (result.success || result._note === 'cors_bypass') {
-            showToast('Promo berhasil ditambahkan! 🎉');
-            closeModal('modalPromo');
-            resetImgPreview('imgPreviewPromo','imgPreviewElPromo','imgFileNamePromo','imgPlaceholderPromo');
-            setTimeout(loadPromo, 2000);
-        } else { showToast(result.message || 'Gagal menyimpan', 'err'); }
-    } catch (err) { showToast('Error: ' + err.message, 'err'); }
-    finally { setLoading(btn, false, '<i class="fas fa-save"></i> Simpan Promo'); }
+function editPromo(d){ openModal('mPromo','edit',d); }
+
+async function savePromo(){
+  const id   = document.getElementById('mP-id').value;
+  const judul= document.getElementById('mP-judul').value.trim();
+  const desk = document.getElementById('mP-desk').value.trim();
+  const tgl  = document.getElementById('mP-tgl').value.trim();
+  if(!judul||!desk||!tgl){showToast('Semua field wajib diisi!','err');return;}
+
+  const btn=document.getElementById('mP-save');
+  setLoading(btn,true);
+  try{
+    const file=document.getElementById('mP-file').files[0];
+    if(!id&&!file){showToast('Pilih foto promo!','err');setLoading(btn,false,'<i class="fas fa-save"></i>Simpan');return;}
+    const payload={action:id?'edit_promo':'tambah_promo',id,judul,deskripsi:desk,tgl_berlaku:tgl};
+    if(file){payload.imageName=file.name;payload.mimeType=file.type;payload.imageBase64=await fileToBase64(file);}
+    const res=await gasPost(payload);
+    if(res.success||res._note==='cors_bypass'){
+      showToast(id?'Promo berhasil diupdate! ✨':'Promo berhasil ditambahkan! 🎉');
+      closeModal('mPromo');
+      setTimeout(loadPromo,1800);
+    } else showToast(res.message||'Gagal menyimpan','err');
+  } catch(e){showToast('Error: '+e.message,'err');}
+  finally{setLoading(btn,false,'<i class="fas fa-save"></i>Simpan');}
 }
 
-// ─────────────────────────────────────────────
+// ──────────────────────────────────────
 //  GALERI
-// ─────────────────────────────────────────────
-async function loadGaleri() {
-    const grid = document.getElementById('galeriGrid');
-    grid.innerHTML = '<div class="skeleton h-40"></div>'.repeat(4);
-    try {
-        const data = await gasGet('galeri');
-        if (!data || data.length === 0) {
-            grid.innerHTML = `<div style="grid-column:1/-1;" class="py-12 text-center text-gray-300">
-                <i class="fas fa-images text-4xl block mb-3"></i>
-                <p class="text-sm">Belum ada foto galeri. Upload foto pertama!</p>
-            </div>`;
-            return;
-        }
-        grid.innerHTML = data.map(item => {
-            const imgUrl = toDriveDirectUrl(item.url);
-            return `<div class="galeri-card border border-rose-50 shadow-sm bg-white">
-                <img src="${esc(imgUrl)}" alt="${esc(item.caption)}"
-                     class="w-full h-40 object-cover" loading="lazy"
-                     onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
-                <div class="overlay">
-                    <p class="text-white text-xs font-medium">${esc(item.caption)}</p>
-                </div>
-                <button onclick="hapusData('Galeri','${esc(item.id)}','Yakin hapus foto ini?')" class="del-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>`;
-        }).join('');
-    } catch (err) {
-        grid.innerHTML = `<div style="grid-column:1/-1;" class="py-8 text-center text-red-400 text-sm">
-            Error: ${esc(err.message)}
-        </div>`;
+// ──────────────────────────────────────
+async function loadGaleri(){
+  const grid=document.getElementById('galeriGrid');
+  grid.innerHTML='<div class="skel" style="height:140px;"></div>'.repeat(4);
+  try{
+    const data=await gasGet('galeri');
+    if(!data||!data.length){
+      grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:48px 0;color:var(--txt3);">
+        <i class="fas fa-images" style="font-size:36px;margin-bottom:12px;display:block;"></i>
+        <p style="font-size:13px;">Belum ada foto galeri. Upload foto pertama!</p>
+      </div>`;
+      return;
     }
+    grid.innerHTML=data.map(d=>`
+      <div class="g-card">
+        <img src="${esc(toDriveUrl(d.url))}" alt="${esc(d.caption)}" loading="lazy"
+             onerror="this.src='https://via.placeholder.com/300x300?text=?'">
+        <div class="g-overlay">
+          <p style="color:#fff;font-size:11.5px;font-weight:500;">${esc(d.caption)}</p>
+        </div>
+        <button class="g-edit" onclick='editGaleri(${JSON.stringify(d)})' title="Edit caption"><i class="fas fa-pencil-alt"></i></button>
+        <button class="g-del" onclick="hapus('Galeri','${esc(d.id)}','foto ini')" title="Hapus"><i class="fas fa-times"></i></button>
+      </div>`).join('');
+  } catch(e){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:32px;color:#f87171;font-size:13px;">
+      <i class="fas fa-exclamation-circle" style="margin-right:6px;"></i>Gagal memuat: ${esc(e.message)}
+    </div>`;
+  }
 }
 
-async function submitGaleri(e) {
-    e.preventDefault();
-    const btn  = document.getElementById('btnSimpanGaleri');
-    const file = document.getElementById('inpFotoGaleri').files[0];
-    if (!file) { showToast('Pilih foto dulu!', 'err'); return; }
-    setLoading(btn, true);
-    try {
-        const base64 = await fileToBase64(file);
-        const result = await gasPost({
-            action:'tambah_galeri',
-            caption:document.getElementById('inpCaption').value.trim(),
-            imageName:file.name, mimeType:file.type, imageBase64:base64
-        });
-        if (result.success || result._note === 'cors_bypass') {
-            showToast('Foto galeri berhasil diupload! 🎉');
-            closeModal('modalGaleri');
-            resetImgPreview('imgPreviewGaleri','imgPreviewElGaleri','imgFileNameGaleri','imgPlaceholderGaleri');
-            setTimeout(loadGaleri, 2000);
-        } else { showToast(result.message || 'Gagal upload', 'err'); }
-    } catch (err) { showToast('Error: ' + err.message, 'err'); }
-    finally { setLoading(btn, false, '<i class="fas fa-upload"></i> Upload Foto'); }
+function editGaleri(d){ openModal('mGaleri','edit',d); }
+
+async function saveGaleri(){
+  const id  = document.getElementById('mG-id').value;
+  const cap = document.getElementById('mG-cap').value.trim();
+  if(!cap){showToast('Caption wajib diisi!','err');return;}
+
+  const btn=document.getElementById('mG-save');
+  setLoading(btn,true);
+  try{
+    const file=document.getElementById('mG-file').files[0];
+    if(!id&&!file){showToast('Pilih foto galeri!','err');setLoading(btn,false,'<i class="fas fa-upload"></i>Upload / Simpan');return;}
+    const payload={action:id?'edit_galeri':'tambah_galeri',id,caption:cap};
+    if(file){payload.imageName=file.name;payload.mimeType=file.type;payload.imageBase64=await fileToBase64(file);}
+    const res=await gasPost(payload);
+    if(res.success||res._note==='cors_bypass'){
+      showToast(id?'Caption berhasil diupdate! ✨':'Foto berhasil diupload! 🎉');
+      closeModal('mGaleri');
+      setTimeout(loadGaleri,1800);
+    } else showToast(res.message||'Gagal','err');
+  } catch(e){showToast('Error: '+e.message,'err');}
+  finally{setLoading(btn,false,'<i class="fas fa-upload"></i>Upload / Simpan');}
 }
 
-// ─────────────────────────────────────────────
-//  REVIEW
-// ─────────────────────────────────────────────
-async function loadReview() {
-    const tbody = document.getElementById('tabelReview');
-    tbody.innerHTML = renderLoadingRow(6);
-    try {
-        const data = await gasGet('review');
-        if (!data || data.length === 0) {
-            tbody.innerHTML = renderEmptyRow(6, 'Belum ada ulasan masuk dari pasien.');
-            return;
-        }
-        const tampil  = data.filter(d => d.status_tampil === true || String(d.status_tampil).toUpperCase() === 'TRUE').length;
-        const pending = data.length - tampil;
-        document.getElementById('statTotalReview').textContent   = data.length;
-        document.getElementById('statTampilReview').textContent  = tampil;
-        document.getElementById('statPendingReview').textContent = pending;
-
-        if (pending > 0) {
-            document.getElementById('reviewBadge').textContent = pending;
-            document.getElementById('reviewBadge').classList.remove('hidden');
-        }
-
-        tbody.innerHTML = data.map(item => {
-            const isTampil = (item.status_tampil === true || String(item.status_tampil).toUpperCase() === 'TRUE');
-            const rating   = Math.min(5, Math.max(1, parseInt(item.rating) || 5));
-            const stars    = '★'.repeat(rating) + '<span style="color:#e5e7eb;">' + '★'.repeat(5-rating) + '</span>';
-            return `<tr>
-                <td>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fdf0f3,#f8d0d8);display:flex;align-items:center;justify-content:center;color:#9D2E45;font-weight:700;font-size:13px;flex-shrink:0;">
-                            ${esc(item.nama_pasien.charAt(0).toUpperCase())}
-                        </div>
-                        <span class="font-semibold text-gray-700">${esc(item.nama_pasien)}</span>
-                    </div>
-                </td>
-                <td><span style="color:#d97706;font-size:14px;">${stars}</span></td>
-                <td><p class="text-gray-500 text-xs" style="max-width:200px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${esc(item.komentar)}</p></td>
-                <td><span class="text-xs text-gray-400" style="white-space:nowrap;">${esc(item.tanggal)}</span></td>
-                <td><span class="badge ${isTampil ? 'badge-tampil' : 'badge-pending'}">${isTampil ? '✓ Tampil' : '⏳ Pending'}</span></td>
-                <td>
-                    <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;">
-                        <button onclick="toggleStatusReview('${esc(item.id)}',${isTampil})"
-                                class="btn-icon ${isTampil ? 'btn-hide' : 'btn-show'}">
-                            <i class="fas ${isTampil ? 'fa-eye-slash' : 'fa-eye'}"></i>
-                            ${isTampil ? 'Sembunyikan' : 'Tampilkan'}
-                        </button>
-                        <button onclick="hapusData('Review','${esc(item.id)}','Yakin hapus review dari ${esc(item.nama_pasien)}?')" class="btn-icon btn-delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>`;
-        }).join('');
-    } catch (err) { tbody.innerHTML = renderErrorRow(6, err.message); }
-}
-
-// ─────────────────────────────────────────────
-//  TOGGLE & HAPUS
-// ─────────────────────────────────────────────
-async function toggleStatusLayanan(id, statusSekarang) {
-    const statusBaru = String(statusSekarang).toUpperCase() === 'AKTIF' ? 'NON-AKTIF' : 'AKTIF';
-    if (!confirm(`Ubah status menjadi ${statusBaru}?`)) return;
-    try {
-        await gasPost({ action:'update_status_layanan', id, status_baru:statusBaru });
-        showToast(`Status diubah ke ${statusBaru}`);
-        setTimeout(loadLayanan, 1500);
-    } catch { showToast('Gagal update status', 'err'); }
-}
-
-async function toggleStatusReview(id, statusTampilSekarang) {
-    const statusBaru = !statusTampilSekarang;
-    const label = statusBaru ? 'tampilkan' : 'sembunyikan';
-    if (!confirm(`Yakin ingin ${label} review ini?`)) return;
-    try {
-        await gasPost({ action:'update_status_review', id, status_tampil:statusBaru });
-        showToast(`Review berhasil di${label}kan`);
-        setTimeout(loadReview, 1500);
-    } catch { showToast('Gagal update status review', 'err'); }
-}
-
-async function hapusData(sheetName, id, confirmMsg) {
-    if (!confirm(confirmMsg)) return;
-    try {
-        await gasPost({ action:'hapus', sheet:sheetName, id });
-        showToast('Data berhasil dihapus!');
-        const map = { Layanan:loadLayanan, Promo:loadPromo, Galeri:loadGaleri, Review:loadReview };
-        if (map[sheetName]) setTimeout(map[sheetName], 1500);
-    } catch { showToast('Gagal menghapus data', 'err'); }
-}
-
-// ─────────────────────────────────────────────
-//  HELPERS
-// ─────────────────────────────────────────────
-function renderVisual(value) {
-    if (!value) return '<span style="font-size:24px;">🦷</span>';
-    if (String(value).startsWith('http')) {
-        const url = toDriveDirectUrl(value);
-        return `<img src="${esc(url)}" alt="" style="width:44px;height:44px;border-radius:10px;object-fit:cover;border:1px solid #f3e8eb;"
-                     onerror="this.src='https://via.placeholder.com/44?text=?'">`;
+// ──────────────────────────────────────
+//  REVIEW — logika asli kamu
+// ──────────────────────────────────────
+async function loadReview(){
+  const tb=document.getElementById('tbReview');
+  tb.innerHTML=loadRow(6);
+  try{
+    const data=await gasGet('review');
+    if(!data||!data.length){tb.innerHTML=emptyRow(6,'Belum ada ulasan dari pasien.');return;}
+    const tampil=data.filter(d=>d.status_tampil===true||String(d.status_tampil).toUpperCase()==='TRUE').length;
+    const pend=data.length-tampil;
+    document.getElementById('sR-total').textContent=data.length;
+    document.getElementById('sR-tampil').textContent=tampil;
+    document.getElementById('sR-pend').textContent=pend;
+    if(pend>0){
+      document.getElementById('reviewBadge').textContent=pend;
+      document.getElementById('reviewBadge').style.display='';
     }
-    return `<span style="font-size:22px;">${esc(value)}</span>`;
+    tb.innerHTML=data.map(d=>{
+      const isTampil=d.status_tampil===true||String(d.status_tampil).toUpperCase()==='TRUE';
+      const r=Math.min(5,Math.max(1,parseInt(d.rating)||5));
+      const stars='<span class="stars-gold">'+'★'.repeat(r)+'</span><span class="stars-empty">'+'★'.repeat(5-r)+'</span>';
+      return `<tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--rose),#7a2035);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">${esc(d.nama_pasien.charAt(0).toUpperCase())}</div>
+            <span style="font-weight:600;">${esc(d.nama_pasien)}</span>
+          </div>
+        </td>
+        <td>${stars}</td>
+        <td><p style="max-width:190px;font-size:12px;color:var(--txt2);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${esc(d.komentar)}</p></td>
+        <td><span style="font-size:11.5px;color:var(--txt3);white-space:nowrap;">${esc(d.tanggal)}</span></td>
+        <td><span class="badge ${isTampil?'badge-ok':'badge-pend'}">${isTampil?'✓ Tampil':'⏳ Pending'}</span></td>
+        <td>
+          <div class="acts">
+            <button class="abt ${isTampil?'abt-hide':'abt-show'}"
+              onclick="toggleReview('${esc(d.id)}',${isTampil})">
+              <i class="fas ${isTampil?'fa-eye-slash':'fa-eye'}"></i>
+              ${isTampil?'Sembunyikan':'Tampilkan'}
+            </button>
+            <button class="abt abt-del" onclick="hapus('Review','${esc(d.id)}','${esc(d.nama_pasien)}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch(e){tb.innerHTML=errRow(6,e.message);}
 }
 
-function renderBadgeLayanan(status) {
-    const isAktif = String(status).toUpperCase() === 'AKTIF';
-    return `<span class="badge ${isAktif ? 'badge-aktif' : 'badge-nonaktif'}">${isAktif ? '● Aktif' : '○ Non-Aktif'}</span>`;
+async function toggleReview(id,isTampil){
+  const baru=!isTampil;
+  const lbl=baru?'tampilkan':'sembunyikan';
+  if(!confirm(`Yakin ingin ${lbl} review ini?`)) return;
+  try{
+    await gasPost({action:'update_status_review',id,status_tampil:baru});
+    showToast(`Review berhasil di${lbl}kan`);
+    setTimeout(loadReview,1500);
+  } catch{showToast('Gagal update status review','err');}
 }
 
-function renderLoadingRow(colspan) {
-    return `<tr><td colspan="${colspan}" class="text-center py-10 text-gray-300">
-        <i class="fas fa-circle-notch fa-spin text-rose-300 text-xl block mb-2" style="color:#e8879f;"></i>
-        <span class="text-sm text-gray-300">Memuat data...</span>
-    </td></tr>`;
+// ──────────────────────────────────────
+//  HAPUS — logika asli kamu
+// ──────────────────────────────────────
+async function hapus(sheet,id,nama){
+  if(!confirm(`Yakin hapus "${nama}" dari ${sheet}?`)) return;
+  try{
+    await gasPost({action:'hapus',sheet,id});
+    showToast('Data berhasil dihapus!');
+    const m={Layanan:loadLayanan,Promo:loadPromo,Galeri:loadGaleri,Review:loadReview};
+    if(m[sheet]) setTimeout(m[sheet],1500);
+  } catch{showToast('Gagal menghapus data','err');}
 }
 
-function renderEmptyRow(colspan, msg) {
-    return `<tr><td colspan="${colspan}" class="py-12 text-center">
-        <i class="fas fa-box-open text-3xl block mb-2" style="color:#f3d0d8;"></i>
-        <span class="text-sm text-gray-300">${msg}</span>
-    </td></tr>`;
+// ──────────────────────────────────────
+//  SHARED HELPERS
+// ──────────────────────────────────────
+function renderThumb(val){
+  if(!val) return `<div class="timg-empty"><i class="fas fa-image"></i></div>`;
+  if(String(val).startsWith('http'))
+    return `<img class="timg" src="${esc(toDriveUrl(val))}" onerror="this.style.display='none'">`;
+  return `<span style="font-size:22px;">${esc(val)}</span>`;
+}
+function badgeStatus(s){
+  const ok=String(s).toUpperCase()==='AKTIF';
+  return `<span class="badge ${ok?'badge-ok':'badge-off'}">${ok?'● Aktif':'○ Non-Aktif'}</span>`;
+}
+function loadRow(c){
+  return `<tr class="tload"><td colspan="${c}"><div class="spinner"></div><br>Memuat data...</td></tr>`;
+}
+function emptyRow(c,msg){
+  return `<tr class="tempty"><td colspan="${c}"><i class="fas fa-box-open" style="font-size:28px;margin-bottom:10px;display:block;opacity:.3;"></i>${msg}</td></tr>`;
+}
+function errRow(c,msg){
+  return `<tr class="terr"><td colspan="${c}"><i class="fas fa-exclamation-circle" style="color:#f87171;font-size:22px;margin-bottom:8px;display:block;"></i><span style="color:#f87171;">Gagal: ${esc(msg)}</span><br><small style="color:var(--txt3);">Cek URL GAS dan deploy ulang jika perlu.</small></td></tr>`;
+}
+function setLoading(btn,on,normalHtml){
+  btn.disabled=on;
+  if(on) btn.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> Menyimpan...';
+  else if(normalHtml) btn.innerHTML=normalHtml;
+}
+function esc(s){
+  const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;
 }
 
-function renderErrorRow(colspan, msg) {
-    return `<tr><td colspan="${colspan}" class="py-8 text-center">
-        <i class="fas fa-exclamation-circle text-2xl block mb-2" style="color:#fca5a5;"></i>
-        <span class="text-sm text-red-400">Gagal memuat data: ${esc(msg)}</span><br>
-        <span class="text-xs text-gray-300 mt-1 block">Pastikan URL GAS sudah benar dan sudah di-deploy.</span>
-    </td></tr>`;
-}
-
-function setLoading(btn, isLoading, normalHtml) {
-    btn.disabled  = isLoading;
-    if (isLoading) btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Mengunggah...';
-    else if (normalHtml) btn.innerHTML = normalHtml;
-}
-
-function resetImgPreview(previewWrapId, previewImgId, fileNameId, placeholderId) {
-    document.getElementById(previewImgId).src = '';
-    document.getElementById(fileNameId).textContent = '';
-    document.getElementById(previewWrapId).classList.add('hidden');
-    document.getElementById(placeholderId).classList.remove('hidden');
-}
-
-function toDriveDirectUrl(url) {
-    if (!url) return '';
-    if (url.includes('lh3.googleusercontent.com')) return url;
-    const matchFile = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-    if (matchFile) return 'https://lh3.googleusercontent.com/d/' + matchFile[1];
-    const matchOpen = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-    if (matchOpen) return 'https://lh3.googleusercontent.com/d/' + matchOpen[1];
-    const matchUc = url.match(/id=([a-zA-Z0-9_-]+)/);
-    if (url.includes('uc?export') && matchUc) return 'https://lh3.googleusercontent.com/d/' + matchUc[1];
-    return url;
-}
-
-function esc(str) {
-    return String(str || '')
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-}
-
-// ─────────────────────────────────────────────
-//  TOAST
-// ─────────────────────────────────────────────
-let toastTimer;
-function showToast(msg, type = 'ok') {
-    const toast = document.getElementById('toast');
-    const icon  = document.getElementById('toastIcon');
-    document.getElementById('toastMsg').textContent = msg;
-    icon.className = type === 'err' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
-    icon.style.color = type === 'err' ? '#ef4444' : '#10b981';
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
+// ── TOAST ──
+let _tt;
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  const ic=document.getElementById('toastIco');
+  document.getElementById('toastMsg').textContent=msg;
+  ic.className='fas '+(type==='err'?'fa-exclamation-circle':'fa-check-circle');
+  ic.style.color=type==='err'?'#f87171':'#34d399';
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt=setTimeout(()=>t.classList.remove('show'),3600);
 }
 </script>
-
-<!-- Shake keyframe for login error -->
-<style>
-@keyframes shake {
-    0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
-}
-.stat-card.c-amber::before { background: linear-gradient(90deg,#d97706,#fbbf24); }
-</style>
-
 </body>
 </html>
